@@ -12,10 +12,10 @@ public class Grid
     int width;
     int height;
 
-    float cellSize;
+    int cellSize;
     int[,] gridArray;
 
-    public Grid(int width, int height, float cellSize, GameObject tile, GameObject newParent)
+    public Grid(int width, int height, int cellSize, GameObject tile, GameObject newParent)
     {
         this.width = width;
         this.height = height;
@@ -35,6 +35,6 @@ public class Grid
 
     Vector3 GetWorldPosition(int x, int y)
     {
-        return new Vector3(x, y) * cellSize;
+        return new Vector3((x * cellSize), (y * cellSize), 1);
     }
 }

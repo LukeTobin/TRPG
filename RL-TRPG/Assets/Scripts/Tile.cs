@@ -23,41 +23,32 @@ public class Tile : MonoBehaviour
 
     public void OnMouseEnter()
     {
-        sr.color = new Color(1f, 1f, 1f, .7f);
+       // sr.color = new Color(1f, 1f, 1f, .7f);
     }
 
     public void OnMouseExit()
     {
-        sr.color = new Color(1f, 1f, 1f, 0f);
+       // sr.color = new Color(1f, 1f, 1f, 0f);
     }
 
     
     public bool IsClear(Vector2 coord, int range, bool allyInteract)
     {
-        return true;
-        /*
-        Collider2D obstacle = Physics2D.OverlapCircle(transform.position, 0.2f, obstacleLayer);
+        Collider2D obstacle = Physics2D.OverlapCircle(transform.position, 0.4f, obstacleLayer);
         if (obstacle != null)
         {
             if (Mathf.Abs(transform.position.x - coord.x) + Mathf.Abs(transform.position.y - coord.y) <= range)
             {
                 if (obstacle.CompareTag("Unit"))
                 {
-                    if (gc.playerTurn != 2)
-                    {
-
-                    }
-                    else
+                    if (gc.playerTurn == 2 && obstacle.GetComponent<Unit>().playerNumber == 1)
                     {
                         if (this != obstacle)
                         {
                             sr.color = attackable;
                         }
                     }
-                }
-                else if (obstacle.CompareTag("Enemy"))
-                {
-                    if (gc.playerTurn != 2)
+                    else if (gc.playerTurn != 2 && obstacle.GetComponent<Unit>().playerNumber == 2)
                     {
                         if (this != obstacle)
                         {
@@ -75,12 +66,12 @@ public class Tile : MonoBehaviour
         else
         {
             return true;
-        }*/
+        }
     }
 
     public void Highlight()
     {
-        sr.color = walkColor;
+        sr.color = (walkColor);
         isWalkable = true;
     }
 
@@ -91,16 +82,15 @@ public class Tile : MonoBehaviour
 
     public void Reset()
     {
-        sr.color = Color.white;
+        sr.color = new Color(1f, 1f, 1f, 0f);
         isWalkable = false;
     }
 
     private void OnMouseDown()
     {
-        /*
         if (isWalkable && gc.selectedUnit != null)
         {
             gc.selectedUnit.Move(this.transform.position);
-        }*/
+        }
     }
 }
