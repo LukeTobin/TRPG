@@ -2,15 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
-public class Grid
+public class Grid 
 {
+
+    /*
+     * Creates a basic tile grid when filled in
+     */
+
     int width;
     int height;
+
     float cellSize;
     int[,] gridArray;
 
-    public Grid(int width, int height, float cellSize)
+    public Grid(int width, int height, float cellSize, GameObject tile, GameObject newParent)
     {
         this.width = width;
         this.height = height;
@@ -22,8 +27,8 @@ public class Grid
         {
             for (int y = 0; y < gridArray.GetLength(1); y++)
             {
-                Debug.DrawLine(GetWorldPosition(x, y), GetWorldPosition(x, y + 1), Color.white);
-                Debug.DrawLine(GetWorldPosition(x, y), GetWorldPosition(x + 1, y), Color.white);
+                GameObject _tile = GameObject.Instantiate(tile, GetWorldPosition(x, y), Quaternion.identity);
+                _tile.transform.parent = newParent.transform;
             }
         }
     }
