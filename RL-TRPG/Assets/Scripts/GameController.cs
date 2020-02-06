@@ -16,6 +16,7 @@ public class GameController : MonoBehaviour
     public GameObject optionBox;
 
     GameObject StoredTiles;
+    UIManager uim;
     
     [Header("General Information")]
     public int playerTurn = 1;
@@ -27,6 +28,7 @@ public class GameController : MonoBehaviour
 
     private void Start()
     {
+        uim = GameObject.FindGameObjectWithTag("BoardUI").GetComponent<UIManager>();
         StoredTiles = new GameObject("StoredTiles");
         Grid map = new Grid(6, 6, cellSize, tile, StoredTiles);
 
@@ -81,6 +83,7 @@ public class GameController : MonoBehaviour
             team1.UpdateUnitsToMove();
         }
 
+        uim.UpdateTurn();
         Debug.Log("Player turn: " + playerTurn);
     }
 

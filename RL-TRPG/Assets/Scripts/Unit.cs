@@ -8,6 +8,7 @@ public class Unit : MonoBehaviour
     public bool selected;
     GameController gc;
     TeamHandler team;
+    Healthbar hb;
     public SpriteRenderer sr;
 
     // Core Identity of unit
@@ -18,7 +19,7 @@ public class Unit : MonoBehaviour
 
     // Base Stats
     [Header("Base Stats")]
-    public int health;
+    public int maxHealth;
     public int attackDamage; // both physical & magical
     public int armor;
 
@@ -26,10 +27,16 @@ public class Unit : MonoBehaviour
     [Header("Ability Info")]
     public bool AllyInteractable;
 
+    //UI
+    [Header("UI")]
+
     // Extra
     [Header("Public checks")]
     public bool hasMoved;
     public bool hasAttacked;
+
+    [Header("Public Stats")]
+    public int health;
 
     [Header("1 = Player      2 = Enemy")]
     public int playerNumber;
@@ -41,6 +48,11 @@ public class Unit : MonoBehaviour
         gc = FindObjectOfType<GameController>();
         sr = GetComponent<SpriteRenderer>();
         team = gameObject.GetComponentInParent<TeamHandler>();
+        hb = GetComponentInChildren<Healthbar>();
+
+        hb.gameObject.SetActive(false);
+        
+        health = maxHealth;
 
         range *= gc.cellSize;
         moveSpeed *= gc.cellSize;
@@ -103,6 +115,7 @@ public class Unit : MonoBehaviour
         if (enemyDamage >= 1)
         {
             enemy.health -= enemyDamage;
+            enemy.hb.SetSize(enemy.maxHealth, enemy.health);
         }
 
         if (enemy.health <= 0)
@@ -125,6 +138,11 @@ public class Unit : MonoBehaviour
         sr.color = new Color(1, 1, 1, 150);
         team.CheckIfEnd();
         gc.ResetTiles();
+    }
+
+    public void TakeDamage()
+    {
+
     }
 
     void GetWalkableTiles()

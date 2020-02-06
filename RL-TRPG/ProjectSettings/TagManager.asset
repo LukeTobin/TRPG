@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Tiles
   - Unit
+  - BoardUI
   layers:
   - Default
   - TransparentFX

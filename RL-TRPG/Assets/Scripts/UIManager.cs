@@ -10,12 +10,19 @@ public class UIManager : MonoBehaviour
 
     [Header("UI Elements")]
     public Button endTurnBtn;
+    public Text turnText;
 
     void Start()
     {
         gc = FindObjectOfType<GameController>();
         endTurnBtn.onClick.AddListener(gc.EndTurn);
+
+        turnText.text = "Player Turn: " + gc.playerTurn;
     }
 
+    public void UpdateTurn()
+    {
+        turnText.text = "Player Turn: " + gc.playerTurn;
+    }
     
 }
