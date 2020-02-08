@@ -40,6 +40,7 @@ public class Unit : MonoBehaviour
 
     [Header("1 = Player      2 = Enemy")]
     public int playerNumber;
+    public bool isLeader;
 
     public List<Unit> enemiesInRange = new List<Unit>();
 
@@ -50,7 +51,7 @@ public class Unit : MonoBehaviour
         team = gameObject.GetComponentInParent<TeamHandler>();
         hb = GetComponentInChildren<Healthbar>();
 
-        hb.gameObject.SetActive(false);
+       // hb.gameObject.SetActive(false);
         
         health = maxHealth;
 

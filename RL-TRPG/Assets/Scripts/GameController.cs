@@ -7,8 +7,10 @@ public class GameController : MonoBehaviour
     [Header("Gameplay")]
     public float GameSpeed;
     public int cellSize;
+    public int x;
+    public int y;
 
-    [Header("Stored Info")]
+    [Header("Access")]
     public TeamHandler team1;
     public TeamHandler team2;
     public GameObject tile;
@@ -30,10 +32,9 @@ public class GameController : MonoBehaviour
     {
         uim = GameObject.FindGameObjectWithTag("BoardUI").GetComponent<UIManager>();
         StoredTiles = new GameObject("StoredTiles");
-        Grid map = new Grid(6, 6, cellSize, tile, StoredTiles);
+        Grid map = new Grid(x, y, cellSize, tile, StoredTiles);
 
         playerTurn = 1;
-        team1.UpdateUnitsToMove();
 
         optionBox.SetActive(false);
     }
@@ -99,6 +100,5 @@ public class GameController : MonoBehaviour
             optionBox.SetActive(false);
             uwu = false;
         }
-
     }
 }

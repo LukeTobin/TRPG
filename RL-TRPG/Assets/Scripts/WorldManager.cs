@@ -4,18 +4,38 @@ using UnityEngine;
 
 public class WorldManager : MonoBehaviour
 {
-
-    [SerializeField] int x;
-    [SerializeField] int y;
-
     [Header("Stored Prefabs")]
     public GameObject cell;
+    public GameObject[] nodes;
+    public GameObject GridMap;
+
+    [Header("World Settings")]
+    public int cellSize;
 
     private void Start()
     {
-        //x = Random.RandomRange(6, 12);
-       // y = x + Random.RandomRange(-2, 4);
+        int length = Random.Range(6, 12);
+        CreateMap(length);
+        Grid world = new Grid(length, length, cellSize, cell, GridMap);
+    }
 
-        Grid world = new Grid(x, y, 2, cell, gameObject);
+    void CreateMap(int size)
+    {
+        int[,] gridArray = new int[size, size];
+
+        for (int x = 0; x < gridArray.GetLength(0); x++)
+        {
+            for (int y = 0; y < gridArray.GetLength(1); y++)
+            {
+                
+                GameObject node = GameObject.Instantiate(nodes[Random.Range(0, nodes.Length)], GetWorldPosition(x, y), Quaternion.identity);
+                node.transform.parent = transform;
+            }
+        }
+    }
+
+    Vector3 GetWorldPosition(int x, int y)
+    {
+        return new Vector3((x * cellSize), (y * cellSize), 1);
     }
 }
