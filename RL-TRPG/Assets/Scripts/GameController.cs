@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
+
+    /*
+     * Controls flow and gameplay elements
+     */
+
     [Header("Gameplay")]
     public float GameSpeed;
     public int cellSize;
@@ -32,15 +37,16 @@ public class GameController : MonoBehaviour
     {
         uim = GameObject.FindGameObjectWithTag("BoardUI").GetComponent<UIManager>();
         StoredTiles = new GameObject("StoredTiles");
-        Grid map = new Grid(x, y, cellSize, tile, StoredTiles);
+        Grid map = new Grid(x, y, cellSize, tile, StoredTiles); // creates grid
 
         playerTurn = 1;
 
-        optionBox.SetActive(false);
+        optionBox.SetActive(false); // disable a test box for multiple commands [dont need to worry about it right now, its not fully finished]
     }
 
     private void Update()
     {
+        // admin command, setting it true ends the turn and sets itself back to false.
         if (_forceEnd)
         {
             EndTurn();
@@ -48,46 +54,60 @@ public class GameController : MonoBehaviour
         }
     }
 
+    // reset everything about the tile (color, stored coords, etc) - will probably be changed up more in the future
+    // done for visual clarification
     public void ResetTiles()
     {
+        // goes through each tile thats in the scene and resets each
         foreach (Tile tile in FindObjectsOfType<Tile>())
         {
             tile.Reset();
         }
     }
 
+    // end turn
     public void EndTurn()
     {
+        // make sure there is no selected unit stored & if there is, make it unselected
         if (selectedUnit != null)
         {
             selectedUnit.selected = false;
             selectedUnit = null;
         }
 
-        ResetTiles();
+        ResetTiles();//reset all tiles (mostly for colors and visibiliy resets)
 
-        foreach (Unit unit in FindObjectsOfType<Unit>())
+
+        // reset each unit in the scene
+        foreach (Unit unit in FindObjectsOfType<Unit>()) 
         {
             unit.hasMoved = false;
             unit.hasAttacked = false;
             unit.sr.color = new Color(1, 1, 1, 255);
         }
 
-        if (playerTurn == 1)
+
+        // change turns
+        switch (playerTurn)
         {
-            playerTurn = 2;
-            team2.UpdateUnitsToMove();
-        }
-        else if (playerTurn == 2)
-        {
-            playerTurn = 1;
-            team1.UpdateUnitsToMove();
+            case 1:
+                playerTurn = 2;
+                team2.UpdateUnitsToMove();
+                break;
+            case 2:
+                playerTurn = 1;
+                team1.UpdateUnitsToMove();
+                break;
+            default:
+                break;
         }
 
+        // Update UI 
         uim.UpdateTurn();
         Debug.Log("Player turn: " + playerTurn);
     }
 
+    // experimental option box, hasnt been implmented yet
     public void CreateOptionBox(Unit unit, Vector2 pos)
     {
         if (!uwu)

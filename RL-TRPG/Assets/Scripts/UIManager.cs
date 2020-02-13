@@ -5,7 +5,9 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-
+    /*
+     * Basic UI manager - TODO
+     */
     GameController gc;
 
     [Header("UI Elements")]

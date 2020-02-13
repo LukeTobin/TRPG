@@ -31,16 +31,19 @@ public class Tile : MonoBehaviour
        // sr.color = new Color(1f, 1f, 1f, 0f);
     }
 
-    
+    // check if the tile is clear (no obstacle or unit on it)
     public bool IsClear(Vector2 coord, int range, bool allyInteract)
     {
+        // create a collider circle to check if anything is in the tile
         Collider2D obstacle = Physics2D.OverlapCircle(transform.position, 0.4f, obstacleLayer);
         if (obstacle != null)
         {
+            // check if the found unit or obstacle is within range of the unit
             if (Mathf.Abs(transform.position.x - coord.x) + Mathf.Abs(transform.position.y - coord.y) <= range)
             {
                 if (obstacle.CompareTag("Unit"))
                 {
+                    // check if what was found is a unit & if so color the tile
                     if (gc.playerTurn == 2 && obstacle.GetComponent<Unit>().playerNumber == 1)
                     {
                         if (this != obstacle)
@@ -59,7 +62,7 @@ public class Tile : MonoBehaviour
             }
             else
             {
-                sr.color = rangeColor;
+                sr.color = rangeColor; // if its empty, color it with range color 
             }
             return false;
         }
@@ -69,23 +72,27 @@ public class Tile : MonoBehaviour
         }
     }
 
+    // set a tile as walkable & color it
     public void Highlight()
     {
         sr.color = (walkColor);
         isWalkable = true;
     }
 
+    // range color
     public void ShowRange()
     {
         sr.color = rangeColor;
     }
 
+    //  reset a tiles color & is walkable state
     public void Reset()
     {
         sr.color = new Color(1f, 1f, 1f, 0f);
         isWalkable = false;
     }
 
+    // clicking a tile moves the currently selectedunit to it, if its within range.
     private void OnMouseDown()
     {
         if (isWalkable && gc.selectedUnit != null)

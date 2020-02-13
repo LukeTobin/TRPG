@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class SelectionBox : MonoBehaviour
 {
+    /*
+     * Move selection box - TODO
+     */
 
     public Button move, ability, wait;
 

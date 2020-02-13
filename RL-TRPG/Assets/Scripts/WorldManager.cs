@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class WorldManager : MonoBehaviour
 {
+    /*
+     * Build world map - currently only create a grid
+     * Procedrual generation needs to be added here
+     */
+
     [Header("Stored Prefabs")]
     public GameObject cell;
     public GameObject[] nodes;
@@ -26,8 +31,7 @@ public class WorldManager : MonoBehaviour
         for (int x = 0; x < gridArray.GetLength(0); x++)
         {
             for (int y = 0; y < gridArray.GetLength(1); y++)
-            {
-                
+            {             
                 GameObject node = GameObject.Instantiate(nodes[Random.Range(0, nodes.Length)], GetWorldPosition(x, y), Quaternion.identity);
                 node.transform.parent = transform;
             }

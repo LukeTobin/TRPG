@@ -7,6 +7,12 @@ public class Node : MonoBehaviour
 {
     public int nodeType; // 0 = battle, 1 = walk, 2 = campfire, 3 = event
 
+
+    /*
+     * Start of node script - TODO
+     * Typically will load whatever that tile/node holds
+     */
+
     void OnMouseOver()
     {
         if (Input.GetMouseButtonDown(0))

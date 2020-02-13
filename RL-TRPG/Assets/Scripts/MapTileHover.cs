@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class MapTileHover : MonoBehaviour
 {
+    /*
+     * When your mouse hovers over a tile with this script it changes the color of the sprite
+     */
 
     SpriteRenderer sr;
 
