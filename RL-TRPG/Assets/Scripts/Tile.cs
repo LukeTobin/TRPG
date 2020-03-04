@@ -13,12 +13,25 @@ public class Tile : MonoBehaviour
     public bool isWalkable;
     GameController gc;
 
+    [Header("Pathfinding")]
+    public int x;
+    public int y;
+    [Space]
+    public int g;
+    public int h;
+    public int f;
+    [Space]
+    public Tile originNode;
+
     private void Start()
     {
         sr = GetComponent<SpriteRenderer>();
         gc = FindObjectOfType<GameController>();
 
-        sr.color = new Color(1f, 1f, 1f, 0f);
+       // x = (int)transform.position.x;
+       // y = (int)transform.position.y;
+
+        sr.color = new Color(1f, 1f, 1f, 1f);
     }
 
     public void OnMouseEnter()
@@ -88,7 +101,7 @@ public class Tile : MonoBehaviour
     //  reset a tiles color & is walkable state
     public void Reset()
     {
-        sr.color = new Color(1f, 1f, 1f, 0f);
+        sr.color = new Color(1f, 1f, 1f, 1f);
         isWalkable = false;
     }
 
@@ -99,5 +112,10 @@ public class Tile : MonoBehaviour
         {
             gc.selectedUnit.Move(this.transform.position);
         }
+    }
+
+    public void CalculateF()
+    {
+        f = g + h;
     }
 }

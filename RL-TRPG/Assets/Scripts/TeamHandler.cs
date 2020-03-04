@@ -41,7 +41,7 @@ public class TeamHandler : MonoBehaviour
             }
 
             // spawn in leader - needs refactoring
-            Instantiate(Team.leader, new Vector2(spawnX, spawnY), Quaternion.identity, transform.parent = transform);
+            //Instantiate(Team.leader, new Vector2(spawnX, spawnY), Quaternion.identity, transform.parent = transform);
 
             // fill in all units on the board from your team list
             if (Team.units != null)

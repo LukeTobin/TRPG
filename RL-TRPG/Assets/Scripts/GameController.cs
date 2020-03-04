@@ -21,6 +21,7 @@ public class GameController : MonoBehaviour
     public GameObject tile;
     public Unit selectedUnit;
     public GameObject optionBox;
+    public Grid map;
 
     GameObject StoredTiles;
     UIManager uim;
@@ -37,7 +38,7 @@ public class GameController : MonoBehaviour
     {
         uim = GameObject.FindGameObjectWithTag("BoardUI").GetComponent<UIManager>();
         StoredTiles = new GameObject("StoredTiles");
-        Grid map = new Grid(x, y, cellSize, tile, StoredTiles); // creates grid
+        map = new Grid(x, y, cellSize, tile, StoredTiles); // creates grid
 
         playerTurn = 1;
 

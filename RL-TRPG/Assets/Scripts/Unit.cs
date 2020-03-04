@@ -18,6 +18,7 @@ public class Unit : MonoBehaviour
     GameController gc;
     TeamHandler team;
     Healthbar hb;
+    Pathfinding path;
     public SpriteRenderer sr;
 
     // Core Identity of unit
@@ -59,6 +60,7 @@ public class Unit : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
         team = gameObject.GetComponentInParent<TeamHandler>();
         hb = GetComponentInChildren<Healthbar>();
+        path = GetComponent<Pathfinding>();
 
        // hb.gameObject.SetActive(false);
         
@@ -241,9 +243,38 @@ public class Unit : MonoBehaviour
     // move unit to the selected tile position
     public void Move(Vector2 tilePos)
     {
-        gc.ResetTiles();
         gc.optionBox.SetActive(false);
-        StartCoroutine(StartMove(tilePos));
+        List<Vector2> movePath = path.FindPath(transform.position, tilePos);
+        if(movePath != null)
+            TestMove(movePath);
+        //StartCoroutine(StartMove(tilePos));
+        gc.ResetTiles();
+    }
+
+    void TestMove(List<Vector2> dir)
+    {
+        Debug.Log("Dir count: " + dir.Count);
+        for (int i = 0; i < dir.Count; i++)
+        {
+            transform.position = dir[i];
+        }
+
+        // state that the unit has moved & unselect it
+        gc.selectedUnit.hasMoved = true;
+        hasMoved = true;
+        gc.selectedUnit = null;
+        selected = false;
+
+        // update enemies in range
+        GetEnemies();
+
+        // if they moved & attacked, remove them from movable units & 
+        if (hasMoved && hasAttacked)
+        {
+            team.unitsMovable--;
+            sr.color = new Color(1, 1, 1, 150);
+            team.CheckIfEnd();
+        }
     }
 
     // move unit

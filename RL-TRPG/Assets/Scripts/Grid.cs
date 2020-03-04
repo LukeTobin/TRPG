@@ -35,6 +35,8 @@ public class Grid
                 // will go through each x & y point [0, 0], [0, 1] ... etc
                 GameObject _tile = GameObject.Instantiate(tile, GetWorldPosition(x, y), Quaternion.identity); // instantiate the tile game object at a world position based on where the loop is
                 _tile.transform.parent = newParent.transform; // make it a child of the parent object
+                _tile.GetComponent<Tile>().x = x * cellSize;
+                _tile.GetComponent<Tile>().y = y * cellSize;
             }
         }
     }
@@ -42,5 +44,24 @@ public class Grid
     Vector3 GetWorldPosition(int x, int y) // return a Vector3 of the world position of new tile
     {
         return new Vector3((x * cellSize), (y * cellSize), 1); // multiply the x & y values by the cellSize
+    }
+
+    public Tile GetTile(int x, int y)
+    {
+        GameObject[] tiles = GameObject.FindGameObjectsWithTag("Tiles");
+        Debug.Log("To Search: " + tiles.Length);
+        for (int i = 0; i < tiles.Length; i++)
+        {
+            if(tiles[i].GetComponent<Tile>().x == x && tiles[i].GetComponent<Tile>().y == y) 
+            {
+                Debug.Log(x + "," + y + " == " + tiles[i].GetComponent<Tile>().x + "," + tiles[i].GetComponent<Tile>().y + "<- Match!");
+                return tiles[i].GetComponent<Tile>();
+            }
+            else
+            {
+                Debug.Log(x + "," + y + " != " + tiles[i].GetComponent<Tile>().x + "," + tiles[i].GetComponent<Tile>().y);
+            }
+        }
+        return null;
     }
 }
