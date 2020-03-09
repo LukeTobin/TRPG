@@ -14,10 +14,18 @@ public class UIManager : MonoBehaviour
     public Button endTurnBtn;
     public Text turnText;
 
+    [Header("Recruit Menu")]
+    public GameObject recruitPanel;
+    public Button recruitSlot1;
+    public Button recruitSlot2;
+    public Button recruitSlot3;
+
     void Start()
     {
         gc = FindObjectOfType<GameController>();
         endTurnBtn.onClick.AddListener(gc.EndTurn);
+
+        recruitPanel.SetActive(false);
 
         turnText.text = "Player Turn: " + gc.playerTurn;
     }
@@ -25,6 +33,16 @@ public class UIManager : MonoBehaviour
     public void UpdateTurn()
     {
         turnText.text = "Player Turn: " + gc.playerTurn;
+    }
+
+    public void OfferRecruit() // pass units
+    {
+        recruitPanel.SetActive(true);
+    }
+
+    public void RemoveOffers()
+    {
+        recruitPanel.SetActive(false);
     }
     
 }

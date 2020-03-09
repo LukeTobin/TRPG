@@ -14,7 +14,7 @@ public class Unit : MonoBehaviour
      * - And more!
      */
 
-    public bool selected;
+    
     GameController gc;
     TeamHandler team;
     Healthbar hb;
@@ -42,6 +42,7 @@ public class Unit : MonoBehaviour
 
     // Extra
     [Header("Public checks")]
+    public bool selected;
     public bool hasMoved;
     public bool hasAttacked;
 
@@ -58,6 +59,7 @@ public class Unit : MonoBehaviour
     {
         gc = FindObjectOfType<GameController>();
         sr = GetComponent<SpriteRenderer>();
+
         team = gameObject.GetComponentInParent<TeamHandler>();
         hb = GetComponentInChildren<Healthbar>();
         path = GetComponent<Pathfinding>();
@@ -112,8 +114,8 @@ public class Unit : MonoBehaviour
             if (gc.selectedUnit.enemiesInRange.Contains(unit) && !gc.selectedUnit.hasAttacked) 
             {
                 // attack selected enemy unit
+                gc.optionBox.SetActive(false);
                 gc.selectedUnit.Attack(unit);
-                Debug.Log("Attacking!");
             }
         }
     }
@@ -128,7 +130,6 @@ public class Unit : MonoBehaviour
         }
     }
 
-    // attack an enemy unit
     void Attack(Unit enemy)
     {
         // close options menu
@@ -170,11 +171,6 @@ public class Unit : MonoBehaviour
         sr.color = new Color(1, 1, 1, 150);
         team.CheckIfEnd();
         gc.ResetTiles();
-    }
-
-    public void TakeDamage()
-    {
-
     }
 
     void GetWalkableTiles()

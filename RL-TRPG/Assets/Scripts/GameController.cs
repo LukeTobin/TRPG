@@ -18,11 +18,11 @@ public class GameController : MonoBehaviour
     [Header("Access")]
     public TeamHandler team1;
     public TeamHandler team2;
+    [Space]
     public GameObject tile;
     public Unit selectedUnit;
     public GameObject optionBox;
     public Grid map;
-
     GameObject StoredTiles;
     UIManager uim;
     

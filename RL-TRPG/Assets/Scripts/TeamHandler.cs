@@ -16,7 +16,8 @@ public class TeamHandler : MonoBehaviour
     [SerializeField] int teamSize;
     public int unitsMovable;
 
-    GameObject[] unit = new GameObject[Team.units.Count];
+    //GameObject[] unit = new GameObject[Team.units.Count];
+    List<Unit> unit = new List<Unit>();
 
     void Start()
     {
@@ -51,7 +52,8 @@ public class TeamHandler : MonoBehaviour
                     float yRange = Random.Range(0, gc.y / 2); yRange *= gc.cellSize;
                     float xRange = Random.Range(0, gc.x / 2); xRange *= gc.cellSize;
 
-                    unit[i] = Instantiate(Team.units[i], new Vector3(xRange, yRange, 0), Quaternion.identity, transform.parent = transform);
+                    //unit[i] = Instantiate(Team.units[i], new Vector3(xRange, yRange, 0), Quaternion.identity, transform.parent = transform);
+
                 }
             }
         }
@@ -67,6 +69,8 @@ public class TeamHandler : MonoBehaviour
             gc.EndTurn();
             UpdateUnitsToMove();
         }
+
+        CheckIfAllDead();
     }
 
     public void UpdateUnitsToMove()
@@ -88,5 +92,10 @@ public class TeamHandler : MonoBehaviour
         teamSize = unitsMovable; // size of team is equal to units movable
 
         CheckIfEnd(); // incase we nolong have a team..
+    }
+
+    void CheckIfAllDead()
+    {
+        
     }
 }

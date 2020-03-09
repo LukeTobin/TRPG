@@ -49,17 +49,11 @@ public class Grid
     public Tile GetTile(int x, int y)
     {
         GameObject[] tiles = GameObject.FindGameObjectsWithTag("Tiles");
-        Debug.Log("To Search: " + tiles.Length);
         for (int i = 0; i < tiles.Length; i++)
         {
             if(tiles[i].GetComponent<Tile>().x == x && tiles[i].GetComponent<Tile>().y == y) 
             {
-                Debug.Log(x + "," + y + " == " + tiles[i].GetComponent<Tile>().x + "," + tiles[i].GetComponent<Tile>().y + "<- Match!");
                 return tiles[i].GetComponent<Tile>();
-            }
-            else
-            {
-                Debug.Log(x + "," + y + " != " + tiles[i].GetComponent<Tile>().x + "," + tiles[i].GetComponent<Tile>().y);
             }
         }
         return null;
