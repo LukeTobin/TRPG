@@ -102,9 +102,6 @@ public class Pathfinding : MonoBehaviour
         openList = new List<Tile>() { startNode };
         closedList = new List<Tile>();
 
-        Debug.Log("Current Location: " + startX + "," + startY);
-        Debug.Log("Goal Location: " + endX + "," + endY);
-
         for (int x = 0; x < gc.x; x++)
         {
             for (int y = 0; y < gc.y; y++)
@@ -215,7 +212,6 @@ public class Pathfinding : MonoBehaviour
             currentNode = currentNode.originNode;
         }
         path.Reverse();
-        Debug.Log("Path has been found");
         return path;
     }
 

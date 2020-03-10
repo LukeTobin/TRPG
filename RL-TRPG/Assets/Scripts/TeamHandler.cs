@@ -23,39 +23,45 @@ public class TeamHandler : MonoBehaviour
     {
         gc = FindObjectOfType<GameController>();
 
-        // if the team is friendly
-        if(side == 1)
+        switch (side)
         {
+            case 1:
+                // friendly team
+                // make sure the unit is spawned properly
+                float spawnX = gc.x / 2f;
+                float spawnY = 2f;
 
-            // make sure the unit is spawned properly
-            float spawnX = gc.x / 2f;
-            float spawnY = 2f;
-
-            if(spawnX % 2 != 0)
-            {
-                spawnX++;
-            }
-
-            if (spawnY % 2 != 0)
-            {
-                spawnY++;
-            }
-
-            // spawn in leader - needs refactoring
-            //Instantiate(Team.leader, new Vector2(spawnX, spawnY), Quaternion.identity, transform.parent = transform);
-
-            // fill in all units on the board from your team list
-            if (Team.units != null)
-            {
-                for (int i = 0; i < Team.units.Count; i++)
+                if (spawnX % 2 != 0)
                 {
-                    float yRange = Random.Range(0, gc.y / 2); yRange *= gc.cellSize;
-                    float xRange = Random.Range(0, gc.x / 2); xRange *= gc.cellSize;
-
-                    //unit[i] = Instantiate(Team.units[i], new Vector3(xRange, yRange, 0), Quaternion.identity, transform.parent = transform);
-
+                    spawnX++;
                 }
-            }
+
+                if (spawnY % 2 != 0)
+                {
+                    spawnY++;
+                }
+
+                // spawn in leader - needs refactoring
+                //Instantiate(Team.leader, new Vector2(spawnX, spawnY), Quaternion.identity, transform.parent = transform);
+
+                // fill in all units on the board from your team list
+                if (Team.units != null)
+                {
+                    for (int i = 0; i < Team.units.Count; i++)
+                    {
+                        float yRange = Random.Range(0, gc.y / 2); yRange *= gc.cellSize;
+                        float xRange = Random.Range(0, gc.x / 2); xRange *= gc.cellSize;
+
+                        //unit[i] = Instantiate(Team.units[i], new Vector3(xRange, yRange, 0), Quaternion.identity, transform.parent = transform);
+
+                    }
+                }
+                break;
+            case 2:
+                // enemy spawning stuff
+                break;
+            default:
+                break;
         }
 
         UpdateUnitsToMove(); // update what units need to be able to move
@@ -63,14 +69,14 @@ public class TeamHandler : MonoBehaviour
 
     public void CheckIfEnd()
     {
+        CheckIfAllDead();
+
         // check if round needs to end
-        if(unitsMovable == 0)
+        if (unitsMovable == 0)
         {
             gc.EndTurn();
             UpdateUnitsToMove();
-        }
-
-        CheckIfAllDead();
+        } 
     }
 
     public void UpdateUnitsToMove()
@@ -96,6 +102,33 @@ public class TeamHandler : MonoBehaviour
 
     void CheckIfAllDead()
     {
-        
+        GameObject[] unitsToSearch = GameObject.FindGameObjectsWithTag("Unit");
+        List<Unit> units = new List<Unit>();
+
+        units.Clear();
+
+        for (int i = 0; i < unitsToSearch.Length; i++)
+        {
+            if(unitsToSearch[i].GetComponent<Unit>().playerNumber == side)
+            {
+                units.Add(unitsToSearch[i].GetComponent<Unit>());
+            }
+        }
+
+        if(units.Count <= 0)
+        {
+            // all dead.
+            switch (side)
+            {
+                case 1:
+
+                    break;
+                case 2:
+                    gc.Rewards();
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }

@@ -31,17 +31,17 @@ public class Tile : MonoBehaviour
        // x = (int)transform.position.x;
        // y = (int)transform.position.y;
 
-        sr.color = new Color(1f, 1f, 1f, 1f);
+        sr.color = new Color(1f, 1f, 1f, 0f);
     }
 
     public void OnMouseEnter()
     {
-       // sr.color = new Color(1f, 1f, 1f, .7f);
+        //sr.color = new Color(1f, 1f, 1f, .7f);
     }
 
     public void OnMouseExit()
     {
-       // sr.color = new Color(1f, 1f, 1f, 0f);
+        //sr.color = new Color(1f, 1f, 1f, 0f);
     }
 
     // check if the tile is clear (no obstacle or unit on it)
@@ -101,7 +101,7 @@ public class Tile : MonoBehaviour
     //  reset a tiles color & is walkable state
     public void Reset()
     {
-        sr.color = new Color(1f, 1f, 1f, 1f);
+        sr.color = new Color(1f, 1f, 1f, 0f);
         isWalkable = false;
     }
 

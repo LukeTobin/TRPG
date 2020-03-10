@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Unit : MonoBehaviour
 {
@@ -39,6 +40,7 @@ public class Unit : MonoBehaviour
 
     //UI
     [Header("UI")]
+    public Image profile;
 
     // Extra
     [Header("Public checks")]
@@ -114,7 +116,7 @@ public class Unit : MonoBehaviour
             if (gc.selectedUnit.enemiesInRange.Contains(unit) && !gc.selectedUnit.hasAttacked) 
             {
                 // attack selected enemy unit
-                gc.optionBox.SetActive(false);
+               // gc.optionBox.SetActive(false);
                 gc.selectedUnit.Attack(unit);
             }
         }
@@ -125,7 +127,6 @@ public class Unit : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(1))
         {
-            Debug.Log("showing options");
             gc.CreateOptionBox(this, transform.position);
         }
     }
@@ -133,7 +134,7 @@ public class Unit : MonoBehaviour
     void Attack(Unit enemy)
     {
         // close options menu
-        gc.optionBox.SetActive(false);
+        //gc.optionBox.SetActive(false);
 
         // damage the enemy will take
         int enemyDamage = attackDamage - enemy.armor;
@@ -230,7 +231,6 @@ public class Unit : MonoBehaviour
                 {
                     // if the unit is, add it to the list
                     enemiesInRange.Add(enemy);
-                    Debug.Log("Enemies in range: " + enemiesInRange.Count);
                 }
             }
         }
@@ -239,22 +239,19 @@ public class Unit : MonoBehaviour
     // move unit to the selected tile position
     public void Move(Vector2 tilePos)
     {
-        gc.optionBox.SetActive(false);
+        //gc.optionBox.SetActive(false);
         List<Vector2> movePath = path.FindPath(transform.position, tilePos);
         if(movePath != null)
-            TestMove(movePath);
+            MakeMove(movePath);
         //StartCoroutine(StartMove(tilePos));
         gc.ResetTiles();
     }
 
-    void TestMove(List<Vector2> dir)
+    void MakeMove(List<Vector2> dir)
     {
-        Debug.Log("Dir count: " + dir.Count);
-        for (int i = 0; i < dir.Count; i++)
-        {
-            transform.position = dir[i];
-        }
 
+        StartCoroutine(StartMove(dir[dir.Count-1]));
+        
         // state that the unit has moved & unselect it
         gc.selectedUnit.hasMoved = true;
         hasMoved = true;
@@ -276,10 +273,6 @@ public class Unit : MonoBehaviour
     // move unit
     IEnumerator StartMove(Vector2 tilePos)
     {
-
-        // needs to be refactored to use pathfinding algo like A*
-
-        // if unit is not on x or y of tile position, move to that tile.
         while (transform.position.x != tilePos.x)
         {
             transform.position = Vector2.MoveTowards(transform.position, new Vector2(tilePos.x, transform.position.y), gc.GameSpeed * Time.deltaTime);
@@ -290,23 +283,6 @@ public class Unit : MonoBehaviour
         {
             transform.position = Vector2.MoveTowards(transform.position, new Vector2(transform.position.x, tilePos.y), gc.GameSpeed * Time.deltaTime);
             yield return null;
-        }
-
-        // state that the unit has moved & unselect it
-        gc.selectedUnit.hasMoved = true;
-        hasMoved = true;
-        gc.selectedUnit = null;
-        selected = false;
-
-        // update enemies in range
-        GetEnemies();
-
-        // if they moved & attacked, remove them from movable units & 
-        if (hasMoved && hasAttacked)
-        {
-            team.unitsMovable--;
-            sr.color = new Color(1, 1, 1, 150);
-            team.CheckIfEnd();
         }
     }
 }

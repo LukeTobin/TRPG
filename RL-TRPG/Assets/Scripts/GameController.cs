@@ -22,12 +22,16 @@ public class GameController : MonoBehaviour
     public GameObject tile;
     public Unit selectedUnit;
     public GameObject optionBox;
+    [Space]
     public Grid map;
-    GameObject StoredTiles;
+    GenerateTiles gt;
     UIManager uim;
     
     [Header("General Information")]
     public int playerTurn = 1;
+
+    [Header("Unit Stoarge")]
+    public List<Unit> units = new List<Unit>();
 
     [Header("Admin Tests")]
     public bool _forceEnd;
@@ -37,12 +41,16 @@ public class GameController : MonoBehaviour
     private void Start()
     {
         uim = GameObject.FindGameObjectWithTag("BoardUI").GetComponent<UIManager>();
-        StoredTiles = new GameObject("StoredTiles");
+        gt = GetComponent<GenerateTiles>();
+
+        GameObject StoredTiles = new GameObject("StoredTiles");
         map = new Grid(x, y, cellSize, tile, StoredTiles); // creates grid
+
+        gt.SpawnTiles(x, y, cellSize);
 
         playerTurn = 1;
 
-        optionBox.SetActive(false); // disable a test box for multiple commands [dont need to worry about it right now, its not fully finished]
+        //optionBox.SetActive(false); // disable a test box for multiple commands [dont need to worry about it right now, its not fully finished]
     }
 
     private void Update()
@@ -121,5 +129,19 @@ public class GameController : MonoBehaviour
             optionBox.SetActive(false);
             uwu = false;
         }
+    }
+
+    public void Rewards()
+    {
+        Debug.Log("won round.");
+        List<Unit> recruitList = new List<Unit>();
+
+        for (int i = 0; i < 3; i++)
+        {
+            // need to check for dup's
+            recruitList.Add(units[Random.Range(0, units.Count)]);
+        }
+
+        uim.OfferRecruit(recruitList);
     }
 }

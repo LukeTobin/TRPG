@@ -35,9 +35,11 @@ public class UIManager : MonoBehaviour
         turnText.text = "Player Turn: " + gc.playerTurn;
     }
 
-    public void OfferRecruit() // pass units
+    public void OfferRecruit(List<Unit> offers) // pass units
     {
         recruitPanel.SetActive(true);
+
+        //recruitSlot1.image = offers[0].profile;
     }
 
     public void RemoveOffers()
