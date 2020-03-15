@@ -29,12 +29,18 @@ public class GameController : MonoBehaviour
     
     [Header("General Information")]
     public int playerTurn = 1;
+    [Space]
+    public int friendly;
+    public int enemy;
+    [Space]
+    public bool ended = false;
 
     [Header("Unit Stoarge")]
     public List<Unit> units = new List<Unit>();
 
     [Header("Admin Tests")]
     public bool _forceEnd;
+    public bool _clearList;
 
     bool uwu;
 
@@ -61,6 +67,40 @@ public class GameController : MonoBehaviour
             EndTurn();
             _forceEnd = false;
         }
+
+        if (_clearList)
+        {
+            team1.units.Clear();
+            team2.units.Clear();
+            _clearList = false;
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if(friendly <= 0 && !ended)
+        {
+            team1.UpdateUnitsToMove();
+            team2.UpdateUnitsToMove();
+
+            team1.CheckIfEnd();
+            team2.CheckIfEnd();
+
+            enemy = 100;
+            friendly = 100;
+        }
+
+        if(enemy <= 0 && !ended)
+        {
+            team1.UpdateUnitsToMove();
+            team2.UpdateUnitsToMove();
+
+            team1.CheckIfEnd();
+            team2.CheckIfEnd();
+
+            enemy = 100;
+            friendly = 100;
+        }
     }
 
     // reset everything about the tile (color, stored coords, etc) - will probably be changed up more in the future
@@ -77,43 +117,49 @@ public class GameController : MonoBehaviour
     // end turn
     public void EndTurn()
     {
-        // make sure there is no selected unit stored & if there is, make it unselected
-        if (selectedUnit != null)
+        team1.UpdateUnitsToMove();
+        team2.UpdateUnitsToMove();
+
+        if (!team1.CheckIfAllDead() || !team2.CheckIfAllDead())
         {
-            selectedUnit.selected = false;
-            selectedUnit = null;
+            // make sure there is no selected unit stored & if there is, make it unselected
+            if (selectedUnit != null)
+            {
+                selectedUnit.selected = false;
+                selectedUnit = null;
+            }
+
+            ResetTiles();//reset all tiles (mostly for colors and visibiliy resets)
+
+
+            // reset each unit in the scene
+            foreach (Unit unit in FindObjectsOfType<Unit>())
+            {
+                unit.hasMoved = false;
+                unit.hasAttacked = false;
+                unit.sr.color = new Color(1, 1, 1, 255);
+            }
+
+
+            // change turns
+            switch (playerTurn)
+            {
+                case 1:
+                    playerTurn = 2;
+                    team2.UpdateUnitsToMove();
+                    break;
+                case 2:
+                    playerTurn = 1;
+                    team1.UpdateUnitsToMove();
+                    break;
+                default:
+                    break;
+            }
+
+            // Update UI 
+            uim.UpdateTurn();
         }
-
-        ResetTiles();//reset all tiles (mostly for colors and visibiliy resets)
-
-
-        // reset each unit in the scene
-        foreach (Unit unit in FindObjectsOfType<Unit>()) 
-        {
-            unit.hasMoved = false;
-            unit.hasAttacked = false;
-            unit.sr.color = new Color(1, 1, 1, 255);
-        }
-
-
-        // change turns
-        switch (playerTurn)
-        {
-            case 1:
-                playerTurn = 2;
-                team2.UpdateUnitsToMove();
-                break;
-            case 2:
-                playerTurn = 1;
-                team1.UpdateUnitsToMove();
-                break;
-            default:
-                break;
-        }
-
-        // Update UI 
-        uim.UpdateTurn();
-        Debug.Log("Player turn: " + playerTurn);
+        
     }
 
     // experimental option box, hasnt been implmented yet
@@ -143,5 +189,35 @@ public class GameController : MonoBehaviour
         }
 
         uim.OfferRecruit(recruitList);
+    }
+
+    public void KillUnit(Unit unit, int side)
+    {
+
+        switch (side)
+        {
+            case 1:
+                friendly--;
+                team1.units.Clear();
+                Destroy(unit.gameObject);
+                break;
+            case 2:
+                enemy--;
+                team2.units.Clear();
+                Destroy(unit.gameObject);
+                break;
+            default:
+                Debug.Log("contains - none");
+                break;
+        }
+
+        team1.UpdateUnitsToMove();
+        team2.UpdateUnitsToMove();
+    }
+
+    public void CheckEnd()
+    {
+        //team1.CheckIfAllDead();
+        //team2.CheckIfAllDead();
     }
 }

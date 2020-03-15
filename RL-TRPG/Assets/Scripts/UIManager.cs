@@ -16,9 +16,16 @@ public class UIManager : MonoBehaviour
 
     [Header("Recruit Menu")]
     public GameObject recruitPanel;
-    public Button recruitSlot1;
-    public Button recruitSlot2;
-    public Button recruitSlot3;
+    [Space]
+    public Button recruitBtn1;
+    public Button recruitBtn2;
+    public Button recruitBtn3;
+    [Space]
+    public Button recruit1;
+    public Button recruit2;
+    public Button recruit3;
+    [Space]
+    public List<Unit> recruits = new List<Unit>();
 
     void Start()
     {
@@ -38,13 +45,31 @@ public class UIManager : MonoBehaviour
     public void OfferRecruit(List<Unit> offers) // pass units
     {
         recruitPanel.SetActive(true);
+        
+        recruit1.GetComponent<Image>().sprite = offers[0].profile;
+        recruit2.GetComponent<Image>().sprite = offers[1].profile;
+        recruit3.GetComponent<Image>().sprite = offers[2].profile;
 
-        //recruitSlot1.image = offers[0].profile;
+        recruits.Add(offers[0]);
+        recruits.Add(offers[1]);
+        recruits.Add(offers[2]);
+
+       // recruitBtn1.onClick.AddListener(delegate { AddUnit(recruits[0]); });
+       // recruitBtn2.onClick.AddListener(delegate { AddUnit(recruits[1]); });
+       // recruitBtn3.onClick.AddListener(delegate { AddUnit(recruits[2]); });
     }
 
     public void RemoveOffers()
     {
         recruitPanel.SetActive(false);
+
+        recruits.Clear();
+    }
+
+    public void AddUnit(Unit unit)
+    {
+        Debug.Log("Add unit");
+        RemoveOffers();
     }
     
 }

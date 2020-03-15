@@ -40,7 +40,7 @@ public class Unit : MonoBehaviour
 
     //UI
     [Header("UI")]
-    public Image profile;
+    public Sprite profile;
 
     // Extra
     [Header("Public checks")]
@@ -101,6 +101,7 @@ public class Unit : MonoBehaviour
                 gc.ResetTiles();
                 GetEnemies();
                 GetWalkableTiles();
+                team.UpdateUnitsToMove();
             }
         }
 
@@ -151,7 +152,8 @@ public class Unit : MonoBehaviour
         // if enemy unit dies, kill it & update tiles
         if (enemy.health <= 0)
         {
-            Destroy(enemy.gameObject);
+            //Destroy(enemy.gameObject);
+            gc.KillUnit(enemy, enemy.playerNumber);
             GetWalkableTiles();
         }
 
@@ -159,7 +161,8 @@ public class Unit : MonoBehaviour
         if (health <= 0)
         {
             gc.ResetTiles();
-            Destroy(this.gameObject);
+            //Destroy(this.gameObject);
+            gc.KillUnit(this, playerNumber);
             team.UpdateUnitsToMove();
         }
 
@@ -169,9 +172,11 @@ public class Unit : MonoBehaviour
 
         // updating that we have moved
         team.unitsMovable--;
-        sr.color = new Color(1, 1, 1, 150);
+        sr.color = new Color(1, 1, 1, 100);
         team.CheckIfEnd();
         gc.ResetTiles();
+
+        gc.CheckEnd();
     }
 
     void GetWalkableTiles()

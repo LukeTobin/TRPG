@@ -16,8 +16,11 @@ public class TeamHandler : MonoBehaviour
     [SerializeField] int teamSize;
     public int unitsMovable;
 
+    [Space]
     //GameObject[] unit = new GameObject[Team.units.Count];
-    List<Unit> unit = new List<Unit>();
+    public List<Unit> units = new List<Unit>();
+    [Space]
+    public List<Unit> children = new List<Unit>();
 
     void Start()
     {
@@ -65,70 +68,108 @@ public class TeamHandler : MonoBehaviour
         }
 
         UpdateUnitsToMove(); // update what units need to be able to move
+        CountStart();
+    }
+
+    void CountStart()
+    {
+        switch (side)
+        {
+            case 1:
+                gc.friendly = teamSize;
+                break;
+            case 2:
+                gc.enemy= teamSize;
+                break;
+            default:
+                break;
+        }
     }
 
     public void CheckIfEnd()
     {
-        CheckIfAllDead();
-
-        // check if round needs to end
-        if (unitsMovable == 0)
+        if (CheckIfAllDead())
         {
-            gc.EndTurn();
-            UpdateUnitsToMove();
-        } 
+            gc.Rewards();
+        }
+        else
+        {
+            // check if round needs to end
+            if (unitsMovable == 0)
+            {
+                gc.EndTurn();
+                UpdateUnitsToMove();
+            }
+        }
+
+        
     }
 
-    public void UpdateUnitsToMove()
-    {
-        // fill in a list of units which can be moved
+    /*
+     * // fill in a list of units which can be moved
         // can possibily be refactored, in case we want to spawn into additional friendly units within a round (summoner ability?)
 
         unitsMovable = 0;
+        units.Clear();
 
-        GameObject[] units = GameObject.FindGameObjectsWithTag("Unit");
-        for (int i = 0; i < units.Length; i++)
+        GameObject[] unitsToSearch = GameObject.FindGameObjectsWithTag("Unit");
+        for (int i = 0; i < unitsToSearch.Length; i++)
         {
-            if(units[i].GetComponent<Unit>().playerNumber == side)
+            if(unitsToSearch[i].GetComponent<Unit>().playerNumber == side)
             {
                 unitsMovable++;
+                units.Add(unitsToSearch[i].GetComponent<Unit>());
             }
         }
 
         teamSize = unitsMovable; // size of team is equal to units movable
 
-        CheckIfEnd(); // incase we nolong have a team..
-    }
-
-    void CheckIfAllDead()
-    {
-        GameObject[] unitsToSearch = GameObject.FindGameObjectsWithTag("Unit");
-        List<Unit> units = new List<Unit>();
-
-        units.Clear();
-
-        for (int i = 0; i < unitsToSearch.Length; i++)
+        if(teamSize == 0)
         {
-            if(unitsToSearch[i].GetComponent<Unit>().playerNumber == side)
-            {
-                units.Add(unitsToSearch[i].GetComponent<Unit>());
-            }
+            Debug.LogError("Team Null");
         }
 
-        if(units.Count <= 0)
+        //CheckIfEnd(); // incase we no longer have a team..
+     */
+
+    public void UpdateUnitsToMove()
+    {
+        // experimental
+        Unit[] child = gameObject.GetComponentsInChildren<Unit>();
+
+        children.Clear();
+
+        foreach(Unit unit in child)
+        {
+            children.Add(unit);
+        }
+
+        unitsMovable = children.Count;
+        teamSize = children.Count;
+    }
+
+
+
+    public bool CheckIfAllDead()
+    {
+        if(children.Count <= 0)
         {
             // all dead.
             switch (side)
             {
                 case 1:
-
-                    break;
+                    gc.ended = true;
+                    return true;
                 case 2:
-                    gc.Rewards();
-                    break;
+                    gc.ended = true;
+                    return true;
                 default:
-                    break;
+                    return false;
             }
+        }
+        else
+        {
+            return false;
         }
     }
 }

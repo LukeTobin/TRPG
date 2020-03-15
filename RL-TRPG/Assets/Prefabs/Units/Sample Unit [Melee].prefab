@@ -199,15 +199,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31fde18eb809dfd40ac6e96979e6d67b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selected: 0
   sr: {fileID: 0}
   title: Test
   moveSpeed: 2
   range: 1
   maxHealth: 40
-  attackDamage: 12
+  attackDamage: 20
   armor: 4
   AllyInteractable: 0
+  profile: {fileID: 21300000, guid: 65c09f52c63aa9d49a251d017c30ea0b, type: 3}
+  selected: 0
   hasMoved: 0
   hasAttacked: 0
   health: 40
@@ -304,7 +305,7 @@ SpriteRenderer:
   m_Size: {x: 4.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &9145596708996456201
@@ -385,6 +386,6 @@ SpriteRenderer:
   m_Size: {x: 0.64, y: 0.64}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
