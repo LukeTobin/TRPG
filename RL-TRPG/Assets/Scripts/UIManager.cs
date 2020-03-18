@@ -9,6 +9,7 @@ public class UIManager : MonoBehaviour
      * Basic UI manager - TODO
      */
     GameController gc;
+    Team team;
 
     [Header("UI Elements")]
     public Button endTurnBtn;
@@ -30,6 +31,7 @@ public class UIManager : MonoBehaviour
     void Start()
     {
         gc = FindObjectOfType<GameController>();
+        team = FindObjectOfType<Team>();
         endTurnBtn.onClick.AddListener(gc.EndTurn);
 
         recruitPanel.SetActive(false);
@@ -68,8 +70,10 @@ public class UIManager : MonoBehaviour
 
     public void AddUnit(Unit unit)
     {
-        Debug.Log("Add unit");
+        team.AddNewUnit(unit);
         RemoveOffers();
+
+        gc.EndGame(); // smooth transition here
     }
     
 }

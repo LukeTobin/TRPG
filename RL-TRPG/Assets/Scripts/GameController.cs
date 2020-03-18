@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
@@ -219,5 +220,10 @@ public class GameController : MonoBehaviour
     {
         //team1.CheckIfAllDead();
         //team2.CheckIfAllDead();
+    }
+
+    public void EndGame()
+    {
+        SceneManager.LoadScene("Map");
     }
 }

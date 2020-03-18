@@ -16,7 +16,7 @@ public class AddRecruit : MonoBehaviour
 
     public void AddUnit()
     {
-        Debug.Log("adding unit: " + ui.recruits[num]);
+        ui.AddUnit(ui.recruits[num]);
         ui.RemoveOffers();
     }
 }

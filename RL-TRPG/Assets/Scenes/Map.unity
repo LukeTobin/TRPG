@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -151,12 +151,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62717d715a241294ebda7b8da7114fa5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cell: {fileID: 545766241399310707, guid: 8a81db50dd059384ea6daf90571e85e9, type: 3}
   nodes:
   - {fileID: 483132208693935206, guid: e19b52806f3a23b4187e8e9ba9983387, type: 3}
-  - {fileID: 1442915350001663877, guid: ae82a3ce45d436241acf7acf427d6751, type: 3}
+  - {fileID: 483132208693935206, guid: e19b52806f3a23b4187e8e9ba9983387, type: 3}
+  - {fileID: 483132208693935206, guid: e19b52806f3a23b4187e8e9ba9983387, type: 3}
+  - {fileID: 483132208693935206, guid: e19b52806f3a23b4187e8e9ba9983387, type: 3}
+  - {fileID: 483132208693935206, guid: e19b52806f3a23b4187e8e9ba9983387, type: 3}
+  - {fileID: 483132208693935206, guid: e19b52806f3a23b4187e8e9ba9983387, type: 3}
+  - {fileID: 110479880590647724, guid: 26fa4f12e5b37ff46943d02d06b253a8, type: 3}
+  - {fileID: 6458706304960511739, guid: 662b0dc3d0c3c014abcbe814c68dd22d, type: 3}
+  - {fileID: 110479880590647724, guid: 26fa4f12e5b37ff46943d02d06b253a8, type: 3}
+  - {fileID: 6458706304960511739, guid: 662b0dc3d0c3c014abcbe814c68dd22d, type: 3}
+  - {fileID: 483132208693935206, guid: e19b52806f3a23b4187e8e9ba9983387, type: 3}
   GridMap: {fileID: 1035787042}
   cellSize: 4
+  x: 7
+  y: 3
+  stage: 0
 --- !u!212 &834003838
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -249,7 +260,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1246659972
 GameObject:
@@ -262,6 +273,7 @@ GameObject:
   - component: {fileID: 1246659975}
   - component: {fileID: 1246659974}
   - component: {fileID: 1246659973}
+  - component: {fileID: 1246659976}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -328,54 +340,40 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1246659972}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 11, y: 6, z: -10}
+  m_LocalPosition: {x: 12, y: 6, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1563354178
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1563354180}
-  - component: {fileID: 1563354179}
-  m_Layer: 0
-  m_Name: Team Manager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1563354179
+--- !u!114 &1246659976
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1563354178}
+  m_GameObject: {fileID: 1246659972}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fbb53112abc5c5d45b5ebaf158f8e529, type: 3}
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myLeader: {fileID: 4700009066179185875, guid: 2624d43de3ec50b4bb56ab9aece71c4e,
-    type: 3}
---- !u!4 &1563354180
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1563354178}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_CameraOutput: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2

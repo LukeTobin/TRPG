@@ -21,6 +21,7 @@ public class Unit : MonoBehaviour
     Healthbar hb;
     Pathfinding path;
     public SpriteRenderer sr;
+    [Space]
 
     // Core Identity of unit
     [Header("Identity")]
@@ -66,9 +67,7 @@ public class Unit : MonoBehaviour
         hb = GetComponentInChildren<Healthbar>();
         path = GetComponent<Pathfinding>();
 
-       // hb.gameObject.SetActive(false);
-        
-        health = maxHealth; // current health = maxHealth, when starting. Needs to be refactored.
+        //hb.gameObject.SetActive(false);
 
         // range & tiles they can move is multiplyed by the size of a cell so they can move properly
         range *= gc.cellSize;
@@ -146,7 +145,7 @@ public class Unit : MonoBehaviour
         {
             // damage enemy & update ui for it
             enemy.health -= enemyDamage;
-            enemy.hb.SetSize(enemy.maxHealth, enemy.health);
+            //enemy.hb.SetSize(enemy.maxHealth, enemy.health);
         }
 
         // if enemy unit dies, kill it & update tiles

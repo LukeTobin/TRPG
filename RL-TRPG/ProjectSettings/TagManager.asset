@@ -8,6 +8,8 @@ TagManager:
   - Unit
   - BoardUI
   - World
+  - Node
+  - Team
   layers:
   - Default
   - TransparentFX

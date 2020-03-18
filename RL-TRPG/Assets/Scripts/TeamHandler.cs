@@ -10,6 +10,7 @@ public class TeamHandler : MonoBehaviour
      */
 
     GameController gc;
+    Team team;
 
     [Header("Team stats")]
     public int side; // [1 - 2]
@@ -25,6 +26,7 @@ public class TeamHandler : MonoBehaviour
     void Start()
     {
         gc = FindObjectOfType<GameController>();
+        team = FindObjectOfType<Team>(); // lets us access team object from map scene.
 
         switch (side)
         {
@@ -48,15 +50,16 @@ public class TeamHandler : MonoBehaviour
                 //Instantiate(Team.leader, new Vector2(spawnX, spawnY), Quaternion.identity, transform.parent = transform);
 
                 // fill in all units on the board from your team list
-                if (Team.units != null)
+
+                if (team.units != null)
                 {
-                    for (int i = 0; i < Team.units.Count; i++)
+                    for (int i = 0; i < team.units.Count; i++)
                     {
                         float yRange = Random.Range(0, gc.y / 2); yRange *= gc.cellSize;
                         float xRange = Random.Range(0, gc.x / 2); xRange *= gc.cellSize;
 
-                        //unit[i] = Instantiate(Team.units[i], new Vector3(xRange, yRange, 0), Quaternion.identity, transform.parent = transform);
-
+                        Unit unit = Instantiate(team.units[i], new Vector3(xRange, yRange, 0), Quaternion.identity, transform.parent = transform);
+                        unit.transform.parent = transform;
                     }
                 }
                 break;

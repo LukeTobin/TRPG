@@ -10,11 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 483132208693935256}
   - component: {fileID: 483132208693935207}
-  - component: {fileID: 483132208693935257}
   - component: {fileID: -4787332081547295641}
+  - component: {fileID: -2942930336632487545}
   m_Layer: 0
   m_Name: Battle Node
-  m_TagString: Untagged
+  m_TagString: Node
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 483132208693935206}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.35, y: 0.35, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -71,9 +71,9 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 99a31d11f469b2f4c9e349d5e9fb98d2, type: 3}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_SortingOrder: 5
+  m_Sprite: {fileID: 21300000, guid: 59d5716f2f760a740b81db5dea9fbef2, type: 3}
+  m_Color: {r: 0.6415094, g: 0.25720897, b: 0.25720897, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -83,19 +83,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &483132208693935257
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 483132208693935206}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c4ecdad164473bb4aba780c2a9f08fbc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nodeType: 0
 --- !u!61 &-4787332081547295641
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -113,12 +100,25 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 9.81, y: 9.8}
+    oldSize: {x: 1, y: 1}
     newSize: {x: 0.43, y: 0.48}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 9.81, y: 9.8}
+  m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &-2942930336632487545
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 483132208693935206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7885dc8e1fead564988635d4884f8577, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nodeType: 1
