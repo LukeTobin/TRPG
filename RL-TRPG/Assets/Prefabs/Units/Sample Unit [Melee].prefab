@@ -105,7 +105,7 @@ Transform:
   m_GameObject: {fileID: 4700009066179185875}
   m_LocalRotation: {x: 0.008726558, y: 0, z: 0, w: 0.999962}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_Children:
   - {fileID: 2684617997927947924}
   m_Father: {fileID: 0}
@@ -150,9 +150,9 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 5
-  m_Sprite: {fileID: 21300000, guid: 65c09f52c63aa9d49a251d017c30ea0b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2474dfd96da3c0d48bc442f2ff35bcd2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 2.23, y: 2.27}
@@ -178,14 +178,14 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.23, y: 2.27}
+    oldSize: {x: 0.625, y: 0.8125}
     newSize: {x: 2.23, y: 2.27}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2, y: 2}
+  m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
 --- !u!114 &4700009066179185878
 MonoBehaviour:
@@ -200,14 +200,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sr: {fileID: 0}
-  title: Test
-  moveSpeed: 2
-  range: 1
+  title: Witch
+  moveSpeed: 1
+  range: 2
   maxHealth: 40
   attackDamage: 20
   armor: 4
   AllyInteractable: 0
-  profile: {fileID: 21300000, guid: 65c09f52c63aa9d49a251d017c30ea0b, type: 3}
+  profile: {fileID: 21300000, guid: 2474dfd96da3c0d48bc442f2ff35bcd2, type: 3}
   selected: 0
   hasMoved: 0
   hasAttacked: 0
