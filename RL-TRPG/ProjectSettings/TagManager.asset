@@ -10,6 +10,8 @@ TagManager:
   - World
   - Node
   - Team
+  - HealthText
+  - PlayerTeam
   layers:
   - Default
   - TransparentFX

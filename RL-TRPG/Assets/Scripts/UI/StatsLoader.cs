@@ -8,40 +8,99 @@ public class StatsLoader : MonoBehaviour
     [SerializeField] GameObject UI_Element;
     GameObject[] unitArray;
     Sprite[] teamSprites;
-    GameObject[] playerUnitsUI;
+    List<GameObject> playerUnitsUI = new List<GameObject>();
+
+    GameObject[] statBoxArray;
+
+    [SerializeField] GameObject playerStatBox1;
+    [SerializeField] GameObject playerStatBox2;
+    [SerializeField] GameObject playerStatBox3;
+    [SerializeField] GameObject playerStatBox4;
+
+
+
+    int doom1 = 1;
+    int playerCount = 0;
 
     // Start is called before the first frame update
     void Start()
     {
-        //This code creates UI elements at the left side of the screen for player stats
+        GameObject[] statBoxArray = { playerStatBox1, playerStatBox2, playerStatBox3, playerStatBox4 };
+
+        //This code fills the UI elements at the left side of the screen for player stats
         unitArray = GameObject.FindGameObjectsWithTag("Unit");
         for (int i = 0; i < unitArray.Length; i++)
         {
+            //If the units in the unit array are from the player team, then fill the info boxes to the left
             if (unitArray[i].transform.parent.name == "Team")
             {
-                //For all the teammates, but since I'm going to be refactoring it, and because it looks fuller, I'll leave it down here for all units to access
+                playerUnitsUI.Add(unitArray[i]);
+                playerCount++;
+                statBoxArray[playerCount - 1].transform.Find("Character").GetComponent<Image>().sprite =
+                    unitArray[i].GetComponent<SpriteRenderer>().sprite;
+                statBoxArray[playerCount - 1].transform.Find("HealthText").GetComponent<Text>().text =
+                    unitArray[i].GetComponent<Unit>().health.ToString() + "/" +
+                    unitArray[i].GetComponent<Unit>().maxHealth.ToString();
+                Debug.Log(unitArray[i].name);
+                Debug.Log(playerCount + " + " + statBoxArray[playerCount].ToString());
             }
+        }
 
-            var instantiatedUI = Instantiate(UI_Element, new Vector2(transform.position.x, transform.position.y), Quaternion.identity);
-            instantiatedUI.transform.parent = gameObject.transform;
-            instantiatedUI.transform.position = new Vector2(transform.position.x + 120, transform.position.y - 80 * i);
-            instantiatedUI.transform.Find("Character").GetComponent<Image>().sprite =
-                unitArray[i].GetComponent<SpriteRenderer>().sprite;
-            instantiatedUI.transform.Find("HealthText").GetComponent<Text>().text =
-                unitArray[i].GetComponent<Unit>().health.ToString() + "/" +
-                unitArray[i].GetComponent<Unit>().maxHealth.ToString();
-        }     
+        Debug.Log(playerUnitsUI.Count);
+
+        //TODO: Refactor code to use for loop
+        if (playerStatBox1.transform.Find("Character").GetComponent<Image>().sprite == null)
+            playerStatBox1.SetActive(false);
+        if (playerStatBox2.transform.Find("Character").GetComponent<Image>().sprite == null)
+            playerStatBox2.SetActive(false);
+        if (playerStatBox3.transform.Find("Character").GetComponent<Image>().sprite == null)
+            playerStatBox3.SetActive(false);
+        if (playerStatBox4.transform.Find("Character").GetComponent<Image>().sprite == null)
+            playerStatBox4.SetActive(false);
     }
 
-    // Update is called once per frame
-    void Update()
+    //TODO: Refactor code to use a proper for loop
+    public void UpdateStatBox()
     {
-        //if (Input.GetKeyDown(KeyCode.Space))
-        //{
-            //playerUnitsUI = GameObject.FindGameObjectsWithTag("HealthText");
-            //playerUnitsUI[0].GetComponent<Text>().text ;
-        //}
-    }
+        if (playerStatBox1.transform.Find("Character").GetComponent<Image>().sprite != null)
+        {
+            playerStatBox1.transform.Find("HealthText").GetComponent<Text>().text =
+                    playerUnitsUI[0].GetComponent<Unit>().health.ToString() + "/" +
+                    playerUnitsUI[0].GetComponent<Unit>().maxHealth.ToString();
 
-    
+            if(playerUnitsUI[0].GetComponent<Unit>().health <= 0)
+                playerStatBox1.transform.Find("HealthText").GetComponent<Text>().text = "DEAD";
+        }
+           
+        if(playerStatBox2.transform.Find("Character").GetComponent<Image>().sprite != null)
+        {
+            playerStatBox2.transform.Find("HealthText").GetComponent<Text>().text =
+                    playerUnitsUI[1].GetComponent<Unit>().health.ToString() + "/" +
+                    playerUnitsUI[1].GetComponent<Unit>().maxHealth.ToString();
+
+            if (playerUnitsUI[1].GetComponent<Unit>().health <= 0)
+                playerStatBox2.transform.Find("HealthText").GetComponent<Text>().text = "DEAD";
+        }
+
+        if (playerStatBox3.transform.Find("Character").GetComponent<Image>().sprite != null)
+        {
+            playerStatBox3.transform.Find("HealthText").GetComponent<Text>().text =
+                    playerUnitsUI[2].GetComponent<Unit>().health.ToString() + "/" +
+                    playerUnitsUI[2].GetComponent<Unit>().maxHealth.ToString();
+
+            if (playerUnitsUI[2].GetComponent<Unit>().health <= 0)
+                playerStatBox3.transform.Find("HealthText").GetComponent<Text>().text = "DEAD";
+        }
+
+        if (playerStatBox4.transform.Find("Character").GetComponent<Image>().sprite != null)
+        {
+            playerStatBox4.transform.Find("HealthText").GetComponent<Text>().text =
+                    playerUnitsUI[3].GetComponent<Unit>().health.ToString() + "/" +
+                    playerUnitsUI[3].GetComponent<Unit>().maxHealth.ToString();
+
+            if (playerUnitsUI[3].GetComponent<Unit>().health <= 0)
+                playerStatBox4.transform.Find("HealthText").GetComponent<Text>().text = "DEAD";
+        }
+
+    }
 }

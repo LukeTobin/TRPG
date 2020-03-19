@@ -21,6 +21,7 @@ public class Unit : MonoBehaviour
     Healthbar hb;
     Pathfinding path;
     public SpriteRenderer sr;
+    StatsLoader sl;
     [Space]
 
     // Core Identity of unit
@@ -62,6 +63,7 @@ public class Unit : MonoBehaviour
     {
         gc = FindObjectOfType<GameController>();
         sr = GetComponent<SpriteRenderer>();
+        sl = FindObjectOfType<StatsLoader>();
 
         team = gameObject.GetComponentInParent<TeamHandler>();
         hb = GetComponentInChildren<Healthbar>();
@@ -145,6 +147,7 @@ public class Unit : MonoBehaviour
         {
             // damage enemy & update ui for it
             enemy.health -= enemyDamage;
+            sl.UpdateStatBox();
             //enemy.hb.SetSize(enemy.maxHealth, enemy.health);
         }
 
