@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -1115,6 +1115,8 @@ MonoBehaviour:
   ended: 0
   units:
   - {fileID: 4700009066179185878, guid: 2624d43de3ec50b4bb56ab9aece71c4e, type: 3}
+  - {fileID: 4700009066179185878, guid: d46f5592c914ae84baf267581e0250ea, type: 3}
+  - {fileID: 4700009066179185878, guid: 627361cb8e81b8b4d8bc14ed778c4f31, type: 3}
   _forceEnd: 0
   _clearList: 0
 --- !u!114 &479703794
@@ -1247,7 +1249,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 65c09f52c63aa9d49a251d017c30ea0b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 595c5eaeb10dc0a479a79ca2a30be93c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1950,7 +1952,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: ecb88abcaffa633418e6fce68469ec2d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c192cc8b3d44b1b4ca34621dd98fcb9b, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2340,7 +2342,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &969909990
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2607,10 +2609,31 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 303857822208063368, guid: 7441789fa991ce7479839e5386881956,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 303857822208063368, guid: 7441789fa991ce7479839e5386881956,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 303857822208063369, guid: 7441789fa991ce7479839e5386881956,
         type: 3}
       propertyPath: m_Name
       value: Sample Enemy [Melee]
+      objectReference: {fileID: 0}
+    - target: {fileID: 303857822208063371, guid: 7441789fa991ce7479839e5386881956,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 0c78a331c28be374eb45f58fab4da665,
+        type: 3}
+    - target: {fileID: 303857822208063371, guid: 7441789fa991ce7479839e5386881956,
+        type: 3}
+      propertyPath: m_FlipX
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7024029574993843770, guid: 7441789fa991ce7479839e5386881956,
         type: 3}
@@ -2631,6 +2654,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8007946295893991009, guid: 7441789fa991ce7479839e5386881956,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8007946295893991009, guid: 7441789fa991ce7479839e5386881956,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8007946295893991009, guid: 7441789fa991ce7479839e5386881956,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8007946295893991009, guid: 7441789fa991ce7479839e5386881956,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8905357663929129213, guid: 7441789fa991ce7479839e5386881956,
         type: 3}
@@ -3302,7 +3345,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: badcf2768f758d547b88b51d9073d2ac, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d608bd77f45f71341bdb8c9ca796bedf, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3937,10 +3980,31 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 303857822208063368, guid: 7441789fa991ce7479839e5386881956,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 303857822208063368, guid: 7441789fa991ce7479839e5386881956,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 303857822208063369, guid: 7441789fa991ce7479839e5386881956,
         type: 3}
       propertyPath: m_Name
       value: Sample Enemy [Melee]
+      objectReference: {fileID: 0}
+    - target: {fileID: 303857822208063371, guid: 7441789fa991ce7479839e5386881956,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 0c78a331c28be374eb45f58fab4da665,
+        type: 3}
+    - target: {fileID: 303857822208063371, guid: 7441789fa991ce7479839e5386881956,
+        type: 3}
+      propertyPath: m_FlipX
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1765837714294944356, guid: 7441789fa991ce7479839e5386881956,
         type: 3}
@@ -3960,6 +4024,26 @@ PrefabInstance:
     - target: {fileID: 8007946295893991009, guid: 7441789fa991ce7479839e5386881956,
         type: 3}
       propertyPath: m_AutoTiling
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8007946295893991009, guid: 7441789fa991ce7479839e5386881956,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8007946295893991009, guid: 7441789fa991ce7479839e5386881956,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8007946295893991009, guid: 7441789fa991ce7479839e5386881956,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8007946295893991009, guid: 7441789fa991ce7479839e5386881956,
+        type: 3}
+      propertyPath: m_Size.y
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8905357663929129213, guid: 7441789fa991ce7479839e5386881956,

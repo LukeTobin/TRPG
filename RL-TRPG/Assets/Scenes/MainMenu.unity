@@ -424,8 +424,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   leader: {fileID: 4700009066179185878, guid: 2624d43de3ec50b4bb56ab9aece71c4e, type: 3}
-  units:
-  - {fileID: 4700009066179185878, guid: 2624d43de3ec50b4bb56ab9aece71c4e, type: 3}
+  units: []
   checkTeamHealth: 0
 --- !u!4 &712589738
 Transform:
