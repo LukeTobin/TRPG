@@ -123,19 +123,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31fde18eb809dfd40ac6e96979e6d67b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sr: {fileID: 0}
   title: Melee Enemy
-  moveSpeed: 1
+  moveSpeed: 2
   range: 1
+  damageType: 0
   maxHealth: 15
-  attackDamage: 10
-  armor: 0
+  maxAttackDamage: 10
+  maxMagicDamage: 1
+  maxArmor: 4
+  maxResist: 1
+  maxSpeed: 11
   AllyInteractable: 0
   profile: {fileID: 0}
+  sr: {fileID: 0}
   selected: 0
   hasMoved: 0
   hasAttacked: 0
   health: 15
+  mana: 0
+  attackDamage: 10
+  magicDamage: 1
+  armor: 4
+  resist: 1
+  speed: 11
   playerNumber: 2
   isLeader: 0
   enemiesInRange: []

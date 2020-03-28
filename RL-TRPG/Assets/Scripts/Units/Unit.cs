@@ -7,34 +7,51 @@ public class Unit : MonoBehaviour
 {
 
     /*
-     * Unit Script
-     * For:
-     * - Controlling
-     * - Attacking
-     * - Stats
-     * - And more!
+     * Unit script for all units and enemies in game
+     * 
+     * - Variables: All stats, accessable scripts & components
+     * 
+     * - Start / Load: For Start(), Awake() and general loading
+     * 
+     * - Selecting: Right or left clicking on a unit and managing what can be done when they're selected
+     * 
+     * - Attacking: Manages unit attacking and calculations
+     * 
+     * - Movement & Tiles: Gets tiles moveable too, enemies in range and handles path movement found by A*
+     * 
      */
 
-    
+    #region Variables
     GameController gc;
     TeamHandler team;
     Healthbar hb;
     Pathfinding path;
-    public SpriteRenderer sr;
     StatsLoader sl;
-    [Space]
+
+    public enum PreferredDamage
+    {
+        physical,
+        magic,
+        mixed
+    }
 
     // Core Identity of unit
     [Header("Identity")]
     public string title;
     public int moveSpeed;
     public int range;
+    public PreferredDamage damageType;
+
 
     // Base Stats
+    // can be refactored from max to base at a later time, doesnt matter right now
     [Header("Base Stats")]
     public int maxHealth;
-    public int attackDamage; // both physical & magical
-    public int armor;
+    public int maxAttackDamage;
+    public int maxMagicDamage;
+    public int maxArmor;
+    public int maxResist;
+    public int maxSpeed;
 
     // Ability Info
     [Header("Ability Info")]
@@ -43,6 +60,7 @@ public class Unit : MonoBehaviour
     //UI
     [Header("UI")]
     public Sprite profile;
+    public SpriteRenderer sr;
 
     // Extra
     [Header("Public checks")]
@@ -50,15 +68,26 @@ public class Unit : MonoBehaviour
     public bool hasMoved;
     public bool hasAttacked;
 
-    [Header("Public Stats")]
+    // Current stats
+    [Header("Public/Current Stats")]
     public int health;
+    public int mana;
+    public int attackDamage;
+    public int magicDamage;
+    public int armor;
+    public int resist;
+    public int speed;
 
-    [Header("1 = Player      2 = Enemy")]
-    public int playerNumber;
+    [Header("Player Stats")]
+    public int playerNumber = 1;
     public bool isLeader;
 
+    [Space]
     public List<Unit> enemiesInRange = new List<Unit>(); // what enemies are in range of unit
 
+    #endregion
+
+    #region Start / Load
     void Start()
     {
         gc = FindObjectOfType<GameController>();
@@ -76,6 +105,9 @@ public class Unit : MonoBehaviour
         moveSpeed *= gc.cellSize;
     }
 
+    #endregion
+
+    #region Selecting
     // when unit is selected
     void OnMouseDown()
     {
@@ -132,15 +164,30 @@ public class Unit : MonoBehaviour
             gc.CreateOptionBox(this, transform.position);
         }
     }
+    #endregion
 
+    #region Attacking
     void Attack(Unit enemy)
     {
-        // close options menu
-        //gc.optionBox.SetActive(false);
+        int enemyDamage;
 
-        // damage the enemy will take
-        int enemyDamage = attackDamage - enemy.armor;
-        Debug.Log(name + " attacked " + enemy.name);
+        // get damage to enemy
+        switch (damageType)
+        {
+            case PreferredDamage.magic:
+                enemyDamage = magicDamage - enemy.resist;
+                break;
+            case PreferredDamage.physical:
+                enemyDamage = attackDamage - enemy.armor;
+                break;
+            case PreferredDamage.mixed:
+                enemyDamage = ((attackDamage / 2) + (magicDamage / 2)) - ((enemy.armor / 2) + (enemy.resist / 2));
+                break;
+            default:
+                enemyDamage = 0;
+                Debug.LogError("Could not find damage type");
+                break;
+        }
 
         // if the enemy damage actually does something
         if (enemyDamage >= 1)
@@ -148,13 +195,12 @@ public class Unit : MonoBehaviour
             // damage enemy & update ui for it
             enemy.health -= enemyDamage;
             sl.UpdateStatBox();
-            //enemy.hb.SetSize(enemy.maxHealth, enemy.health);
+            //enemy.hb.SetSize(enemy.maxHealth, enemy.health); // update healthbar
         }
 
         // if enemy unit dies, kill it & update tiles
         if (enemy.health <= 0)
         {
-            //Destroy(enemy.gameObject);
             gc.KillUnit(enemy, enemy.playerNumber);
             GetWalkableTiles();
         }
@@ -163,7 +209,6 @@ public class Unit : MonoBehaviour
         if (health <= 0)
         {
             gc.ResetTiles();
-            //Destroy(this.gameObject);
             gc.KillUnit(this, playerNumber);
             team.UpdateUnitsToMove();
         }
@@ -180,7 +225,9 @@ public class Unit : MonoBehaviour
 
         gc.CheckEnd();
     }
+    #endregion
 
+    #region Movement & Tiles
     void GetWalkableTiles()
     {
         if (hasMoved && hasAttacked)
@@ -292,4 +339,5 @@ public class Unit : MonoBehaviour
             yield return null;
         }
     }
+    #endregion
 }

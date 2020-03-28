@@ -87,6 +87,7 @@ GameObject:
   - component: {fileID: 4700009066179185872}
   - component: {fileID: 4700009066179185873}
   - component: {fileID: 4700009066179185879}
+  - component: {fileID: -7957958266889734445}
   - component: {fileID: 4700009066179185878}
   - component: {fileID: -7879753135402672791}
   m_Layer: 9
@@ -187,6 +188,20 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &-7957958266889734445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4700009066179185875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f74280521e666842a074c3a893b100e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _origin: 1
+  _class: 1
 --- !u!114 &4700009066179185878
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -199,21 +214,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31fde18eb809dfd40ac6e96979e6d67b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sr: {fileID: 0}
-  title: Tiefline
+  title: Tiefling
   moveSpeed: 2
-  range: 1
-  maxHealth: 40
-  attackDamage: 20
-  armor: 4
+  range: 2
+  damageType: 2
+  maxHealth: 18
+  maxAttackDamage: 15
+  maxMagicDamage: 20
+  maxArmor: 9
+  maxResist: 9
+  maxSpeed: 20
   AllyInteractable: 0
   profile: {fileID: 21300000, guid: d608bd77f45f71341bdb8c9ca796bedf, type: 3}
+  sr: {fileID: 0}
   selected: 0
   hasMoved: 0
   hasAttacked: 0
-  health: 40
+  health: 18
+  mana: 0
+  attackDamage: 16
+  magicDamage: 20
+  armor: 9
+  resist: 9
+  speed: 20
   playerNumber: 1
-  isLeader: 1
+  isLeader: 0
   enemiesInRange: []
 --- !u!114 &-7879753135402672791
 MonoBehaviour:
