@@ -7,7 +7,7 @@ public class Unit : MonoBehaviour
 {
 
     /*
-     * Unit script for all units and enemies in game
+     * Unit script for all units and enemies in game - if needs be the script can be refactored into various other scripts containing these main features.
      * 
      * - Variables: All stats, accessable scripts & components
      * 
@@ -18,6 +18,8 @@ public class Unit : MonoBehaviour
      * - Attacking: Manages unit attacking and calculations
      * 
      * - Movement & Tiles: Gets tiles moveable too, enemies in range and handles path movement found by A*
+     * 
+     * - Miscellaneous: For extra functions related to unit script
      * 
      */
 
@@ -77,6 +79,17 @@ public class Unit : MonoBehaviour
     public int armor;
     public int resist;
     public int speed;
+    [Space]
+    public int armorPen;
+    public int mrPen;
+    public int manaGrowth;
+
+    [Header("One Turn Stats - Leave 0")]
+    public int tempAD;
+    public int tempMD;
+    public int tempAR;
+    public int tempMR;
+    public int tempSP;
 
     [Header("Player Stats")]
     public int playerNumber = 1;
@@ -103,6 +116,13 @@ public class Unit : MonoBehaviour
         // range & tiles they can move is multiplyed by the size of a cell so they can move properly
         range *= gc.cellSize;
         moveSpeed *= gc.cellSize;
+
+        mana = 0;
+        tempAD = 0;
+        tempMD = 0;
+        tempAR = 0;
+        tempMR = 0;
+        tempSP = 0;
     }
 
     #endregion
@@ -152,6 +172,7 @@ public class Unit : MonoBehaviour
                 // attack selected enemy unit
                // gc.optionBox.SetActive(false);
                 gc.selectedUnit.Attack(unit);
+                fade(true);
             }
         }
     }
@@ -219,7 +240,6 @@ public class Unit : MonoBehaviour
 
         // updating that we have moved
         team.unitsMovable--;
-        sr.color = new Color(1, 1, 1, 100);
         team.CheckIfEnd();
         gc.ResetTiles();
 
@@ -319,7 +339,6 @@ public class Unit : MonoBehaviour
         if (hasMoved && hasAttacked)
         {
             team.unitsMovable--;
-            sr.color = new Color(1, 1, 1, 150);
             team.CheckIfEnd();
         }
     }
@@ -339,5 +358,20 @@ public class Unit : MonoBehaviour
             yield return null;
         }
     }
+    #endregion
+
+    #region Miscellaneous
+    public void fade(bool used)
+    {
+        if (used)
+        {
+            sr.color = new Color(.6f, .6f, .6f, 1f);
+        }
+        else
+        {
+            sr.color = new Color(1, 1, 1, 1);
+        }
+    }
+
     #endregion
 }

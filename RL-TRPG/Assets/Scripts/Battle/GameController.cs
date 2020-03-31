@@ -71,8 +71,8 @@ public class GameController : MonoBehaviour
 
         if (_clearList)
         {
-            team1.units.Clear();
-            team2.units.Clear();
+            team1.children.Clear();
+            team2.children.Clear();
             _clearList = false;
         }
     }
@@ -133,12 +133,23 @@ public class GameController : MonoBehaviour
             ResetTiles();//reset all tiles (mostly for colors and visibiliy resets)
 
 
-            // reset each unit in the scene
+            // reset each unit in the scene & add mana
             foreach (Unit unit in FindObjectsOfType<Unit>())
             {
                 unit.hasMoved = false;
                 unit.hasAttacked = false;
                 unit.sr.color = new Color(1, 1, 1, 255);
+                if(unit.mana < 5)
+                {
+                    unit.mana++;
+                }
+                unit.tempAD = 0;
+                unit.tempMD = 0;
+                unit.tempAR = 0;
+                unit.tempMR = 0;
+                unit.tempSP = 0;
+
+                unit.fade(false);
             }
 
 
@@ -199,12 +210,12 @@ public class GameController : MonoBehaviour
         {
             case 1:
                 friendly--;
-                team1.units.Clear();
+                team1.children.Clear();
                 Destroy(unit.gameObject);
                 break;
             case 2:
                 enemy--;
-                team2.units.Clear();
+                team2.children.Clear();
                 Destroy(unit.gameObject);
                 break;
             default:

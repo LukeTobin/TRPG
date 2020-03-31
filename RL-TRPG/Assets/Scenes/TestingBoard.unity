@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -3043,6 +3043,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1289217904}
   - component: {fileID: 1289217905}
+  - component: {fileID: 1289217906}
   m_Layer: 0
   m_Name: Team
   m_TagString: Untagged
@@ -3082,6 +3083,18 @@ MonoBehaviour:
   unitsMovable: 0
   units: []
   children: []
+--- !u!114 &1289217906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1289217903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efe6159ce51657c46b49f658c6d445e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1311023115
 GameObject:
   m_ObjectHideFlags: 0
