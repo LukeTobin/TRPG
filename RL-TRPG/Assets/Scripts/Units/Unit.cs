@@ -19,6 +19,8 @@ public class Unit : MonoBehaviour
      * 
      * - Movement & Tiles: Gets tiles moveable too, enemies in range and handles path movement found by A*
      * 
+     * - Save Data: Save, Load and Clear data relating to the unit
+     * 
      * - Miscellaneous: For extra functions related to unit script
      * 
      */
@@ -42,6 +44,7 @@ public class Unit : MonoBehaviour
     public string title;
     public int moveSpeed;
     public int range;
+    public int level = 1;
     public PreferredDamage damageType;
 
 
@@ -123,6 +126,9 @@ public class Unit : MonoBehaviour
         tempAR = 0;
         tempMR = 0;
         tempSP = 0;
+
+        LoadData();
+
     }
 
     #endregion
@@ -360,9 +366,29 @@ public class Unit : MonoBehaviour
     }
     #endregion
 
+    #region Save Data
+    public void SaveData()
+    {
+        PlayerPrefs.SetInt(title, health);
+        PlayerPrefs.Save();
+    }
+
+    public void LoadData()
+    {
+        health = PlayerPrefs.GetInt(title, health);
+        sl.UpdateStatBox();
+    }
+
+    public void ClearData()
+    {
+        PlayerPrefs.DeleteKey(title);
+    }
+    #endregion
+
     #region Miscellaneous
     public void fade(bool used)
     {
+        /*
         if (used)
         {
             sr.color = new Color(.6f, .6f, .6f, 1f);
@@ -371,6 +397,7 @@ public class Unit : MonoBehaviour
         {
             sr.color = new Color(1, 1, 1, 1);
         }
+        */
     }
 
     #endregion

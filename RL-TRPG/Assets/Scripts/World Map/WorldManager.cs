@@ -4,61 +4,53 @@ using UnityEngine;
 
 public class WorldManager : MonoBehaviour
 {
-    /*
-     * Build world map - currently only create a grid
-     * Procedrual generation needs to be added here
-     */
-
-    [Header("Stored Prefabs")]
+    public GameObject boss;
     [Space]
-    public GameObject[] nodes;
-    [Space]
-    public GameObject GridMap;
+    public int currentStage = 1;
+    public List<Node> nodeList = new List<Node>();
 
-    [Header("World Settings")]
-    public int cellSize;
-    public int x;
-    public int y;
+    int maxVal = 15;
+    bool madeLines;
 
-    [Header("Progress Settings")]
-    public int stage = 0;
-
-
-    // private vars
-    List<Node> nodeList = new List<Node>();
-
-    private void Start()
+    private void Update()
     {
-        int length = Random.Range(6, 12);
-        CreateMap(x, y);
-    }
-
-    void CreateMap(int _x, int _y)
-    {
-        int[,] gridArray = new int[_x, _y];
-
-        for (int x = 0; x < gridArray.GetLength(0); x++)
+        if(!madeLines && maxVal >= nodeList.Count)
         {
-            for (int y = 0; y < gridArray.GetLength(1); y++)
+            for (int i = 0; i < nodeList.Count; i++)
             {
-                if(x == 0)
+                for (int j = 0; j < nodeList.Count; j++)
                 {
-                    GameObject node = GameObject.Instantiate(nodes[0], GetWorldPosition(x, y+1), Quaternion.identity);
-                    node.transform.parent = transform;
-                    nodeList.Add(node.GetComponent<Node>());
+                    if(nodeList[i].stage+1 == nodeList[j].stage && nodeList[i].row == nodeList[j].row)
+                    {
+                        nodeList[i].line.SetPosition(0, nodeList[i].transform.position);
+                        nodeList[i].line.SetPosition(1, nodeList[j].transform.position);
+                        break;
+                    }
                 }
-                else
+
+                if (nodeList[i].stage == 5)
                 {
-                    GameObject node = GameObject.Instantiate(nodes[Random.Range(0, nodes.Length)], GetWorldPosition(x, y+1), Quaternion.identity);
-                    node.transform.parent = transform;
-                    nodeList.Add(node.GetComponent<Node>());
-                }       
+                    nodeList[i].line.SetPosition(0, nodeList[i].transform.position);
+                    nodeList[i].line.SetPosition(1, boss.transform.position);
+                }
             }
+            madeLines = true;
+        }
+
+        if(currentStage > 5 && currentStage != 99)
+        {
+            currentStage = 99;
         }
     }
 
-    Vector3 GetWorldPosition(int x, int y)
+    public void BlockPaths(int mainRow)
     {
-        return new Vector3((x * cellSize), (y * cellSize), 1);
+        foreach(Node node in nodeList)
+        {
+            if(node.row != mainRow)
+            {
+                node.Visited();
+            }
+        }
     }
 }

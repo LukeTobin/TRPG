@@ -18,8 +18,6 @@ public class StatsLoader : MonoBehaviour
     [SerializeField] GameObject playerStatBox4;
 
 
-
-    int doom1 = 1;
     int playerCount = 0;
 
     // Start is called before the first frame update
@@ -41,12 +39,8 @@ public class StatsLoader : MonoBehaviour
                 statBoxArray[playerCount - 1].transform.Find("HealthText").GetComponent<Text>().text =
                     unitArray[i].GetComponent<Unit>().health.ToString() + "/" +
                     unitArray[i].GetComponent<Unit>().maxHealth.ToString();
-                Debug.Log(unitArray[i].name);
-                Debug.Log(playerCount + " + " + statBoxArray[playerCount].ToString());
             }
         }
-
-        Debug.Log(playerUnitsUI.Count);
 
         //TODO: Refactor code to use for loop
         if (playerStatBox1.transform.Find("Character").GetComponent<Image>().sprite == null)

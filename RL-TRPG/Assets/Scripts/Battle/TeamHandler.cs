@@ -18,9 +18,6 @@ public class TeamHandler : MonoBehaviour
     public int unitsMovable;
 
     [Space]
-    //GameObject[] unit = new GameObject[Team.units.Count];
-    public List<Unit> units = new List<Unit>();
-    [Space]
     public List<Unit> children = new List<Unit>();
 
     void Start()
@@ -47,7 +44,7 @@ public class TeamHandler : MonoBehaviour
                 }
 
                 // spawn in leader - needs refactoring
-                //Instantiate(Team.leader, new Vector2(spawnX, spawnY), Quaternion.identity, transform.parent = transform);
+                Instantiate(team.leader, new Vector2(spawnX, spawnY), Quaternion.identity, transform.parent = transform);
 
                 // fill in all units on the board from your team list
 
@@ -160,10 +157,10 @@ public class TeamHandler : MonoBehaviour
             // all dead.
             switch (side)
             {
-                case 1:
+                case 1: // win
                     gc.ended = true;
                     return true;
-                case 2:
+                case 2: // lose
                     gc.ended = true;
                     return true;
                 default:

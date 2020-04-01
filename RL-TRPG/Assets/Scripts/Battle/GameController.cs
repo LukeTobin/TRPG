@@ -79,7 +79,7 @@ public class GameController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(friendly <= 0 && !ended)
+        if (friendly <= 0 && !ended)
         {
             team1.UpdateUnitsToMove();
             team2.UpdateUnitsToMove();
@@ -91,7 +91,7 @@ public class GameController : MonoBehaviour
             friendly = 100;
         }
 
-        if(enemy <= 0 && !ended)
+        if (enemy <= 0 && !ended)
         {
             team1.UpdateUnitsToMove();
             team2.UpdateUnitsToMove();
@@ -191,7 +191,11 @@ public class GameController : MonoBehaviour
 
     public void Rewards()
     {
-        Debug.Log("won round.");
+        foreach(Unit unit in team1.children)
+        {
+            unit.SaveData();
+        }
+
         List<Unit> recruitList = new List<Unit>();
 
         for (int i = 0; i < 3; i++)
