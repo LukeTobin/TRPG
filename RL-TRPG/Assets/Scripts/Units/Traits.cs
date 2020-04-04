@@ -11,7 +11,8 @@ public class Traits : MonoBehaviour
     public enum Origin
     {
         human,
-        tiefling 
+        tiefling,
+        nymph
     }
 
     public enum Class

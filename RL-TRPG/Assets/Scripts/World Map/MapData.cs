@@ -1,15 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 
-public struct SerializableVecto2
+public class MapData : MonoBehaviour
 {
-    float x;
-    float y;
-}
+    public void LoadData()
+    {
+        
+    }
 
-[System.Serializable]
-public class MapData
-{
-
+    public class SavaObject
+    {
+        public Vector2 nodePosition;
+        
+    }
 }

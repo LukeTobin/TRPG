@@ -217,12 +217,20 @@ MonoBehaviour:
   title: Swordfighter
   moveSpeed: 3
   range: 1
+  level: 1
+  damageType: 0
   maxHealth: 22
-  maxAttackDamage: 14
+  maxAttackDamage: 15
   maxMagicDamage: 2
   maxArmor: 5
   maxResist: 7
   maxSpeed: 23
+  allAbilites:
+  - {fileID: 1200567594875824583, guid: d53c086b96d3c484aa63957174415143, type: 3}
+  - {fileID: 1207251135829449481, guid: f9807a9ed156b0b40a6c17358b79de5c, type: 3}
+  - {fileID: 8703390616175780915, guid: 85ddd932dd032f9409db6efb8e5f68f8, type: 3}
+  activeAbility: {fileID: 1207251135829449481, guid: f9807a9ed156b0b40a6c17358b79de5c,
+    type: 3}
   AllyInteractable: 0
   profile: {fileID: 21300000, guid: c192cc8b3d44b1b4ca34621dd98fcb9b, type: 3}
   sr: {fileID: 0}
@@ -236,9 +244,22 @@ MonoBehaviour:
   armor: 5
   resist: 7
   speed: 23
+  tempAD: 0
+  tempMD: 0
+  tempAR: 0
+  tempMR: 0
+  tempSP: 0
+  critChance: 0
+  blockChance: 0
+  bleedChance: 0
+  reducedDamage: 0
+  armorPen: 0
+  mrPen: 0
+  manaGrowth: 0
   playerNumber: 1
   isLeader: 0
   enemiesInRange: []
+  useAbility: 0
 --- !u!114 &-7879753135402672791
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -321,12 +342,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 50
-  m_Sprite: {fileID: 21300000, guid: 67b3fc507f4754a49a2233198245bdfc, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 0.8301887, g: 0.8301887, b: 0.8301887, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 4.5, y: 1.5}
+  m_Size: {x: 0.59, y: 0.59}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
@@ -402,12 +423,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 51
-  m_Sprite: {fileID: 21300000, guid: 67b3fc507f4754a49a2233198245bdfc, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 0.24857599, g: 0.9245283, b: 0.33480442, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.64, y: 0.64}
+  m_Size: {x: 0.59, y: 0.59}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0

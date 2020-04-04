@@ -124,8 +124,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   title: Melee Enemy
-  moveSpeed: 2
+  moveSpeed: 1
   range: 1
+  level: 1
   damageType: 0
   maxHealth: 15
   maxAttackDamage: 10
@@ -133,22 +134,37 @@ MonoBehaviour:
   maxArmor: 4
   maxResist: 1
   maxSpeed: 11
+  allAbilites: []
+  activeAbility: {fileID: 0}
   AllyInteractable: 0
   profile: {fileID: 0}
   sr: {fileID: 0}
   selected: 0
   hasMoved: 0
   hasAttacked: 0
-  health: 15
+  health: 12
   mana: 0
-  attackDamage: 10
+  attackDamage: 4
   magicDamage: 1
   armor: 4
   resist: 1
-  speed: 11
+  speed: 8
+  tempAD: 0
+  tempMD: 0
+  tempAR: 0
+  tempMR: 0
+  tempSP: 0
+  critChance: 0
+  blockChance: 0
+  bleedChance: 0
+  reducedDamage: 0
+  armorPen: 0
+  mrPen: 0
+  manaGrowth: 0
   playerNumber: 2
   isLeader: 0
   enemiesInRange: []
+  useAbility: 0
 --- !u!114 &2450159383510647683
 MonoBehaviour:
   m_ObjectHideFlags: 0

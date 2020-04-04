@@ -25,6 +25,7 @@ public class GameController : MonoBehaviour
     public GameObject optionBox;
     [Space]
     public Grid map;
+    public bool selected;
     GenerateTiles gt;
     UIManager uim;
     
@@ -44,6 +45,7 @@ public class GameController : MonoBehaviour
     public bool _clearList;
 
     bool uwu;
+    
 
     private void Start()
     {
@@ -75,6 +77,11 @@ public class GameController : MonoBehaviour
             team2.children.Clear();
             _clearList = false;
         }
+
+        if (selectedUnit != null)
+            selected = true;
+        else
+            selected = false;
     }
 
     private void FixedUpdate()
@@ -150,6 +157,7 @@ public class GameController : MonoBehaviour
                 unit.tempSP = 0;
 
                 unit.fade(false);
+                unit.marked = false;
             }
 
 
@@ -191,11 +199,13 @@ public class GameController : MonoBehaviour
 
     public void Rewards()
     {
+        // save each units data before ending
         foreach(Unit unit in team1.children)
         {
             unit.SaveData();
         }
 
+        // create a unique recruit list
         List<Unit> recruitList = new List<Unit>();
 
         for (int i = 0; i < 3; i++)
@@ -203,6 +213,10 @@ public class GameController : MonoBehaviour
             // need to check for dup's
             recruitList.Add(units[Random.Range(0, units.Count)]);
         }
+
+        // make sure the game knows its continuing
+        PlayerPrefs.SetInt("continued", 1);
+        PlayerPrefs.Save();
 
         uim.OfferRecruit(recruitList);
     }
@@ -235,6 +249,11 @@ public class GameController : MonoBehaviour
     {
         //team1.CheckIfAllDead();
         //team2.CheckIfAllDead();
+    }
+
+    public void YouDied()
+    {
+        EndGame();
     }
 
     public void EndGame()

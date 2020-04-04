@@ -17,6 +17,8 @@ public class TeamHandler : MonoBehaviour
     [SerializeField] int teamSize;
     public int unitsMovable;
 
+    bool youDied;
+
     [Space]
     public List<Unit> children = new List<Unit>();
 
@@ -30,8 +32,8 @@ public class TeamHandler : MonoBehaviour
             case 1:
                 // friendly team
                 // make sure the unit is spawned properly
-                float spawnX = gc.x / 2f;
-                float spawnY = 2f;
+                float spawnX = 2f;
+                float spawnY = gc.y / 2f;
 
                 if (spawnX % 2 != 0)
                 {
@@ -91,6 +93,11 @@ public class TeamHandler : MonoBehaviour
         if (CheckIfAllDead())
         {
             gc.Rewards();
+        }
+        else if (CheckIfAllDead() && youDied)
+        {
+            gc.YouDied();
+            youDied = false;
         }
         else
         {
@@ -161,6 +168,7 @@ public class TeamHandler : MonoBehaviour
                     gc.ended = true;
                     return true;
                 case 2: // lose
+                    youDied = true;
                     gc.ended = true;
                     return true;
                 default:

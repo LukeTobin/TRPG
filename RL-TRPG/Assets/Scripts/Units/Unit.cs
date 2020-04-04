@@ -60,7 +60,10 @@ public class Unit : MonoBehaviour
 
     // Ability Info
     [Header("Ability Info")]
-    public bool AllyInteractable;
+    public Ability[] allAbilites;
+    [Space]
+    public Ability activeAbility;
+    [HideInInspector] public bool AllyInteractable;
 
     //UI
     [Header("UI")]
@@ -76,16 +79,12 @@ public class Unit : MonoBehaviour
     // Current stats
     [Header("Public/Current Stats")]
     public int health;
-    public int mana;
+    [HideInInspector] public int mana;
     public int attackDamage;
     public int magicDamage;
     public int armor;
     public int resist;
     public int speed;
-    [Space]
-    public int armorPen;
-    public int mrPen;
-    public int manaGrowth;
 
     [Header("One Turn Stats - Leave 0")]
     public int tempAD;
@@ -94,6 +93,15 @@ public class Unit : MonoBehaviour
     public int tempMR;
     public int tempSP;
 
+    // Invisible Stats
+    [HideInInspector] public int critChance;
+    [HideInInspector] public int blockChance;
+    [HideInInspector] public int bleedChance;
+    [HideInInspector] public int reducedDamage;
+    [HideInInspector] public int armorPen;
+    [HideInInspector] public int mrPen;
+    [HideInInspector] public int manaGrowth;
+
     [Header("Player Stats")]
     public int playerNumber = 1;
     public bool isLeader;
@@ -101,6 +109,9 @@ public class Unit : MonoBehaviour
     [Space]
     public List<Unit> enemiesInRange = new List<Unit>(); // what enemies are in range of unit
 
+    [Header("Admin Tools")]
+    public bool useAbility;
+    public bool marked;
     #endregion
 
     #region Start / Load
@@ -120,7 +131,14 @@ public class Unit : MonoBehaviour
         range *= gc.cellSize;
         moveSpeed *= gc.cellSize;
 
+        attackDamage = maxAttackDamage;
+        magicDamage = maxMagicDamage;
+        armor = maxArmor;
+        resist = maxResist;
+        speed = maxSpeed;
+
         mana = 0;
+
         tempAD = 0;
         tempMD = 0;
         tempAR = 0;
@@ -129,6 +147,21 @@ public class Unit : MonoBehaviour
 
         LoadData();
 
+    }
+
+    private void Update()
+    {
+        if (useAbility)
+        {
+            UseAbility();
+            useAbility = false;
+        }
+
+        if(hasAttacked && hasMoved && !marked)
+        {
+            fade(true);
+            marked = true;
+        }
     }
 
     #endregion
@@ -176,9 +209,8 @@ public class Unit : MonoBehaviour
             if (gc.selectedUnit.enemiesInRange.Contains(unit) && !gc.selectedUnit.hasAttacked) 
             {
                 // attack selected enemy unit
-               // gc.optionBox.SetActive(false);
-                gc.selectedUnit.Attack(unit);
                 fade(true);
+                gc.selectedUnit.Attack(unit);
             }
         }
     }
@@ -193,7 +225,7 @@ public class Unit : MonoBehaviour
     }
     #endregion
 
-    #region Attacking
+    #region Attacking & Abilities
     void Attack(Unit enemy)
     {
         int enemyDamage;
@@ -221,7 +253,7 @@ public class Unit : MonoBehaviour
         {
             // damage enemy & update ui for it
             enemy.health -= enemyDamage;
-            sl.UpdateStatBox();
+            //sl.UpdateStatBox();
             //enemy.hb.SetSize(enemy.maxHealth, enemy.health); // update healthbar
         }
 
@@ -250,6 +282,20 @@ public class Unit : MonoBehaviour
         gc.ResetTiles();
 
         gc.CheckEnd();
+    }
+
+    void UseAbility()
+    {
+        if(mana >= activeAbility.cost)
+        {
+            mana -= activeAbility.cost;
+            Instantiate(activeAbility, transform);
+        }
+        else
+        {
+            // lacking mana points pop up
+
+        }
     }
     #endregion
 
@@ -376,7 +422,7 @@ public class Unit : MonoBehaviour
     public void LoadData()
     {
         health = PlayerPrefs.GetInt(title, health);
-        sl.UpdateStatBox();
+        //sl.UpdateStatBox();
     }
 
     public void ClearData()
@@ -388,16 +434,14 @@ public class Unit : MonoBehaviour
     #region Miscellaneous
     public void fade(bool used)
     {
-        /*
         if (used)
         {
             sr.color = new Color(.6f, .6f, .6f, 1f);
         }
-        else
+        else if(!used)
         {
             sr.color = new Color(1, 1, 1, 1);
         }
-        */
     }
 
     #endregion

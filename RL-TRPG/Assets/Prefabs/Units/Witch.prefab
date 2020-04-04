@@ -217,6 +217,7 @@ MonoBehaviour:
   title: Witch
   moveSpeed: 1
   range: 2
+  level: 1
   damageType: 1
   maxHealth: 20
   maxAttackDamage: 6
@@ -224,6 +225,12 @@ MonoBehaviour:
   maxArmor: 6
   maxResist: 12
   maxSpeed: 13
+  allAbilites:
+  - {fileID: 8703390616175780915, guid: 85ddd932dd032f9409db6efb8e5f68f8, type: 3}
+  - {fileID: 6906624108843419342, guid: 991fc021fcc5a7448a319edecaa513be, type: 3}
+  - {fileID: 6090498938446647253, guid: 5d1f88d91f868284ab5742d3dbef962a, type: 3}
+  activeAbility: {fileID: 6906624108843419342, guid: 991fc021fcc5a7448a319edecaa513be,
+    type: 3}
   AllyInteractable: 0
   profile: {fileID: 21300000, guid: 595c5eaeb10dc0a479a79ca2a30be93c, type: 3}
   sr: {fileID: 0}
@@ -237,9 +244,22 @@ MonoBehaviour:
   armor: 6
   resist: 12
   speed: 13
+  tempAD: 0
+  tempMD: 0
+  tempAR: 0
+  tempMR: 0
+  tempSP: 0
+  critChance: 0
+  blockChance: 0
+  bleedChance: 0
+  reducedDamage: 0
+  armorPen: 0
+  mrPen: 0
+  manaGrowth: 0
   playerNumber: 1
   isLeader: 0
   enemiesInRange: []
+  useAbility: 0
 --- !u!114 &-7879753135402672791
 MonoBehaviour:
   m_ObjectHideFlags: 0

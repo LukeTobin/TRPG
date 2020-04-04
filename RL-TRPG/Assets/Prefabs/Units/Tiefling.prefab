@@ -217,13 +217,20 @@ MonoBehaviour:
   title: Tiefling
   moveSpeed: 2
   range: 2
+  level: 1
   damageType: 2
   maxHealth: 18
-  maxAttackDamage: 15
-  maxMagicDamage: 20
+  maxAttackDamage: 12
+  maxMagicDamage: 12
   maxArmor: 9
   maxResist: 9
   maxSpeed: 20
+  allAbilites:
+  - {fileID: 1207251135829449481, guid: f9807a9ed156b0b40a6c17358b79de5c, type: 3}
+  - {fileID: 4106676067176458404, guid: 708e6fe8449e3f646a00c0738fec2416, type: 3}
+  - {fileID: 7416858730280765817, guid: 683b47b9a9ce8f4419ca56c4608724f2, type: 3}
+  activeAbility: {fileID: 7416858730280765817, guid: 683b47b9a9ce8f4419ca56c4608724f2,
+    type: 3}
   AllyInteractable: 0
   profile: {fileID: 21300000, guid: d608bd77f45f71341bdb8c9ca796bedf, type: 3}
   sr: {fileID: 0}
@@ -233,13 +240,26 @@ MonoBehaviour:
   health: 18
   mana: 0
   attackDamage: 16
-  magicDamage: 20
+  magicDamage: 16
   armor: 9
   resist: 9
   speed: 20
+  tempAD: 0
+  tempMD: 0
+  tempAR: 0
+  tempMR: 0
+  tempSP: 0
+  critChance: 0
+  blockChance: 0
+  bleedChance: 0
+  reducedDamage: 0
+  armorPen: 0
+  mrPen: 0
+  manaGrowth: 0
   playerNumber: 1
   isLeader: 0
   enemiesInRange: []
+  useAbility: 0
 --- !u!114 &-7879753135402672791
 MonoBehaviour:
   m_ObjectHideFlags: 0

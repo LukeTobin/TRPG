@@ -15,16 +15,30 @@ public class Node : MonoBehaviour
     public int stage;
     public int row;
     
-    bool visited;
+    public bool visited;
     [HideInInspector] public LineRenderer line;
     WorldManager world;
     SpriteRenderer sr;
+
+    bool updatedVisit;
 
     private void Awake()
     {
         line = GetComponent<LineRenderer>();
         world = FindObjectOfType<WorldManager>();
         sr = GetComponent<SpriteRenderer>();
+
+        if (visited)
+            Visited();
+    }
+
+    private void Update()
+    {
+        if (!updatedVisit && visited)
+        {
+            Visited();
+            updatedVisit = true;
+        }
     }
 
     private void OnMouseDown()
@@ -34,15 +48,15 @@ public class Node : MonoBehaviour
             if (nodeType == Type.Battle)
             {
                 world.currentStage++;
-                Debug.Log("Going to battle node");
-                SceneManager.LoadScene("TestingBoard");
-                visited = true;
+                Visited();
 
                 if(stage == 1)
                 {
                     world.BlockPaths(row);
                 }
 
+                world.SaveWorldState();
+                SceneManager.LoadScene("TestingBoard");
                 // get team
                 // create battle scenario
                 // send team to battle
@@ -58,6 +72,8 @@ public class Node : MonoBehaviour
                 {
                     world.BlockPaths(row);
                 }
+
+                world.SaveWorldState();
                 // open campfire screen
 
                 // prototype version: just restore health of all by X%
@@ -76,6 +92,8 @@ public class Node : MonoBehaviour
                 {
                     world.BlockPaths(row);
                 }
+
+                world.SaveWorldState();
                 // give mystery scenario
             }
 
@@ -91,6 +109,7 @@ public class Node : MonoBehaviour
                     world.BlockPaths(row);
                 }
 
+                world.SaveWorldState();
             }
         }
         else
@@ -109,6 +128,7 @@ public class Node : MonoBehaviour
     {
         visited = true;
         sr.color = new Color(.5f, .5f, .5f, 1f);
+        PlayerPrefs.SetInt(stage + "-" + row + ".visited", 1);
+        PlayerPrefs.Save();
     }
-
 }

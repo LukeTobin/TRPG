@@ -12,10 +12,10 @@ public class StatsLoader : MonoBehaviour
 
     GameObject[] statBoxArray;
 
-    [SerializeField] GameObject playerStatBox1;
-    [SerializeField] GameObject playerStatBox2;
-    [SerializeField] GameObject playerStatBox3;
-    [SerializeField] GameObject playerStatBox4;
+    [SerializeField] public GameObject playerStatBox1;
+    [SerializeField] public GameObject playerStatBox2;
+    [SerializeField] public GameObject playerStatBox3;
+    [SerializeField] public GameObject playerStatBox4;
 
 
     int playerCount = 0;

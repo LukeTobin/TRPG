@@ -5,7 +5,7 @@ using UnityEngine;
 public class BattleStatsLoader : MonoBehaviour
 {
     [SerializeField] GameObject player1StatBox, player2StatBox, player3StatBox, player4StatBox;
-    [SerializeField] GameObject[] units;
+    [SerializeField] public GameObject[] units;
     GameObject playerTeam;
 
     // Start is called before the first frame update

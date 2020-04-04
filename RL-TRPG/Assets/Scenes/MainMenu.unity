@@ -249,6 +249,10 @@ MonoBehaviour:
   - {fileID: 4700009066179185878, guid: 2624d43de3ec50b4bb56ab9aece71c4e, type: 3}
   - {fileID: 4700009066179185878, guid: d46f5592c914ae84baf267581e0250ea, type: 3}
   - {fileID: 4700009066179185878, guid: 627361cb8e81b8b4d8bc14ed778c4f31, type: 3}
+  - {fileID: 4700009066179185878, guid: b38a2d023d3cf0046ace5d9cd58ff9ba, type: 3}
+  - {fileID: 4700009066179185878, guid: f9676196c9fe7a944ad9729320571994, type: 3}
+  - {fileID: 4700009066179185878, guid: fc2f968fecfc9b54c8ee942da9116321, type: 3}
+  - {fileID: 4700009066179185878, guid: acd0c53131f33124ba5d9831b846d9a6, type: 3}
   team: {fileID: 712589737}
   curHero: {fileID: 0}
 --- !u!1 &92286793
@@ -784,8 +788,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 815342560}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.67, y: -0.741, z: 10.541016}
-  m_LocalScale: {x: 8, y: 8.528, z: 8}
+  m_LocalPosition: {x: -1.178, y: -0.741, z: 10.541016}
+  m_LocalScale: {x: 8.36, y: 8.528, z: 8}
   m_Children: []
   m_Father: {fileID: 1058899981}
   m_RootOrder: 0
