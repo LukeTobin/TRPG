@@ -75,7 +75,7 @@ public class CreateNode : MonoBehaviour
         node.transform.parent = transform;
         node.GetComponent<Node>().stage = stage;
         node.GetComponent<Node>().row = row;
-        if (PlayerPrefs.GetInt(stage + "-" + row + ".vitied") == 1)
+        if (PlayerPrefs.GetInt(stage + "-" + row + ".visited") == 1)
             node.GetComponent<Node>().visited = true;
         world.nodeList.Add(node.GetComponent<Node>());
     }

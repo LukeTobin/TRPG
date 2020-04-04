@@ -85,9 +85,9 @@ public class UIManager : MonoBehaviour
         recruits.Add(offers[1]);
         recruits.Add(offers[2]);
 
-       // recruitBtn1.onClick.AddListener(delegate { AddUnit(recruits[0]); });
-       // recruitBtn2.onClick.AddListener(delegate { AddUnit(recruits[1]); });
-       // recruitBtn3.onClick.AddListener(delegate { AddUnit(recruits[2]); });
+        recruitBtn1.onClick.AddListener(delegate { AddUnit(offers[0]); });
+        recruitBtn2.onClick.AddListener(delegate { AddUnit(offers[1]); });
+        recruitBtn3.onClick.AddListener(delegate { AddUnit(offers[2]); });
     }
 
     public void RemoveOffers()
