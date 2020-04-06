@@ -12,6 +12,8 @@ TagManager:
   - Team
   - HealthText
   - PlayerTeam
+  - GameManager
+  - EnemyTeam
   layers:
   - Default
   - TransparentFX

@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 303857822208063369}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_Children:
   - {fileID: 8905357663929129213}
   m_Father: {fileID: 0}
@@ -109,7 +109,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2, y: 2}
+  m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
 --- !u!114 &1765837714294944356
 MonoBehaviour:
@@ -124,7 +124,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   title: Melee Enemy
-  moveSpeed: 1
+  moveSpeed: 2
   range: 1
   level: 1
   damageType: 0
@@ -165,6 +165,7 @@ MonoBehaviour:
   isLeader: 0
   enemiesInRange: []
   useAbility: 0
+  marked: 0
 --- !u!114 &2450159383510647683
 MonoBehaviour:
   m_ObjectHideFlags: 0

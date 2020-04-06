@@ -10,6 +10,7 @@ public class TeamHandler : MonoBehaviour
      */
 
     GameController gc;
+    GameManager gm;
     Team team;
 
     [Header("Team stats")]
@@ -25,6 +26,7 @@ public class TeamHandler : MonoBehaviour
     void Start()
     {
         gc = FindObjectOfType<GameController>();
+        gm = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
         team = FindObjectOfType<Team>(); // lets us access team object from map scene.
 
         switch (side)
@@ -54,8 +56,8 @@ public class TeamHandler : MonoBehaviour
                 {
                     for (int i = 0; i < team.units.Count; i++)
                     {
-                        float yRange = Random.Range(0, gc.y / 2); yRange *= gc.cellSize;
-                        float xRange = Random.Range(0, gc.x / 2); xRange *= gc.cellSize;
+                        float yRange = Random.Range(0, gc.y); yRange *= gc.cellSize;
+                        float xRange = Random.Range(0, 3); xRange *= gc.cellSize;
 
                         Unit unit = Instantiate(team.units[i], new Vector3(xRange, yRange, 0), Quaternion.identity, transform.parent = transform);
                         unit.transform.parent = transform;
@@ -64,6 +66,18 @@ public class TeamHandler : MonoBehaviour
                 break;
             case 2:
                 // enemy spawning stuff
+                int enm = gm.currentStage * Random.Range(1, 3);
+                for (int i = 0; i < enm; i++)
+                {
+                    float yRange = Random.Range(0, gc.y); yRange *= gc.cellSize;
+                    float xRange = Random.Range(gc.x-3, gc.x); xRange *= gc.cellSize;
+
+                    Unit enemy = Instantiate(gm.enemyList[Random.Range(0, gm.enemyList.Count)], new Vector3(xRange, yRange,0), Quaternion.identity, transform);
+                    enemy.health += 3 * gm.currentStage;
+                    enemy.attackDamage += 2 * gm.currentStage;
+                    enemy.armor += gm.currentStage;
+                    enemy.resist += gm.currentStage;
+                }
                 break;
             default:
                 break;

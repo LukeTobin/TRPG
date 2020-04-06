@@ -77,7 +77,7 @@ public class Pathfinding : MonoBehaviour
         List<Tile> path = FindPath((int)startPos.x, (int)startPos.y, (int)endPos.x, (int)endPos.y);
         if(path == null)
         {
-            Debug.Log("Null Path");
+            Debug.Log("couldnt move from " + (int)startPos.x + "," + (int)startPos.y + " : to : " + (int)endPos.x + "," + (int)endPos.y);
             return null;
         }
         else

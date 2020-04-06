@@ -19,6 +19,8 @@ public class Node : MonoBehaviour
     [HideInInspector] public LineRenderer line;
     WorldManager world;
     SpriteRenderer sr;
+    GameManager gm;
+    Team team;
 
     bool updatedVisit;
 
@@ -27,6 +29,9 @@ public class Node : MonoBehaviour
         line = GetComponent<LineRenderer>();
         world = FindObjectOfType<WorldManager>();
         sr = GetComponent<SpriteRenderer>();
+        team = GameObject.FindGameObjectWithTag("Team").GetComponent<Team>();
+
+        gm = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
 
         if (visited)
             Visited();
@@ -43,14 +48,15 @@ public class Node : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if(world.currentStage == stage && !visited)
+        if (world.currentStage == stage && !visited)
         {
             if (nodeType == Type.Battle)
             {
                 world.currentStage++;
+                gm.currentStage++;
                 Visited();
 
-                if(stage == 1)
+                if (stage == 1)
                 {
                     world.BlockPaths(row);
                 }
@@ -66,6 +72,7 @@ public class Node : MonoBehaviour
             if (nodeType == Type.Campfire)
             {
                 world.currentStage++;
+                gm.currentStage++;
                 Debug.Log("Going to campfire node");
                 Visited();
                 if (stage == 1)
@@ -76,6 +83,18 @@ public class Node : MonoBehaviour
                 world.SaveWorldState();
                 // open campfire screen
 
+                foreach(Unit unit in team.units)
+                {
+                    int percent = (unit.maxHealth / 100) * 20;
+                    unit.health += percent;
+
+                    if (unit.health > unit.maxHealth)
+                    {
+                        unit.health = unit.maxHealth;
+                    }
+
+                }
+
                 // prototype version: just restore health of all by X%
                 // get team list
                 // loop each and restore X% health
@@ -85,6 +104,7 @@ public class Node : MonoBehaviour
             if (nodeType == Type.Mystery)
             {
                 world.currentStage++;
+                gm.currentStage++;
                 Debug.Log("Going to mystery node");
                 Visited();
 
@@ -97,9 +117,10 @@ public class Node : MonoBehaviour
                 // give mystery scenario
             }
 
-            if(nodeType == Type.Shop)
+            if (nodeType == Type.Shop)
             {
                 world.currentStage++;
+                gm.currentStage++;
                 Debug.Log("Going to shop node");
                 Visited();
                 // shop menu
@@ -110,6 +131,16 @@ public class Node : MonoBehaviour
                 }
 
                 world.SaveWorldState();
+            }
+        }
+        else if (world.currentStage > 5)
+        {
+            if (nodeType == Type.Battle)
+            {
+                world.currentStage++;
+                gm.currentStage++;
+                world.SaveWorldState();
+                SceneManager.LoadScene("TestingBoard");
             }
         }
         else

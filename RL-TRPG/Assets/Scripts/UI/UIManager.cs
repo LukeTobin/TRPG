@@ -59,6 +59,7 @@ public class UIManager : MonoBehaviour
         team = FindObjectOfType<Team>();
         endTurnBtn.onClick.AddListener(gc.EndTurn);
         infoButton.onClick.AddListener(delegate { ShowInfo(gc.selected, gc.selectedUnit); });
+        useAbility.onClick.AddListener(delegate { Ability(gc.selectedUnit); });
 
         recruitPanel.SetActive(false);
         infoPanel.SetActive(false);
@@ -109,6 +110,11 @@ public class UIManager : MonoBehaviour
     {
         RemoveOffers();
         gc.EndGame();
+    }
+
+    void Ability(Unit unit)
+    {
+        unit.UseAbility();
     }
     
     void ShowInfo(bool selected, Unit unit = null)

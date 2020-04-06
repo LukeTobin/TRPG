@@ -226,7 +226,7 @@ public class Unit : MonoBehaviour
     #endregion
 
     #region Attacking & Abilities
-    void Attack(Unit enemy)
+    public void Attack(Unit enemy)
     {
         int enemyDamage;
 
@@ -284,7 +284,7 @@ public class Unit : MonoBehaviour
         gc.CheckEnd();
     }
 
-    void UseAbility()
+    public void UseAbility()
     {
         if(mana >= activeAbility.cost)
         {
@@ -363,6 +363,15 @@ public class Unit : MonoBehaviour
     }
 
     // move unit to the selected tile position
+    public bool CanMove(Vector2 pos)
+    {
+        List<Vector2> movePath = path.FindPath(transform.position, pos);
+        if (movePath != null)
+            return true;
+        else
+            return false;
+    }
+
     public void Move(Vector2 tilePos)
     {
         //gc.optionBox.SetActive(false);

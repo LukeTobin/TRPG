@@ -19,6 +19,8 @@ public class GameController : MonoBehaviour
     [Header("Access")]
     public TeamHandler team1;
     public TeamHandler team2;
+    public Team allTeam;
+    public EnemyManager em;
     [Space]
     public GameObject tile;
     public Unit selectedUnit;
@@ -43,6 +45,8 @@ public class GameController : MonoBehaviour
     [Header("Admin Tests")]
     public bool _forceEnd;
     public bool _clearList;
+    public bool _test;
+    public int k, b;
 
     bool uwu;
     
@@ -51,6 +55,8 @@ public class GameController : MonoBehaviour
     {
         uim = GameObject.FindGameObjectWithTag("BoardUI").GetComponent<UIManager>();
         gt = GetComponent<GenerateTiles>();
+        em = GameObject.FindGameObjectWithTag("EnemyTeam").GetComponent<EnemyManager>();
+        allTeam = GameObject.FindGameObjectWithTag("Team").GetComponent<Team>();
 
         GameObject StoredTiles = new GameObject("StoredTiles");
         map = new Grid(x, y, cellSize, tile, StoredTiles); // creates grid
@@ -76,6 +82,18 @@ public class GameController : MonoBehaviour
             team1.children.Clear();
             team2.children.Clear();
             _clearList = false;
+        }
+
+        if (_test)
+        {
+            selectedUnit.Move(new Vector2(k, b));
+
+            _test = false;
+        }
+
+        if (Input.GetButtonDown("Jump"))
+        {
+            EndTurn();
         }
 
         if (selectedUnit != null)
@@ -167,6 +185,7 @@ public class GameController : MonoBehaviour
                 case 1:
                     playerTurn = 2;
                     team2.UpdateUnitsToMove();
+                    //em.ControlEnemies();
                     break;
                 case 2:
                     playerTurn = 1;
@@ -207,18 +226,41 @@ public class GameController : MonoBehaviour
 
         // create a unique recruit list
         List<Unit> recruitList = new List<Unit>();
+        List<Unit> closedList = team1.children;
 
-        for (int i = 0; i < 3; i++)
+        if(closedList.Count < 5)
         {
-            // need to check for dup's
-            recruitList.Add(units[Random.Range(0, units.Count)]);
+            for (int i = 0; recruitList.Count < 4; i++)
+            {
+                // need to check for dup's
+                Unit tempUnit = units[Random.Range(0, units.Count)];
+                if(!closedList.Contains(tempUnit) && !recruitList.Contains(tempUnit))
+                {
+                    recruitList.Add(tempUnit);
+                }
+                else
+                {
+                    tempUnit = null;
+                }
+            }
+
+            PlayerPrefs.SetInt("continued", 1);
+            PlayerPrefs.Save();
+
+            uim.OfferRecruit(recruitList);
         }
+        else
+        {
+            PlayerPrefs.SetInt("continued", 1);
+            PlayerPrefs.Save();
+
+            EndGame();
+        }        
 
         // make sure the game knows its continuing
-        PlayerPrefs.SetInt("continued", 1);
-        PlayerPrefs.Save();
+        
 
-        uim.OfferRecruit(recruitList);
+        
     }
 
     public void KillUnit(Unit unit, int side)
@@ -229,6 +271,7 @@ public class GameController : MonoBehaviour
             case 1:
                 friendly--;
                 team1.children.Clear();
+                allTeam.units.Remove(unit);
                 Destroy(unit.gameObject);
                 break;
             case 2:

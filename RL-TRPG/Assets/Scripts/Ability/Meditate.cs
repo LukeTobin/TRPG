@@ -17,6 +17,11 @@ public class Meditate : MonoBehaviour
         int percent = (unit.maxHealth / 100) * 10;
         unit.health += percent;
 
+        if(unit.health > unit.maxHealth)
+        {
+            unit.health = unit.maxHealth;
+        }
+
         Destroy(gameObject);
     }
 }
