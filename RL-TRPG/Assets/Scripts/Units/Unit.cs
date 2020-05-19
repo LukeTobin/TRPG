@@ -226,27 +226,15 @@ public class Unit : MonoBehaviour
     #endregion
 
     #region Attacking & Abilities
+    /// <summary>
+    /// Function for attacking a unit.
+    /// </summary>
+    /// <param name="enemy">Unit to be attacked</param>
     public void Attack(Unit enemy)
     {
         int enemyDamage;
 
-        // get damage to enemy
-        switch (damageType)
-        {
-            case PreferredDamage.magic:
-                enemyDamage = magicDamage - enemy.resist;
-                break;
-            case PreferredDamage.physical:
-                enemyDamage = attackDamage - enemy.armor;
-                break;
-            case PreferredDamage.mixed:
-                enemyDamage = ((attackDamage / 2) + (magicDamage / 2)) - ((enemy.armor / 2) + (enemy.resist / 2));
-                break;
-            default:
-                enemyDamage = 0;
-                Debug.LogError("Could not find damage type");
-                break;
-        }
+        enemyDamage = DamageCalc(enemy);
 
         // if the enemy damage actually does something
         if (enemyDamage >= 1)
@@ -280,8 +268,68 @@ public class Unit : MonoBehaviour
         team.unitsMovable--;
         team.CheckIfEnd();
         gc.ResetTiles();
+    }
 
-        gc.CheckEnd();
+    /// <summary>
+    /// Calculate damage to be done to the enemy unit
+    /// </summary>
+    /// <param name="enemy">Unit that is being attacked</param>
+    /// <returns></returns>
+    int DamageCalc(Unit enemy)
+    {
+        int enemyDamage = 0;
+
+        // get damage to enemy
+        switch (damageType)
+        {
+            case PreferredDamage.magic:
+                if(mrPen > 0)
+                {
+                    int TargetResist = (enemy.resist + enemy.tempMR);
+                    int ResistReduction = (TargetResist / 100) * mrPen;
+                    enemyDamage = (magicDamage + tempMD) - (TargetResist - ResistReduction);
+                }
+                else
+                {
+                    enemyDamage = (magicDamage + tempMD) - (enemy.resist + enemy.tempMR);
+                }
+                break;
+            case PreferredDamage.physical:
+                if(armorPen > 0)
+                {
+                    int TargetArmor = enemy.armor + enemy.tempAR;
+                    int ArmorReduction = (TargetArmor / 100) * armorPen;
+                    enemyDamage = (attackDamage + tempAD) - (TargetArmor - ArmorReduction);
+                }
+                else
+                {
+                    enemyDamage = (attackDamage + tempAD) - (enemy.armor + enemy.tempAR);
+                }
+                break;
+            case PreferredDamage.mixed:
+                if(mrPen > 0 || armorPen > 0)
+                {
+                    int TargetResist = (enemy.resist + enemy.tempMR);
+                    int ResistReduction = (TargetResist / 100) * mrPen;
+
+                    int TargetArmor = enemy.armor + enemy.tempAR;
+                    int ArmorReduction = (TargetArmor / 100) * armorPen;
+
+                    enemyDamage = (((attackDamage + tempAD) / 2) + ((magicDamage + tempMD) / 2)) - (((TargetArmor - ArmorReduction) / 2) + ((TargetResist - ResistReduction) / 2));
+                }
+                else
+                {
+                    enemyDamage = (((attackDamage + tempAD) / 2) + ((magicDamage + tempMD) / 2)) - (((enemy.armor + enemy.tempAR) / 2) + ((enemy.resist + enemy.tempMR) / 2));
+                }
+                
+                break;
+            default:
+                enemyDamage = 0;
+                Debug.LogError("Could not find damage type");
+                break;
+        }
+
+        return enemyDamage;
     }
 
     public void UseAbility()

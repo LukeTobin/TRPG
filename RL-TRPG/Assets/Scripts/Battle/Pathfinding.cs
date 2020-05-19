@@ -138,12 +138,13 @@ public class Pathfinding : MonoBehaviour
 
             foreach(Tile neighbourNode in GetNeighbourList(currentNode))
             {
-                if (closedList.Contains(neighbourNode)) continue;
-                
+                if (closedList.Contains(neighbourNode)) 
+                    continue;
+
                 if (!neighbourNode.isWalkable)
                 {
                     closedList.Add(neighbourNode);
-                    continue;
+                    //continue;
                 }
 
                 int tentativeGCost = currentNode.g + CalculateDistanceCost(currentNode, neighbourNode);

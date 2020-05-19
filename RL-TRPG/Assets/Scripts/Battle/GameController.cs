@@ -70,6 +70,7 @@ public class GameController : MonoBehaviour
 
     private void Update()
     {
+        #region Admin Tests & Keybinds
         // admin command, setting it true ends the turn and sets itself back to false.
         if (_forceEnd)
         {
@@ -96,14 +97,11 @@ public class GameController : MonoBehaviour
             EndTurn();
         }
 
-        if (selectedUnit != null)
-            selected = true;
-        else
-            selected = false;
-    }
+        #endregion
 
-    private void FixedUpdate()
-    {
+        #region Update Logic
+
+        // should be refactored so logic isnt inside update.
         if (friendly <= 0 && !ended)
         {
             team1.UpdateUnitsToMove();
@@ -127,6 +125,15 @@ public class GameController : MonoBehaviour
             enemy = 100;
             friendly = 100;
         }
+
+        // Not sure why this is here? may break / fix something - but commenting out for now
+        /* 
+        if (selectedUnit != null)
+            selected = true;
+        else
+            selected = false;*/
+
+        #endregion
     }
 
     // reset everything about the tile (color, stored coords, etc) - will probably be changed up more in the future
@@ -140,7 +147,13 @@ public class GameController : MonoBehaviour
         }
     }
 
-    // end turn
+    /// <summary>
+    /// Ends Turn:
+    /// - Update all units that need to be moved
+    /// - Check if either side all died
+    /// - Reset all tiles and units
+    /// - Swap Player turns
+    /// </summary>
     public void EndTurn()
     {
         team1.UpdateUnitsToMove();
@@ -185,7 +198,6 @@ public class GameController : MonoBehaviour
                 case 1:
                     playerTurn = 2;
                     team2.UpdateUnitsToMove();
-                    //em.ControlEnemies();
                     break;
                 case 2:
                     playerTurn = 1;
@@ -198,24 +210,21 @@ public class GameController : MonoBehaviour
             // Update UI 
             uim.UpdateTurn();
         }
+
+        if (playerTurn == 2)
+            GetEnemyMoves();
         
     }
 
     // experimental option box, hasnt been implmented yet
     public void CreateOptionBox(Unit unit, Vector2 pos)
     {
-        if (!uwu)
-        {
-            optionBox.SetActive(true);
-            uwu = true;
-        }
-        else if(uwu)
-        {
-            optionBox.SetActive(false);
-            uwu = false;
-        }
+        
     }
 
+    /// <summary>
+    /// Give out rewards
+    /// </summary>
     public void Rewards()
     {
         // save each units data before ending
@@ -255,17 +264,16 @@ public class GameController : MonoBehaviour
             PlayerPrefs.Save();
 
             EndGame();
-        }        
-
-        // make sure the game knows its continuing
-        
-
-        
+        }          
     }
 
+    /// <summary>
+    /// Function for cleaning killing a unit
+    /// </summary>
+    /// <param name="unit">What unit needs to die</param>
+    /// <param name="side">What side the unit was apart of</param>
     public void KillUnit(Unit unit, int side)
     {
-
         switch (side)
         {
             case 1:
@@ -288,19 +296,38 @@ public class GameController : MonoBehaviour
         team2.UpdateUnitsToMove();
     }
 
-    public void CheckEnd()
-    {
-        //team1.CheckIfAllDead();
-        //team2.CheckIfAllDead();
-    }
-
     public void YouDied()
     {
+        Debug.Log("player died.");
+        // add later to show an end game screen
         EndGame();
     }
 
     public void EndGame()
     {
         SceneManager.LoadScene("Map");
+    }
+
+    /// <summary>
+    /// Generates 2 lists (enemies, targets) and passes them to the enemymanager
+    /// </summary>
+    public void GetEnemyMoves()
+    {
+        // get list
+        List<Unit> enemies = new List<Unit>();
+        enemies.Clear();
+        for (int i = 0; i < team2.children.Count; i++)
+        {
+            enemies.Add(team2.children[i]);
+        }
+
+        List<Unit> targets = new List<Unit>();
+        targets.Clear();
+        for (int i = 0; i < team1.children.Count; i++)
+        {
+            targets.Add(team1.children[i]);
+        }
+
+        em.ControlEnemies(enemies, targets);
     }
 }

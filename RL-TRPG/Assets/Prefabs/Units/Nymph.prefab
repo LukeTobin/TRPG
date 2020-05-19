@@ -216,7 +216,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   title: Nymph Duelist
-  moveSpeed: 3
+  moveSpeed: 2
   range: 1
   level: 1
   damageType: 2
