@@ -22,7 +22,7 @@ public class TraitBonuses : MonoBehaviour
     void Start()
     {
         teamHandler = GetComponent<TeamHandler>();
-        units = teamHandler.children;
+        units = teamHandler.friendlyUnits;
 
         human = 0; tiefling = 0; duelist = 0; arcane = 0; brawler = 0; ranger = 0; rogue = 0;
 

@@ -81,19 +81,10 @@ public class Node : MonoBehaviour
                 }
 
                 world.SaveWorldState();
+
                 // open campfire screen
+                world.campfire.SetCampfireActive();
 
-                foreach(Unit unit in team.units)
-                {
-                    int percent = (unit.maxHealth / 100) * 20;
-                    unit.health += percent;
-
-                    if (unit.health > unit.maxHealth)
-                    {
-                        unit.health = unit.maxHealth;
-                    }
-
-                }
 
                 // prototype version: just restore health of all by X%
                 // get team list

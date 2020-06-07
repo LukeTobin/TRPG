@@ -26,11 +26,13 @@ public class Unit : MonoBehaviour
      */
 
     #region Variables
+
+    // OOP
     GameController gc;
-    TeamHandler team;
     Healthbar hb;
     Pathfinding path;
     StatsLoader sl;
+    UnitCanvas uCanvas;
 
     public enum PreferredDamage
     {
@@ -46,7 +48,6 @@ public class Unit : MonoBehaviour
     public int range;
     public int level = 1;
     public PreferredDamage damageType;
-
 
     // Base Stats
     // can be refactored from max to base at a later time, doesnt matter right now
@@ -79,7 +80,7 @@ public class Unit : MonoBehaviour
     // Current stats
     [Header("Public/Current Stats")]
     public int health;
-    [HideInInspector] public int mana;
+    public int mana;
     public int attackDamage;
     public int magicDamage;
     public int armor;
@@ -101,6 +102,7 @@ public class Unit : MonoBehaviour
     [HideInInspector] public int armorPen;
     [HideInInspector] public int mrPen;
     [HideInInspector] public int manaGrowth;
+    [HideInInspector] public int moral;
 
     [Header("Player Stats")]
     public int playerNumber = 1;
@@ -121,8 +123,8 @@ public class Unit : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
         sl = FindObjectOfType<StatsLoader>();
 
-        team = gameObject.GetComponentInParent<TeamHandler>();
         hb = GetComponentInChildren<Healthbar>();
+        uCanvas = GetComponentInChildren<UnitCanvas>();
         path = GetComponent<Pathfinding>();
 
         //hb.gameObject.SetActive(false);
@@ -156,12 +158,6 @@ public class Unit : MonoBehaviour
             UseAbility();
             useAbility = false;
         }
-
-        if(hasAttacked && hasMoved && !marked)
-        {
-            fade(true);
-            marked = true;
-        }
     }
 
     #endregion
@@ -193,7 +189,7 @@ public class Unit : MonoBehaviour
                 gc.ResetTiles();
                 GetEnemies();
                 GetWalkableTiles();
-                team.UpdateUnitsToMove();
+                gc.teams.UpdateUnitsToMove(TeamHandler.UpdateType.friendly);
             }
         }
 
@@ -206,21 +202,11 @@ public class Unit : MonoBehaviour
         if (gc.selectedUnit != null)
         {
             // check if the unit you selected is in range & you havent yet attacked
-            if (gc.selectedUnit.enemiesInRange.Contains(unit) && !gc.selectedUnit.hasAttacked) 
+            if (gc.selectedUnit.enemiesInRange.Contains(unit) && !gc.selectedUnit.hasAttacked)
             {
                 // attack selected enemy unit
-                fade(true);
                 gc.selectedUnit.Attack(unit);
             }
-        }
-    }
-
-    // create options menu - TODO
-    private void OnMouseOver()
-    {
-        if (Input.GetMouseButtonDown(1))
-        {
-            gc.CreateOptionBox(this, transform.position);
         }
     }
     #endregion
@@ -230,8 +216,10 @@ public class Unit : MonoBehaviour
     /// Function for attacking a unit.
     /// </summary>
     /// <param name="enemy">Unit to be attacked</param>
-    public void Attack(Unit enemy)
+    public void Attack(Unit enemy, bool updateMoveable = false)
     {
+        fade(true);
+
         int enemyDamage;
 
         enemyDamage = DamageCalc(enemy);
@@ -241,8 +229,8 @@ public class Unit : MonoBehaviour
         {
             // damage enemy & update ui for it
             enemy.health -= enemyDamage;
-            //sl.UpdateStatBox();
-            //enemy.hb.SetSize(enemy.maxHealth, enemy.health); // update healthbar
+            UpdateUCanvas();
+            enemy.UpdateUCanvas();
         }
 
         // if enemy unit dies, kill it & update tiles
@@ -257,7 +245,7 @@ public class Unit : MonoBehaviour
         {
             gc.ResetTiles();
             gc.KillUnit(this, playerNumber);
-            team.UpdateUnitsToMove();
+            gc.teams.UpdateUnitsToMove(TeamHandler.UpdateType.all);
         }
 
         // setting units moved & attacked to true
@@ -265,9 +253,19 @@ public class Unit : MonoBehaviour
         hasAttacked = true;
 
         // updating that we have moved
-        team.unitsMovable--;
-        team.CheckIfEnd();
+        if (playerNumber == 1)
+        {
+            gc.teams.fAttack--;
+            gc.teams.friendlyUnitsMovable--;
+        }
+        else
+        {
+            gc.teams.eAttack--;
+            gc.teams.enemyUnitsMovable--;
+        }
         gc.ResetTiles();
+
+        gc.CheckEnds(updateMoveable);
     }
 
     /// <summary>
@@ -283,7 +281,7 @@ public class Unit : MonoBehaviour
         switch (damageType)
         {
             case PreferredDamage.magic:
-                if(mrPen > 0)
+                if (mrPen > 0)
                 {
                     int TargetResist = (enemy.resist + enemy.tempMR);
                     int ResistReduction = (TargetResist / 100) * mrPen;
@@ -295,7 +293,7 @@ public class Unit : MonoBehaviour
                 }
                 break;
             case PreferredDamage.physical:
-                if(armorPen > 0)
+                if (armorPen > 0)
                 {
                     int TargetArmor = enemy.armor + enemy.tempAR;
                     int ArmorReduction = (TargetArmor / 100) * armorPen;
@@ -307,7 +305,7 @@ public class Unit : MonoBehaviour
                 }
                 break;
             case PreferredDamage.mixed:
-                if(mrPen > 0 || armorPen > 0)
+                if (mrPen > 0 || armorPen > 0)
                 {
                     int TargetResist = (enemy.resist + enemy.tempMR);
                     int ResistReduction = (TargetResist / 100) * mrPen;
@@ -321,7 +319,7 @@ public class Unit : MonoBehaviour
                 {
                     enemyDamage = (((attackDamage + tempAD) / 2) + ((magicDamage + tempMD) / 2)) - (((enemy.armor + enemy.tempAR) / 2) + ((enemy.resist + enemy.tempMR) / 2));
                 }
-                
+
                 break;
             default:
                 enemyDamage = 0;
@@ -334,10 +332,11 @@ public class Unit : MonoBehaviour
 
     public void UseAbility()
     {
-        if(mana >= activeAbility.cost)
+        if (mana >= activeAbility.cost)
         {
             mana -= activeAbility.cost;
             Instantiate(activeAbility, transform);
+            UpdateUCanvas();
         }
         else
         {
@@ -347,7 +346,7 @@ public class Unit : MonoBehaviour
     }
     #endregion
 
-    #region Movement & Tiles
+    #region Collect Tiles & Enemies
     void GetWalkableTiles()
     {
         if (hasMoved && hasAttacked)
@@ -392,6 +391,29 @@ public class Unit : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Get a list of all tiles the unit can currently walk to
+    /// </summary>
+    /// <returns>A list of Tile's that can be moved too</returns>
+    public List<Tile> ReturnWalkableTiles()
+    {
+        List<Tile> walkableTiles = new List<Tile>();
+
+        foreach (Tile tile in FindObjectsOfType<Tile>())
+        {
+            if (Mathf.Abs(transform.position.x - tile.transform.position.x) + Mathf.Abs(transform.position.y - tile.transform.position.y) <= moveSpeed)
+            {
+                if (tile.IsClear(transform.position, moveSpeed, AllyInteractable)) // check if tile is clear
+                {
+                    tile.Highlight(); // highlight tile if in range
+                    walkableTiles.Add(tile);
+                }
+            }
+        }
+
+        return walkableTiles;
+    }
+
     void GetEnemies() // get all enemies in range of selected unit
     {
         enemiesInRange.Clear(); // remove all enemies in range within the list
@@ -409,56 +431,53 @@ public class Unit : MonoBehaviour
             }
         }
     }
+    #endregion
+
+    #region Movement
 
     // move unit to the selected tile position
     public bool CanMove(Vector2 pos)
     {
-        List<Vector2> movePath = path.FindPath(transform.position, pos);
-        if (movePath != null)
-            return true;
-        else
+        if (pos.x > (gc.x * gc.cellSize) || pos.y > (gc.y * gc.cellSize) || pos.x < 0 || pos.y < 0)
+        {
             return false;
+        }
+        else
+        {
+            List<Vector2> movePath = path.FindPath(transform.position, pos);
+            if (movePath != null)
+                return true;
+            else
+                return false;
+        }
     }
 
-    public void Move(Vector2 tilePos)
+    public void Move(Vector2 tilePos, bool isEnemy = false)
     {
         //gc.optionBox.SetActive(false);
         List<Vector2> movePath = path.FindPath(transform.position, tilePos);
-        if(movePath != null)
-            MakeMove(movePath);
+        if (movePath != null)
+            MakeMove(movePath, isEnemy);
         //StartCoroutine(StartMove(tilePos));
         gc.ResetTiles();
     }
 
-    void MakeMove(List<Vector2> dir)
+    void MakeMove(List<Vector2> dir, bool isEnemy = false)
     {
-
-        StartCoroutine(StartMove(dir[dir.Count-1]));
-        
-        // state that the unit has moved & unselect it
-        gc.selectedUnit.hasMoved = true;
-        hasMoved = true;
-        gc.selectedUnit = null;
-        selected = false;
+        StartCoroutine(StartMove(dir[dir.Count - 1], isEnemy));
 
         // update enemies in range
         GetEnemies();
-
-        // if they moved & attacked, remove them from movable units & 
-        if (hasMoved && hasAttacked)
-        {
-            team.unitsMovable--;
-            team.CheckIfEnd();
-        }
     }
 
     // move unit
-    IEnumerator StartMove(Vector2 tilePos)
+    IEnumerator StartMove(Vector2 tilePos, bool isEnemy = false)
     {
         while (transform.position.x != tilePos.x)
         {
             transform.position = Vector2.MoveTowards(transform.position, new Vector2(tilePos.x, transform.position.y), gc.GameSpeed * Time.deltaTime);
             yield return null;
+
         }
 
         while (transform.position.y != tilePos.y)
@@ -466,6 +485,48 @@ public class Unit : MonoBehaviour
             transform.position = Vector2.MoveTowards(transform.position, new Vector2(transform.position.x, tilePos.y), gc.GameSpeed * Time.deltaTime);
             yield return null;
         }
+
+        if (isEnemy)
+        {
+            if(gc.selectedUnit != null)
+                gc.selectedUnit.hasMoved = true;
+            hasMoved = true;
+            gc.selectedUnit = null;
+            selected = false;
+            hasAttacked = true;
+            fade(true);
+
+            gc.teams.enemyUnitsMovable--;
+            gc.teams.eAttack--;
+
+            if (!gc.teams.CheckIfAllDead(TeamHandler.UpdateType.friendly) || !gc.teams.CheckIfAllDead(TeamHandler.UpdateType.enemy))
+            {
+                yield return new WaitForSeconds(0.3f);
+
+                gc.GetEnemyMoves();
+            }
+        }
+        else
+        {
+            if(gc.selectedUnit != null)
+                gc.selectedUnit.hasMoved = true;
+            hasMoved = true;
+            gc.selectedUnit = null;
+            selected = false;
+
+            if (hasMoved)
+            {
+                if (playerNumber == 1)
+                {
+                    gc.teams.friendlyUnitsMovable--;
+
+                    yield return new WaitForSeconds(0.3f);
+
+                    gc.CheckEnds();
+                }
+            }
+        }
+
     }
     #endregion
 
@@ -495,11 +556,15 @@ public class Unit : MonoBehaviour
         {
             sr.color = new Color(.6f, .6f, .6f, 1f);
         }
-        else if(!used)
+        else if (!used)
         {
             sr.color = new Color(1, 1, 1, 1);
         }
     }
 
+    public void UpdateUCanvas()
+    {
+        uCanvas.UpdateNormal();
+    }
     #endregion
 }

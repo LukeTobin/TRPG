@@ -45,7 +45,7 @@ public class Tile : MonoBehaviour
     }
 
     // check if the tile is clear (no obstacle or unit on it)
-    public bool IsClear(Vector2 coord, int range, bool allyInteract)
+    public bool IsClear(Vector2 coord, int range, bool allyInteract = false)
     {
         // create a collider circle to check if anything is in the tile
         Collider2D obstacle = Physics2D.OverlapCircle(transform.position, 0.4f, obstacleLayer);
@@ -117,5 +117,73 @@ public class Tile : MonoBehaviour
     public void CalculateF()
     {
         f = g + h;
+    }
+
+    public bool isEmpty()
+    {
+        Collider2D obstacle = Physics2D.OverlapCircle(transform.position, 0.4f, obstacleLayer);
+        if (obstacle == null)
+            return true;
+        else
+            return false;
+    }
+
+    /// <summary>
+    /// Return if the current tile is occupied by either a friendly unit or an enemy unit
+    /// </summary>
+    /// <param name="type">1 - friendly, 2 - enemy</param>
+    /// <returns></returns>
+    public bool unitOccupying(Vector2 coord, int range, int type)
+    {
+        Collider2D obstacle = Physics2D.OverlapCircle(transform.position, 0.4f, obstacleLayer);
+        if (obstacle != null)
+        {
+            if (Mathf.Abs(transform.position.x - coord.x) + Mathf.Abs(transform.position.y - coord.y) <= range)
+            {
+                if (obstacle.CompareTag("Unit"))
+                {
+                    // check if what was found is a unit & if so color the tile
+                    if (type == 1 && obstacle.GetComponent<Unit>().playerNumber == 2)
+                    {
+                        if (this != obstacle)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                    else if (type == 2 && obstacle.GetComponent<Unit>().playerNumber == 1)
+                    {
+                        if (this != obstacle)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
     }
 }

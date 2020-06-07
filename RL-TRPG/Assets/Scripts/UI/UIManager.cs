@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class UIManager : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class UIManager : MonoBehaviour
      * Basic UI manager - TODO
      */
     GameController gc;
+    GameManager gm;
     Team team;
 
     [Header("UI Elements")]
@@ -16,6 +18,7 @@ public class UIManager : MonoBehaviour
     public Button infoButton;
     public Button useAbility;
     public Text turnText;
+    public Text roundText;
 
     [Header("Information Panel")]
     public GameObject infoPanel;
@@ -51,27 +54,81 @@ public class UIManager : MonoBehaviour
     [Space]
     public List<Unit> recruits = new List<Unit>();
 
+    [Header("Reward Screen")]
+    public GameObject rewardScreen;
+    public GameObject block2;
+    public GameObject block3;
+    public TextMeshProUGUI block1GoldText;
+    public Button continueButton;
+
     bool infoVisible;
+    int goldBonus = 0;
 
     void Start()
     {
         gc = FindObjectOfType<GameController>();
+        gm = FindObjectOfType<GameManager>();
         team = FindObjectOfType<Team>();
-        endTurnBtn.onClick.AddListener(gc.EndTurn);
+        endTurnBtn.onClick.AddListener(CheckEndTurn);
         infoButton.onClick.AddListener(delegate { ShowInfo(gc.selected, gc.selectedUnit); });
         useAbility.onClick.AddListener(delegate { Ability(gc.selectedUnit); });
+        continueButton.onClick.AddListener(GiveRewards);
 
         recruitPanel.SetActive(false);
         infoPanel.SetActive(false);
+        rewardScreen.SetActive(false);
 
         skip.onClick.AddListener(SkipOffer);
 
-        turnText.text = "Player Turn: " + gc.playerTurn;
+        if(gc.playerTurn == 1)
+        {
+            turnText.text = "Player Turn: <color=#2a9d8f>Yours</color>";
+        }
+        else
+        {
+            turnText.text = "Player Turn: <color=#e76f51>Enemy</color>";
+        }
+
+        roundText.text = "Round: " + gc.round;
+        
     }
 
     public void UpdateTurn()
     {
-        turnText.text = "Player Turn: " + gc.playerTurn;
+        if (gc.playerTurn == 1)
+        {
+            turnText.text = "Player Turn: <color=#2a9d8f>Yours</color>";
+            roundText.text = "Round: " + gc.round;
+        }
+        else
+        {
+            turnText.text = "Player Turn: <color=#e76f51>Enemy</color>";
+            roundText.text = "Round: " + gc.round;
+        }
+    }
+
+    void CheckEndTurn()
+    {
+        if (gc.playerTurn == 1)
+            gc.EndTurn();
+    }
+
+    public void RewardScreen(int goldAmount, bool recruit = false, bool relic = false)
+    {
+        rewardScreen.SetActive(true);
+        goldBonus = goldAmount;
+        block1GoldText.text = $"Gold - { goldAmount }";
+        if (relic)
+            block3.SetActive(true);
+        else
+            block3.SetActive(false);
+    }
+
+    void GiveRewards()
+    {
+        rewardScreen.SetActive(false);
+        gm.gold += goldBonus;
+        OfferRecruit(gm.CreateRecruitList());
     }
 
     public void OfferRecruit(List<Unit> offers) // pass units
@@ -103,12 +160,19 @@ public class UIManager : MonoBehaviour
         team.AddNewUnit(unit);
         RemoveOffers();
 
+        PlayerPrefs.SetInt("continued", 1);
+        PlayerPrefs.Save();
+
         gc.EndGame(); // smooth transition here
     }
 
     void SkipOffer()
     {
         RemoveOffers();
+
+        PlayerPrefs.SetInt("continued", 1);
+        PlayerPrefs.Save();
+
         gc.EndGame();
     }
 

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class WorldManager : MonoBehaviour
 {
@@ -8,19 +9,27 @@ public class WorldManager : MonoBehaviour
     [Space]
     public int currentStage = 1;
     public List<Node> nodeList = new List<Node>();
+    [Space]
+    public Campfire campfire;
+    [Space]
+    public TextMeshProUGUI goldText;
 
     int maxVal = 15;
     bool madeLines;
 
-    [Header("Admin Tests")]
-    public bool ClearPrefs;
+    GameManager gm;
 
     private void Start()
     {
+        gm = FindObjectOfType<GameManager>();
+        campfire = FindObjectOfType<Campfire>();
+        
         if (PlayerPrefs.GetInt("continued") == 1)
         {
             LoadWorld();
         }
+
+        goldText.text = $"{gm.gold}"; 
     }
 
     private void Update()
@@ -51,12 +60,6 @@ public class WorldManager : MonoBehaviour
         if (currentStage > 5 && currentStage != 99)
         {
             currentStage = 99;
-        }
-
-        if (ClearPrefs)
-        {
-            PlayerPrefs.DeleteAll();
-            ClearPrefs = false;
         }
     }
 

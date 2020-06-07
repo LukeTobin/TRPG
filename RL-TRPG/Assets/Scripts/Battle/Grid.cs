@@ -58,4 +58,17 @@ public class Grid
         }
         return null;
     }
+
+    public bool TileFree(Vector3 tilePos)
+    {
+        GameObject[] tiles = GameObject.FindGameObjectsWithTag("Tiles");
+        for (int i = 0; i < tiles.Length; i++)
+        {
+            if (tiles[i].GetComponent<Tile>().x == tilePos.x && tiles[i].GetComponent<Tile>().y == tilePos.y)
+            {
+                return tiles[i].GetComponent<Tile>().isEmpty();
+            }
+        }
+        return false;
+    }
 }

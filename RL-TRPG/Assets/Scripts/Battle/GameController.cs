@@ -17,10 +17,8 @@ public class GameController : MonoBehaviour
     public int y;
 
     [Header("Access")]
-    public TeamHandler team1;
-    public TeamHandler team2;
+    public GameObject TeamInformationHandler;
     public Team allTeam;
-    public EnemyManager em;
     [Space]
     public GameObject tile;
     public Unit selectedUnit;
@@ -28,35 +26,42 @@ public class GameController : MonoBehaviour
     [Space]
     public Grid map;
     public bool selected;
+    public bool unitMoving;
     GenerateTiles gt;
     UIManager uim;
-    
+
     [Header("General Information")]
     public int playerTurn = 1;
+    public int round = 1;
     [Space]
     public int friendly;
     public int enemy;
     [Space]
     public bool ended = false;
-
-    [Header("Unit Stoarge")]
-    public List<Unit> units = new List<Unit>();
+    public int enemyAccess = 0;
+    [Space]
+    public bool autoEnd = false;
 
     [Header("Admin Tests")]
     public bool _forceEnd;
-    public bool _clearList;
-    public bool _test;
-    public int k, b;
 
     bool uwu;
-    
+    public TeamHandler teams;
+    EnemyManager em;
+    TraitBonuses traits;
+    GameManager gm;
 
     private void Start()
     {
         uim = GameObject.FindGameObjectWithTag("BoardUI").GetComponent<UIManager>();
-        gt = GetComponent<GenerateTiles>();
-        em = GameObject.FindGameObjectWithTag("EnemyTeam").GetComponent<EnemyManager>();
         allTeam = GameObject.FindGameObjectWithTag("Team").GetComponent<Team>();
+        gm = FindObjectOfType<GameManager>();
+
+        gt = GetComponent<GenerateTiles>();
+
+        teams = TeamInformationHandler.GetComponent<TeamHandler>();
+        em = TeamInformationHandler.GetComponent<EnemyManager>();
+        traits = TeamInformationHandler.GetComponent<TraitBonuses>();
 
         GameObject StoredTiles = new GameObject("StoredTiles");
         map = new Grid(x, y, cellSize, tile, StoredTiles); // creates grid
@@ -64,8 +69,6 @@ public class GameController : MonoBehaviour
         gt.SpawnTiles(x, y, cellSize);
 
         playerTurn = 1;
-
-        //optionBox.SetActive(false); // disable a test box for multiple commands [dont need to worry about it right now, its not fully finished]
     }
 
     private void Update()
@@ -78,60 +81,10 @@ public class GameController : MonoBehaviour
             _forceEnd = false;
         }
 
-        if (_clearList)
-        {
-            team1.children.Clear();
-            team2.children.Clear();
-            _clearList = false;
-        }
-
-        if (_test)
-        {
-            selectedUnit.Move(new Vector2(k, b));
-
-            _test = false;
-        }
-
         if (Input.GetButtonDown("Jump"))
         {
             EndTurn();
         }
-
-        #endregion
-
-        #region Update Logic
-
-        // should be refactored so logic isnt inside update.
-        if (friendly <= 0 && !ended)
-        {
-            team1.UpdateUnitsToMove();
-            team2.UpdateUnitsToMove();
-
-            team1.CheckIfEnd();
-            team2.CheckIfEnd();
-
-            enemy = 100;
-            friendly = 100;
-        }
-
-        if (enemy <= 0 && !ended)
-        {
-            team1.UpdateUnitsToMove();
-            team2.UpdateUnitsToMove();
-
-            team1.CheckIfEnd();
-            team2.CheckIfEnd();
-
-            enemy = 100;
-            friendly = 100;
-        }
-
-        // Not sure why this is here? may break / fix something - but commenting out for now
-        /* 
-        if (selectedUnit != null)
-            selected = true;
-        else
-            selected = false;*/
 
         #endregion
     }
@@ -156,70 +109,61 @@ public class GameController : MonoBehaviour
     /// </summary>
     public void EndTurn()
     {
-        team1.UpdateUnitsToMove();
-        team2.UpdateUnitsToMove();
+        teams.UpdateUnitsToMove(TeamHandler.UpdateType.all);
+        teams.UpdateUnitsToAttack(TeamHandler.UpdateType.all);
 
-        if (!team1.CheckIfAllDead() || !team2.CheckIfAllDead())
+        // make sure there is no selected unit stored & if there is, make it unselected
+        if (selectedUnit != null)
         {
-            // make sure there is no selected unit stored & if there is, make it unselected
-            if (selectedUnit != null)
-            {
-                selectedUnit.selected = false;
-                selectedUnit = null;
-            }
-
-            ResetTiles();//reset all tiles (mostly for colors and visibiliy resets)
-
-
-            // reset each unit in the scene & add mana
-            foreach (Unit unit in FindObjectsOfType<Unit>())
-            {
-                unit.hasMoved = false;
-                unit.hasAttacked = false;
-                unit.sr.color = new Color(1, 1, 1, 255);
-                if(unit.mana < 5)
-                {
-                    unit.mana++;
-                }
-                unit.tempAD = 0;
-                unit.tempMD = 0;
-                unit.tempAR = 0;
-                unit.tempMR = 0;
-                unit.tempSP = 0;
-
-                unit.fade(false);
-                unit.marked = false;
-            }
-
-
-            // change turns
-            switch (playerTurn)
-            {
-                case 1:
-                    playerTurn = 2;
-                    team2.UpdateUnitsToMove();
-                    break;
-                case 2:
-                    playerTurn = 1;
-                    team1.UpdateUnitsToMove();
-                    break;
-                default:
-                    break;
-            }
-
-            // Update UI 
-            uim.UpdateTurn();
+            selectedUnit.selected = false;
+            selectedUnit = null;
         }
+
+        ResetTiles();//reset all tiles (mostly for colors and visibiliy resets)
+
+        // reset each unit in the scene & add mana
+        foreach (Unit unit in FindObjectsOfType<Unit>())
+        {
+            unit.hasMoved = false;
+            unit.hasAttacked = false;
+            unit.sr.color = new Color(1, 1, 1, 255);
+            if (unit.mana < 5 && playerTurn == 2)
+            {
+                unit.mana++;
+            }
+            unit.tempAD = 0;
+            unit.tempMD = 0;
+            unit.tempAR = 0;
+            unit.tempMR = 0;
+            unit.tempSP = 0;
+
+            unit.fade(false);
+            unit.marked = false;
+
+            unit.UpdateUCanvas();
+        }
+
+
+        // change turns
+        switch (playerTurn)
+        {
+            case 1:
+                playerTurn = 2;
+                break;
+            case 2:
+                playerTurn = 1;
+                break;
+            default:
+                break;
+        }
+
+        round++;
+
+        // Update UI 
+        uim.UpdateTurn();
 
         if (playerTurn == 2)
             GetEnemyMoves();
-        
-    }
-
-    // experimental option box, hasnt been implmented yet
-    public void CreateOptionBox(Unit unit, Vector2 pos)
-    {
-        
     }
 
     /// <summary>
@@ -228,47 +172,16 @@ public class GameController : MonoBehaviour
     public void Rewards()
     {
         // save each units data before ending
-        foreach(Unit unit in team1.children)
+        foreach (Unit unit in teams.friendlyUnits)
         {
             unit.SaveData();
         }
 
-        // create a unique recruit list
-        List<Unit> recruitList = new List<Unit>();
-        List<Unit> closedList = team1.children;
-
-        if(closedList.Count < 5)
-        {
-            for (int i = 0; recruitList.Count < 4; i++)
-            {
-                // need to check for dup's
-                Unit tempUnit = units[Random.Range(0, units.Count)];
-                if(!closedList.Contains(tempUnit) && !recruitList.Contains(tempUnit))
-                {
-                    recruitList.Add(tempUnit);
-                }
-                else
-                {
-                    tempUnit = null;
-                }
-            }
-
-            PlayerPrefs.SetInt("continued", 1);
-            PlayerPrefs.Save();
-
-            uim.OfferRecruit(recruitList);
-        }
-        else
-        {
-            PlayerPrefs.SetInt("continued", 1);
-            PlayerPrefs.Save();
-
-            EndGame();
-        }          
+        uim.RewardScreen(5);
     }
 
     /// <summary>
-    /// Function for cleaning killing a unit
+    /// Function for cleanly killing a unit
     /// </summary>
     /// <param name="unit">What unit needs to die</param>
     /// <param name="side">What side the unit was apart of</param>
@@ -277,30 +190,35 @@ public class GameController : MonoBehaviour
         switch (side)
         {
             case 1:
-                friendly--;
-                team1.children.Clear();
+                //friendly--;
+                teams.friendlyUnits.Remove(unit);
                 allTeam.units.Remove(unit);
+                if(!unit.hasAttacked && !unit.hasMoved)
+                {
+                    teams.friendlyUnitsMovable--;
+                }
                 Destroy(unit.gameObject);
                 break;
             case 2:
-                enemy--;
-                team2.children.Clear();
+                //enemy--;
+                teams.enemyUnits.Remove(unit);
+                if(!unit.hasAttacked && !unit.hasMoved)
+                {
+                    teams.enemyUnitsMovable--;
+                }
                 Destroy(unit.gameObject);
                 break;
             default:
-                Debug.Log("contains - none");
                 break;
         }
 
-        team1.UpdateUnitsToMove();
-        team2.UpdateUnitsToMove();
+        teams.UpdateUnitsToMove(TeamHandler.UpdateType.all);
     }
 
     public void YouDied()
     {
         Debug.Log("player died.");
-        // add later to show an end game screen
-        EndGame();
+        gm.Die();
     }
 
     public void EndGame()
@@ -313,21 +231,53 @@ public class GameController : MonoBehaviour
     /// </summary>
     public void GetEnemyMoves()
     {
-        // get list
-        List<Unit> enemies = new List<Unit>();
-        enemies.Clear();
-        for (int i = 0; i < team2.children.Count; i++)
+        if (teams.enemyUnitsMovable > 0)
         {
-            enemies.Add(team2.children[i]);
-        }
+            // get list
+            List<Unit> enemies = new List<Unit>();
+            enemies.Clear();
+            for (int i = 0; i < teams.enemyUnits.Count; i++)
+            {
+                if (!teams.enemyUnits[i].hasMoved)
+                    enemies.Add(teams.enemyUnits[i]);
+            }
 
-        List<Unit> targets = new List<Unit>();
-        targets.Clear();
-        for (int i = 0; i < team1.children.Count; i++)
+            List<Unit> targets = new List<Unit>();
+            targets.Clear();
+            for (int i = 0; i < teams.friendlyUnits.Count; i++)
+            {
+                targets.Add(teams.friendlyUnits[i]);
+            }
+
+            if (enemies.Count > 0)
+                em.ControlEnemies(enemies[0], targets);
+        }
+        else
         {
-            targets.Add(team1.children[i]);
+            CheckEnds(true);
         }
+    }
 
-        em.ControlEnemies(enemies, targets);
+    public void CheckEnds(bool EnemyController = false)
+    {
+        teams.UpdateUnitsToMove(TeamHandler.UpdateType.all);
+        teams.UpdateUnitsToMove(TeamHandler.UpdateType.all);
+
+        if (teams.CheckIfAllDead(TeamHandler.UpdateType.enemy))
+        {
+            Rewards();
+        }
+        else if (teams.CheckIfAllDead(TeamHandler.UpdateType.friendly))
+        {
+            YouDied();
+        }
+        else if (teams.CheckIfTurnEnd(playerTurn))
+        {
+            EndTurn();
+        }
+        else if(EnemyController)
+        {
+            GetEnemyMoves();
+        }
     }
 }

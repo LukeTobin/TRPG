@@ -97,7 +97,7 @@ public class Pathfinding : MonoBehaviour
         Tile endNode = gc.map.GetTile(endX, endY);
 
         if (endNode == null)
-            Debug.Log("no end node");
+            return null;
 
         openList = new List<Tile>() { startNode };
         closedList = new List<Tile>();
@@ -117,10 +117,18 @@ public class Pathfinding : MonoBehaviour
         }
 
         if (startNode == null)
+        {
             Debug.Log("no start node");
+            return null;  
+        }
+        
         if (endNode == null)
+        {
             Debug.Log("no end node");
+            return null;
+        }
             
+
         startNode.g = 0;
         startNode.h = CalculateDistanceCost(startNode, endNode);
         startNode.CalculateF();
@@ -141,7 +149,7 @@ public class Pathfinding : MonoBehaviour
                 if (closedList.Contains(neighbourNode)) 
                     continue;
 
-                if (!neighbourNode.isWalkable)
+                if (!neighbourNode.isWalkable || !neighbourNode.isEmpty())
                 {
                     closedList.Add(neighbourNode);
                     //continue;
@@ -164,7 +172,6 @@ public class Pathfinding : MonoBehaviour
         }
 
         // no path
-        Debug.Log("No path found.");
         return null;
     }
 
