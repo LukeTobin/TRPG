@@ -788,7 +788,7 @@ GameObject:
   - component: {fileID: -7879753135402672791}
   - component: {fileID: 7166078777158808260}
   m_Layer: 9
-  m_Name: BASE
+  m_Name: Tiefling Caster
   m_TagString: Unit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -849,7 +849,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 5
-  m_Sprite: {fileID: 62058527882779005, guid: 0b54a71332d5176409b7db2dcefede84, type: 3}
+  m_Sprite: {fileID: 8793639957104055765, guid: 40349bafffed2ce46bb66897decab7fd,
+    type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
   m_FlipY: 0
@@ -898,8 +899,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f74280521e666842a074c3a893b100e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _origin: 0
-  _class: 3
+  _origin: 1
+  _class: 1
 --- !u!114 &4700009066179185878
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -912,17 +913,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31fde18eb809dfd40ac6e96979e6d67b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  title: Archer
-  moveSpeed: 2
+  title: Tiefling Caster
+  moveSpeed: 1
   range: 2
   level: 1
-  damageType: 0
-  maxHealth: 15
-  maxAttackDamage: 22
-  maxMagicDamage: 4
-  maxArmor: 5
-  maxResist: 4
-  maxSpeed: 21
+  damageType: 1
+  maxHealth: 32
+  maxAttackDamage: 2
+  maxMagicDamage: 25
+  maxArmor: 9
+  maxResist: 10
+  maxSpeed: 11
   allAbilites:
   - {fileID: 8703390616175780915, guid: 85ddd932dd032f9409db6efb8e5f68f8, type: 3}
   - {fileID: 7416858730280765817, guid: 683b47b9a9ce8f4419ca56c4608724f2, type: 3}
@@ -930,18 +931,18 @@ MonoBehaviour:
   activeAbility: {fileID: 8703390616175780915, guid: 85ddd932dd032f9409db6efb8e5f68f8,
     type: 3}
   AllyInteractable: 0
-  profile: {fileID: 21300000, guid: 57e28417bc66d064480ba22fe3c6fe9b, type: 3}
+  profile: {fileID: 21300000, guid: 66f9ed9cfdaa7c74981be4611f63dcc8, type: 3}
   sr: {fileID: 0}
   selected: 0
   hasMoved: 0
   hasAttacked: 0
-  health: 15
+  health: 32
   mana: 0
-  attackDamage: 22
-  magicDamage: 4
-  armor: 5
-  resist: 4
-  speed: 21
+  attackDamage: 2
+  magicDamage: 25
+  armor: 9
+  resist: 10
+  speed: 11
   tempAD: 0
   tempMD: 0
   tempAR: 0
@@ -982,7 +983,7 @@ Animator:
   m_GameObject: {fileID: 4700009066179185875}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 4d57a618170c4d943a532a52e23de917, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

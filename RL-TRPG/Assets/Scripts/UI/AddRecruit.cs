@@ -19,4 +19,10 @@ public class AddRecruit : MonoBehaviour
         ui.AddUnit(ui.recruits[num]);
         ui.RemoveOffers();
     }
+
+    public void AddArtifact()
+    {
+        ui.AddArtifact(ui.artifactList[num]);
+        ui.RemoveOffers();
+    }
 }

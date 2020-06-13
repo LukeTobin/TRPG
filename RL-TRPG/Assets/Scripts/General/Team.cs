@@ -54,6 +54,11 @@ public class Team : MonoBehaviour
         units.Add(unit);
     }
 
+    public void AddNewArtifact(Artifact artifact)
+    {
+        artifacts.Add(artifact);
+    }
+
     public void LoadArtifacts(bool unload = false)
     {
         if (!unload)
@@ -69,11 +74,13 @@ public class Team : MonoBehaviour
         else
         {
             Artifact[] searchArtifacts = GetComponentsInChildren<Artifact>();
-            foreach(Artifact artifact in searchArtifacts)
+            if(searchArtifacts != null)
             {
-                Destroy(artifact.gameObject);
+                foreach (Artifact artifact in searchArtifacts)
+                {
+                    Destroy(artifact.gameObject);
+                }
             }
         }
-        
     }
 }

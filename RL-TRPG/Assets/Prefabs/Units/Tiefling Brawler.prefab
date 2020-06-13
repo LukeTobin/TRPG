@@ -918,12 +918,12 @@ MonoBehaviour:
   range: 1
   level: 1
   damageType: 0
-  maxHealth: 27
-  maxAttackDamage: 15
+  maxHealth: 40
+  maxAttackDamage: 13
   maxMagicDamage: 5
-  maxArmor: 5
-  maxResist: 5
-  maxSpeed: 18
+  maxArmor: 8
+  maxResist: 8
+  maxSpeed: 11
   allAbilites:
   - {fileID: 8703390616175780915, guid: 85ddd932dd032f9409db6efb8e5f68f8, type: 3}
   - {fileID: 7416858730280765817, guid: 683b47b9a9ce8f4419ca56c4608724f2, type: 3}
@@ -983,7 +983,7 @@ Animator:
   m_GameObject: {fileID: 4700009066179185875}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: dac18e61484c70d4bb6a9b9b611eb559, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

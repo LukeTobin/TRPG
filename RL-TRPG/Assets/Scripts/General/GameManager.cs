@@ -45,6 +45,21 @@ public class GameManager : MonoBehaviour
         Destroy(gameObject);
     }
 
+    public void NewPrefSet()
+    {
+        for (int i = 0; i < 6; i++)
+        {
+            for (int j = 0; j < 6; j++)
+            {
+                PlayerPrefs.DeleteKey(i + "-" + j + ".visited");
+            }
+        }
+
+        PlayerPrefs.SetInt("continued", 0);
+        PlayerPrefs.SetInt("stage", 0);
+        PlayerPrefs.Save();
+    }
+
     public List<Unit> CreateRecruitList()
     {
         // create a unique recruit list
@@ -52,12 +67,21 @@ public class GameManager : MonoBehaviour
 
         Team team = FindObjectOfType<Team>();
         List<Unit> closedList = team.units;
+        List<Unit> possibleList = new List<Unit>();
+
+        foreach(Unit unit in friendlyList)
+        {
+            if (!closedList.Contains(unit))
+            {
+                possibleList.Add(unit);
+            }
+        }
 
         for (int i = 0; recruitList.Count < 4; i++)
         {
             // need to check for dup's
-            Unit tempUnit = friendlyList[Random.Range(0, friendlyList.Count)];
-            if (!closedList.Contains(tempUnit) && !recruitList.Contains(tempUnit))
+            Unit tempUnit = possibleList[Random.Range(0, possibleList.Count)];
+            if (!recruitList.Contains(tempUnit))
             {
                 recruitList.Add(tempUnit);
             }
@@ -65,5 +89,40 @@ public class GameManager : MonoBehaviour
 
         return recruitList;
 
+    }
+
+    public List<Artifact> CreateArtifactList()
+    {
+        List<Artifact> optionList = new List<Artifact>();
+
+        Team team = FindObjectOfType<Team>();
+        List<Artifact> closedList = team.artifacts;
+        List<Artifact> openList = new List<Artifact>();
+
+        foreach(Artifact artifact in artifactList)
+        {
+            if(closedList.Count != 0)
+            {
+                if (!closedList.Contains(artifact))
+                {
+                    openList.Add(artifact);
+                }
+            }
+            else
+            {
+                openList.Add(artifact);
+            }  
+        }
+
+        for (int i = 0; optionList.Count < 4; i++)
+        {
+            Artifact temp = openList[Random.Range(0, openList.Count)];
+            if (!optionList.Contains(temp))
+            {
+                optionList.Add(temp);
+            }
+        }
+
+        return optionList;
     }
 }

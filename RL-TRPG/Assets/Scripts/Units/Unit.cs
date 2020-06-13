@@ -69,7 +69,7 @@ public class Unit : MonoBehaviour
     //UI
     [Header("UI")]
     public Sprite profile;
-    public SpriteRenderer sr;
+    [HideInInspector] public SpriteRenderer sr;
 
     // Extra
     [Header("Public checks")]

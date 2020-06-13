@@ -257,6 +257,13 @@ MonoBehaviour:
   - {fileID: 4700009066179185878, guid: a3691f50287b3ab4cafb83431d55ea86, type: 3}
   - {fileID: 4700009066179185878, guid: a6bd36def110cf0478334a09be69e900, type: 3}
   - {fileID: 4700009066179185878, guid: 614a685c143fca64883e7fe7aaba153c, type: 3}
+  - {fileID: 4700009066179185878, guid: 4fbd768ace7fbbe4ea48ec880097c139, type: 3}
+  - {fileID: 4700009066179185878, guid: 6c6f603c9f2c5f04787ea402ce8990d0, type: 3}
+  - {fileID: 4700009066179185878, guid: 477d9e649b12a1b469de430966cae4a8, type: 3}
+  - {fileID: 4700009066179185878, guid: 1526fc0c3db0c244da3f6feb64ba426d, type: 3}
+  - {fileID: 4700009066179185878, guid: b339cf7678c0cb24c84988c5461f7b18, type: 3}
+  - {fileID: 4700009066179185878, guid: cb28ca7c9440c1046bb5c69fe55ecb77, type: 3}
+  - {fileID: 4700009066179185878, guid: 57b163ef2adaf0d43bf4fffc821813ff, type: 3}
   team: {fileID: 712589737}
   curHero: {fileID: 0}
 --- !u!1 &92286793
@@ -611,8 +618,20 @@ MonoBehaviour:
   - {fileID: 4700009066179185878, guid: a3691f50287b3ab4cafb83431d55ea86, type: 3}
   - {fileID: 4700009066179185878, guid: a6bd36def110cf0478334a09be69e900, type: 3}
   - {fileID: 4700009066179185878, guid: 614a685c143fca64883e7fe7aaba153c, type: 3}
+  - {fileID: 4700009066179185878, guid: 4fbd768ace7fbbe4ea48ec880097c139, type: 3}
+  - {fileID: 4700009066179185878, guid: 6c6f603c9f2c5f04787ea402ce8990d0, type: 3}
+  - {fileID: 4700009066179185878, guid: 477d9e649b12a1b469de430966cae4a8, type: 3}
+  - {fileID: 4700009066179185878, guid: 1526fc0c3db0c244da3f6feb64ba426d, type: 3}
+  - {fileID: 4700009066179185878, guid: b339cf7678c0cb24c84988c5461f7b18, type: 3}
+  - {fileID: 4700009066179185878, guid: cb28ca7c9440c1046bb5c69fe55ecb77, type: 3}
+  - {fileID: 4700009066179185878, guid: 57b163ef2adaf0d43bf4fffc821813ff, type: 3}
   enemyList:
   - {fileID: 1765837714294944356, guid: 7441789fa991ce7479839e5386881956, type: 3}
+  artifactList:
+  - {fileID: 7105842999522886074, guid: c3e26a2686029d1429c123b1e82a9ce9, type: 3}
+  - {fileID: 7105842999522886074, guid: a803c72f8f4dac942804932c39ff0bc2, type: 3}
+  - {fileID: 7105842999522886074, guid: 900c7f24c8345364dbaa01c78cb8480e, type: 3}
+  - {fileID: 7105842999522886074, guid: 8ec6a500f32959a4cb80045a1f392c84, type: 3}
 --- !u!4 &266781796
 Transform:
   m_ObjectHideFlags: 0
@@ -809,11 +828,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leader: {fileID: 4700009066179185878, guid: 2624d43de3ec50b4bb56ab9aece71c4e, type: 3}
   units: []
-  artifacts:
-  - {fileID: 7105842999522886074, guid: 8ec6a500f32959a4cb80045a1f392c84, type: 3}
-  - {fileID: 7105842999522886074, guid: 900c7f24c8345364dbaa01c78cb8480e, type: 3}
-  - {fileID: 7105842999522886074, guid: c3e26a2686029d1429c123b1e82a9ce9, type: 3}
-  - {fileID: 7105842999522886074, guid: a803c72f8f4dac942804932c39ff0bc2, type: 3}
+  artifacts: []
   checkTeamHealth: 0
 --- !u!4 &712589738
 Transform:

@@ -1344,10 +1344,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   title: Enchanter
   moveSpeed: 2
-  range: 1
+  range: 2
   level: 1
   damageType: 1
-  maxHealth: 17
+  maxHealth: 27
   maxAttackDamage: 4
   maxMagicDamage: 14
   maxArmor: 6

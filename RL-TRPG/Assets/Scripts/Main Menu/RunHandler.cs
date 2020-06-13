@@ -21,8 +21,12 @@ public class RunHandler : MonoBehaviour
     public Unit curHero;
     int count = 0;
 
+    GameManager gm;
+
     void Start()
     {
+        gm = FindObjectOfType<GameManager>();
+
         run.onClick.AddListener(NormalRun);
         highscore.onClick.AddListener(Highscore);
 
@@ -36,6 +40,8 @@ public class RunHandler : MonoBehaviour
     {
         team.leader = curHero;
         team.leader.health = team.leader.maxHealth + 20;
+
+        gm.NewPrefSet();
 
         //PlayerPrefs.DeleteAll();
         SceneManager.LoadScene("Map");

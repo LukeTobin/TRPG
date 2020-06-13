@@ -178,7 +178,7 @@ public class GameController : MonoBehaviour
             unit.SaveData();
         }
 
-        uim.RewardScreen(5);
+        uim.RewardScreen(10, 2, true);
     }
 
     /// <summary>
@@ -224,7 +224,8 @@ public class GameController : MonoBehaviour
 
     public void EndGame()
     {
-        allTeam.LoadArtifacts(false); // unload all artifacts
+        if(allTeam.artifacts.Count > 0)
+            allTeam.LoadArtifacts(false); // unload all artifacts
         SceneManager.LoadScene("Map");
     }
 

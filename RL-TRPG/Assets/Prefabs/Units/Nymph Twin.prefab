@@ -918,9 +918,9 @@ MonoBehaviour:
   range: 2
   level: 1
   damageType: 2
-  maxHealth: 20
-  maxAttackDamage: 18
-  maxMagicDamage: 13
+  maxHealth: 30
+  maxAttackDamage: 16
+  maxMagicDamage: 19
   maxArmor: 2
   maxResist: 11
   maxSpeed: 18

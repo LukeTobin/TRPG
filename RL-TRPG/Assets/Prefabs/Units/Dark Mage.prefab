@@ -918,7 +918,7 @@ MonoBehaviour:
   range: 2
   level: 1
   damageType: 1
-  maxHealth: 16
+  maxHealth: 26
   maxAttackDamage: 4
   maxMagicDamage: 23
   maxArmor: 8
@@ -983,7 +983,7 @@ Animator:
   m_GameObject: {fileID: 4700009066179185875}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 5c90cd91112dfd944a897e68686e1f59, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
