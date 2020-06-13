@@ -9,6 +9,7 @@ public class RunHandler : MonoBehaviour
 
     public Button run;
     public Button highscore;
+    public Button continueButton;
     [Space]
     public Button left;
     public Button right;
@@ -29,6 +30,7 @@ public class RunHandler : MonoBehaviour
 
         run.onClick.AddListener(NormalRun);
         highscore.onClick.AddListener(Highscore);
+        continueButton.onClick.AddListener(ContinueRun);
 
         left.onClick.AddListener(LeftHero);
         right.onClick.AddListener(RightHero);
@@ -50,6 +52,17 @@ public class RunHandler : MonoBehaviour
     void Highscore()
     {
         // filled when we have a scoring system. Use PlayerPreff
+    }
+
+    void ContinueRun()
+    {
+        /*
+         * save team in playerprefs
+         */
+        if(PlayerPrefs.GetInt("continued") == 1)
+        {
+            SceneManager.LoadScene("Map");
+        }
     }
 
     void LeftHero()

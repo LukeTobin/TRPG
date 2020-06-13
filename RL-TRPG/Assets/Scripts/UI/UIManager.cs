@@ -286,7 +286,7 @@ public class UIManager : MonoBehaviour
             if (recruitsLeft == 1)
             {
                 offerQueue = false;
-                OfferRecruit(gm.CreateRecruitList());
+                OfferRecruit(gm.CreateRecruitList(), false);
             }
             else if (recruitsLeft == 2)
             {
@@ -480,20 +480,10 @@ public class UIManager : MonoBehaviour
         team.AddNewArtifact(artifact);
         artifactReward = false;
 
-        if (offerQueue || recruitsLeft > 0)
-        {
-            RemoveOffers();
-            GiveRewards();
-        }
-        else
-        {
-            RemoveOffers();
+        PlayerPrefs.SetInt("continued", 1);
+        PlayerPrefs.Save();
 
-            PlayerPrefs.SetInt("continued", 1);
-            PlayerPrefs.Save();
-
-            gc.EndGame(); // smooth transition here
-        }
+        gc.EndGame(); // smooth transition here
     }
 
     #endregion

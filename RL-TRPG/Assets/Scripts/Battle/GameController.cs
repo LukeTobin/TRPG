@@ -33,6 +33,7 @@ public class GameController : MonoBehaviour
     [Header("General Information")]
     public int playerTurn = 1;
     public int round = 1;
+    public int score = 1000;
     [Space]
     public int friendly;
     public int enemy;
@@ -153,6 +154,7 @@ public class GameController : MonoBehaviour
                 break;
             case 2:
                 playerTurn = 1;
+                score -= 50;
                 break;
             default:
                 break;
@@ -178,7 +180,10 @@ public class GameController : MonoBehaviour
             unit.SaveData();
         }
 
-        uim.RewardScreen(10, 2, true);
+        int val = (15 * gm.currentStage) - round;
+        if (val < 1)
+            val = 1;
+        uim.RewardScreen(val, 1, true);
     }
 
     /// <summary>
@@ -198,6 +203,7 @@ public class GameController : MonoBehaviour
                 {
                     teams.friendlyUnitsMovable--;
                 }
+                score -= 100;
                 Destroy(unit.gameObject);
                 break;
             case 2:
@@ -207,6 +213,7 @@ public class GameController : MonoBehaviour
                 {
                     teams.enemyUnitsMovable--;
                 }
+                score += (300 + (gm.currentStage * 20));
                 Destroy(unit.gameObject);
                 break;
             default:
