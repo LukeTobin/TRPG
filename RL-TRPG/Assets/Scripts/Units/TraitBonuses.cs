@@ -11,10 +11,13 @@ public class TraitBonuses : MonoBehaviour
     // origin
     int human;
     int tiefling;
+    int nymph;
+    int satyr;
 
     // classes
-    int duelist;
-    int arcane;
+    int dueler;
+    int caster;
+    int enchanter;
     int brawler;
     int ranger;
     int rogue;
@@ -24,7 +27,7 @@ public class TraitBonuses : MonoBehaviour
         teamHandler = GetComponent<TeamHandler>();
         units = teamHandler.friendlyUnits;
 
-        human = 0; tiefling = 0; duelist = 0; arcane = 0; brawler = 0; ranger = 0; rogue = 0;
+        human = 0; tiefling = 0; dueler = 0; caster = 0; enchanter = 0; brawler = 0; ranger = 0; rogue = 0;
 
         CheckOrigins(units);
         CheckClasses(units);
@@ -42,6 +45,12 @@ public class TraitBonuses : MonoBehaviour
                 case Traits.Origin.tiefling:
                     tiefling++;
                     break;
+                case Traits.Origin.nymph:
+                    nymph++;
+                    break;
+                case Traits.Origin.satyr:
+                    satyr++;
+                    break;
                 default:
                     break;
             }
@@ -56,6 +65,16 @@ public class TraitBonuses : MonoBehaviour
         {
 
         }
+
+        if(nymph > 0)
+        {
+
+        }
+
+        if(satyr > 0)
+        {
+
+        }
     }
 
     void CheckClasses(List<Unit> list)
@@ -64,11 +83,14 @@ public class TraitBonuses : MonoBehaviour
         {
             switch (unit.GetComponent<Traits>()._class)
             {
-                case Traits.Class.duelist:
-                    duelist++;
+                case Traits.Class.dueler:
+                    dueler++;
                     break;
-                case Traits.Class.arcane:
-                    arcane++;
+                case Traits.Class.caster:
+                    caster++;
+                    break;
+                case Traits.Class.enchanter:
+                    enchanter++;
                     break;
                 case Traits.Class.brawler:
                     brawler++;
@@ -84,12 +106,17 @@ public class TraitBonuses : MonoBehaviour
             }
         }
 
-        if(duelist > 0)
+        if(dueler > 0)
         {
 
         }
 
-        if (arcane > 0)
+        if (caster > 0)
+        {
+
+        }
+
+        if(enchanter > 0)
         {
 
         }

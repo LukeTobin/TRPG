@@ -35,8 +35,9 @@ public class RunHandler : MonoBehaviour
     void NormalRun()
     {
         team.leader = curHero;
+        team.leader.health = team.leader.maxHealth + 20;
 
-        PlayerPrefs.DeleteAll();
+        //PlayerPrefs.DeleteAll();
         SceneManager.LoadScene("Map");
     }
 

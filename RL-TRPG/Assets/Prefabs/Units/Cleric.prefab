@@ -852,7 +852,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _origin: 0
-  _class: 1
+  _class: 2
 --- !u!114 &4700009066179185878
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -867,12 +867,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   title: Cleric
   moveSpeed: 2
-  range: 1
+  range: 2
   level: 1
   damageType: 1
   maxHealth: 19
   maxAttackDamage: 6
-  maxMagicDamage: 10
+  maxMagicDamage: 11
   maxArmor: 9
   maxResist: 9
   maxSpeed: 14

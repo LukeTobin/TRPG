@@ -1329,7 +1329,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _origin: 0
-  _class: 1
+  _class: 2
 --- !u!114 &4700009066179185878
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1349,7 +1349,7 @@ MonoBehaviour:
   damageType: 1
   maxHealth: 17
   maxAttackDamage: 4
-  maxMagicDamage: 13
+  maxMagicDamage: 14
   maxArmor: 6
   maxResist: 7
   maxSpeed: 19

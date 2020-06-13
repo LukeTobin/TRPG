@@ -11,6 +11,8 @@ public class Team : MonoBehaviour
 
     public Unit leader; // leader unit
     public List<Unit> units = new List<Unit>(); // list of units
+    [Space]
+    public List<Artifact> artifacts = new List<Artifact>();
 
     [Header("Admin Testing")]
     public bool checkTeamHealth;
@@ -40,14 +42,38 @@ public class Team : MonoBehaviour
         }
     }
 
-    public void TestCall()
-    {
-        Debug.Log("hello world");
-    }
-
     public void AddNewUnit(Unit unit)
     {
         unit.health = unit.maxHealth;
+        unit.attackDamage = unit.maxAttackDamage;
+        unit.magicDamage = unit.maxMagicDamage;
+        unit.armor = unit.maxArmor;
+        unit.resist = unit.maxResist;
+        unit.speed = unit.maxSpeed;
+
         units.Add(unit);
+    }
+
+    public void LoadArtifacts(bool unload = false)
+    {
+        if (!unload)
+        {
+            if (artifacts != null)
+            {
+                for (int i = 0; i < artifacts.Count; i++)
+                {
+                    Instantiate(artifacts[i], transform);
+                }
+            }
+        }
+        else
+        {
+            Artifact[] searchArtifacts = GetComponentsInChildren<Artifact>();
+            foreach(Artifact artifact in searchArtifacts)
+            {
+                Destroy(artifact.gameObject);
+            }
+        }
+        
     }
 }

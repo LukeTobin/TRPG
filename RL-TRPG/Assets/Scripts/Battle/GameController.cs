@@ -69,6 +69,7 @@ public class GameController : MonoBehaviour
         gt.SpawnTiles(x, y, cellSize);
 
         playerTurn = 1;
+        allTeam.LoadArtifacts();
     }
 
     private void Update()
@@ -223,6 +224,7 @@ public class GameController : MonoBehaviour
 
     public void EndGame()
     {
+        allTeam.LoadArtifacts(false); // unload all artifacts
         SceneManager.LoadScene("Map");
     }
 

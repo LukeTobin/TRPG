@@ -12,13 +12,15 @@ public class Traits : MonoBehaviour
     {
         human,
         tiefling,
-        nymph
+        nymph,
+        satyr
     }
 
     public enum Class
     {
-        duelist,
-        arcane,
+        dueler,
+        caster,
+        enchanter,
         brawler,
         ranger,
         rogue

@@ -884,7 +884,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   title: Tiefling
   moveSpeed: 2
-  range: 2
+  range: 1
   level: 1
   damageType: 2
   maxHealth: 18

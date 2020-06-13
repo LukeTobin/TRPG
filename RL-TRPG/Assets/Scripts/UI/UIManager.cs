@@ -13,45 +13,38 @@ public class UIManager : MonoBehaviour
     GameManager gm;
     Team team;
 
-    [Header("UI Elements")]
+    [Header("Basic UI Elements")]
     public Button endTurnBtn;
     public Button infoButton;
     public Button useAbility;
-    public Text turnText;
-    public Text roundText;
+    public TextMeshProUGUI turnText;
+    public TextMeshProUGUI roundText;
 
     [Header("Information Panel")]
     public GameObject infoPanel;
-    [Space]
     public Image charHolder;
     public Text charTitle;
     public Text t_ad;
     public Text t_md;
     public Text t_ar;
     public Text t_mr;
-    [Space]
     public Transform bar;
     public Image[] mana;
     public Sprite manaFull;
     public Sprite manaEmpty;
-    [Space]
     public Text abilityTitle;
     public Text abilityDescription;
     public Text abilityCost;
 
     [Header("Recruit Menu")]
     public GameObject recruitPanel;
-    [Space]
     public Button recruitBtn1;
     public Button recruitBtn2;
     public Button recruitBtn3;
-    [Space]
     public Button recruit1;
     public Button recruit2;
     public Button recruit3;
-    [Space]
     public Button skip;
-    [Space]
     public List<Unit> recruits = new List<Unit>();
 
     [Header("Reward Screen")]
@@ -60,6 +53,11 @@ public class UIManager : MonoBehaviour
     public GameObject block3;
     public TextMeshProUGUI block1GoldText;
     public Button continueButton;
+
+    [Header("Artifacts")]
+    [SerializeField] Button artifactButton;
+    [SerializeField] GameObject artifactContainer;
+    public GameObject infoboxEnabled;
 
     bool infoVisible;
     int goldBonus = 0;
@@ -90,6 +88,8 @@ public class UIManager : MonoBehaviour
         }
 
         roundText.text = "Round: " + gc.round;
+
+        ShowArtifacts();
         
     }
 
@@ -258,6 +258,32 @@ public class UIManager : MonoBehaviour
         {
             infoPanel.SetActive(false);
             infoVisible = false;
+        }
+    }
+
+    void ShowArtifacts()
+    {
+        for (int i = 0; i < team.artifacts.Count; i++)
+        {
+            Button artiBtn = Instantiate(artifactButton);
+            artiBtn.transform.SetParent(artifactContainer.transform, false);
+            artiBtn.image.sprite = team.artifacts[i].artifactVisual;
+
+            switch (team.artifacts[i].artifactRarity)
+            {
+                case Artifact.Rarity.common:
+                    artiBtn.GetComponentInChildren<FillArtifactInfo>().UpdateText($"<color=#073b4c>{ team.artifacts[i].artifactName }</color>", team.artifacts[i].artifactDescription);
+                    break;
+                case Artifact.Rarity.rare:
+                    artiBtn.GetComponentInChildren<FillArtifactInfo>().UpdateText($"<color=#118ab2>{ team.artifacts[i].artifactName }</color>", team.artifacts[i].artifactDescription);
+                    break;
+                case Artifact.Rarity.epic:
+                    artiBtn.GetComponentInChildren<FillArtifactInfo>().UpdateText($"<color=#d100d1>{ team.artifacts[i].artifactName }</color>", team.artifacts[i].artifactDescription);
+                    break;
+                case Artifact.Rarity.legendary:
+                    artiBtn.GetComponentInChildren<FillArtifactInfo>().UpdateText($"<color=#ff6d00>{ team.artifacts[i].artifactName }</color>", team.artifacts[i].artifactDescription);
+                    break;
+            }
         }
     }
 }

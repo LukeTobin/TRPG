@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
     [Header("Enemy Pool")]
     public List<Unit> enemyList = new List<Unit>();
 
+    [Header("Artifact Pool")]
+    public List<Artifact> artifactList = new List<Artifact>();
 
     void Awake()
     {
