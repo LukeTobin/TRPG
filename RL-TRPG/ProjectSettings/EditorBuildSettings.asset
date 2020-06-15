@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/TestingBoard.unity
     guid: a360b92de120cdf4dae9ec20e5d6bcd2
+  - enabled: 1
+    path: Assets/Scenes/RewardScene.unity
+    guid: 313ba2929b194f548b44f149c9af5d21
   m_configObjects: {}

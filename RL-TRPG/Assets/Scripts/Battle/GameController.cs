@@ -45,6 +45,7 @@ public class GameController : MonoBehaviour
 
     [Header("Admin Tests")]
     public bool _forceEnd;
+    public bool logAttacks;
 
     bool uwu;
     public TeamHandler teams;
@@ -154,7 +155,7 @@ public class GameController : MonoBehaviour
                 break;
             case 2:
                 playerTurn = 1;
-                score -= 50;
+                score -= Random.Range(30, 50 + ( 2* gm.currentStage));
                 break;
             default:
                 break;
@@ -199,6 +200,8 @@ public class GameController : MonoBehaviour
                 //friendly--;
                 teams.friendlyUnits.Remove(unit);
                 allTeam.units.Remove(unit);
+                PlayerPrefs.SetInt(unit.title, 0);
+                PlayerPrefs.Save();
                 if(!unit.hasAttacked && !unit.hasMoved)
                 {
                     teams.friendlyUnitsMovable--;
@@ -225,13 +228,25 @@ public class GameController : MonoBehaviour
 
     public void YouDied()
     {
-        Debug.Log("player died.");
+        gm.score += score;
+        PlayerPrefs.SetInt("storedScore", gm.score);
+        PlayerPrefs.Save();
         gm.Die();
     }
 
     public void EndGame()
     {
-        if(allTeam.artifacts.Count > 0)
+        gm.currentStage++;
+      
+        gm.currentNode.Visited();
+        gm.currentNode = null;
+
+        gm.score += score;
+        PlayerPrefs.SetInt("storedScore", gm.score);
+        PlayerPrefs.SetInt("stage", gm.currentStage);
+        PlayerPrefs.Save();
+
+        if (allTeam.artifacts.Count > 0)
             allTeam.LoadArtifacts(false); // unload all artifacts
         SceneManager.LoadScene("Map");
     }

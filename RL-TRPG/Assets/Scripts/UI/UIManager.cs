@@ -52,36 +52,36 @@ public class UIManager : MonoBehaviour
     bool offerQueue;
 
     [Header("Reward Screen")]
-    [SerializeField] GameObject rewardScreen;
-    [SerializeField] Button block;
-    [SerializeField] GameObject rewardsHolder;
-    [SerializeField] Button continueButton;
-    [SerializeField] Sprite gold;
-    [SerializeField] Sprite recruiting;
-    [SerializeField] Sprite arti;
+    [SerializeField] GameObject rewardScreen = null;
+    [SerializeField] Button block = null;
+    [SerializeField] GameObject rewardsHolder = null;
+    [SerializeField] Button continueButton = null;
+    [SerializeField] Sprite gold = null;
+    [SerializeField] Sprite recruiting = null;
+    [SerializeField] Sprite arti = null;
     [SerializeField] int recruitsLeft = 0;
     bool artifactReward;
     bool goldReward;
 
     [Header("Artifacts")]
-    [SerializeField] Button artifactButton;
-    [SerializeField] GameObject artifactContainer;
+    [SerializeField] Button artifactButton = null;
+    [SerializeField] GameObject artifactContainer = null;
     public GameObject infoboxEnabled;
-    [SerializeField] GameObject artifactPanel;
-    [SerializeField] Button artifactBtn1;
-    [SerializeField] Image artifact1;
-    [SerializeField] TextMeshProUGUI artifact1Title;
-    [SerializeField] TextMeshProUGUI artifact1Desc;
+    [SerializeField] GameObject artifactPanel = null;
+    [SerializeField] Button artifactBtn1 = null;
+    [SerializeField] Image artifact1 = null;
+    [SerializeField] TextMeshProUGUI artifact1Title = null;
+    [SerializeField] TextMeshProUGUI artifact1Desc = null;
     [Space]
-    [SerializeField] Button artifactBtn2;
-    [SerializeField] Image artifact2;
-    [SerializeField] TextMeshProUGUI artifact2Title;
-    [SerializeField] TextMeshProUGUI artifact2Desc;
+    [SerializeField] Button artifactBtn2 = null;
+    [SerializeField] Image artifact2 = null;
+    [SerializeField] TextMeshProUGUI artifact2Title = null;
+    [SerializeField] TextMeshProUGUI artifact2Desc = null;
     [Space]
-    [SerializeField] Button artifactBtn3;
-    [SerializeField] Image artifact3;
-    [SerializeField] TextMeshProUGUI artifact3Title;
-    [SerializeField] TextMeshProUGUI artifact3Desc;
+    [SerializeField] Button artifactBtn3 = null;
+    [SerializeField] Image artifact3 = null;
+    [SerializeField] TextMeshProUGUI artifact3Title = null;
+    [SerializeField] TextMeshProUGUI artifact3Desc = null;
     [Space]
     public List<Artifact> artifactList = new List<Artifact>();
 
@@ -409,9 +409,9 @@ public class UIManager : MonoBehaviour
         artifact2.sprite = options[1].artifactVisual;
         artifact3.sprite = options[2].artifactVisual;
 
-        artifact1Title.text = options[0].artifactDescription;
-        artifact2Title.text = options[1].artifactDescription;
-        artifact3Title.text = options[2].artifactDescription;
+        artifact1Desc.text = options[0].artifactDescription;
+        artifact2Desc.text = options[1].artifactDescription;
+        artifact3Desc.text = options[2].artifactDescription;
 
         #region Get title color
         switch (options[0].artifactRarity)

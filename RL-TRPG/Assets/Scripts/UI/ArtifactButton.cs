@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class ArtifactButton : MonoBehaviour
 {
 
-    [SerializeField] GameObject Infobox;
+    [SerializeField] GameObject Infobox = null;
     UIManager uim;
 
     void Start()

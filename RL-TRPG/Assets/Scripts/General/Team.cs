@@ -51,12 +51,31 @@ public class Team : MonoBehaviour
         unit.resist = unit.maxResist;
         unit.speed = unit.maxSpeed;
 
+        PlayerPrefs.SetInt(unit.title, 1);
+        PlayerPrefs.SetInt(unit.title + ".health", unit.maxHealth);
+        PlayerPrefs.Save();
+
         units.Add(unit);
     }
 
     public void AddNewArtifact(Artifact artifact)
     {
+        PlayerPrefs.SetInt(artifact.artifactName, 1);
+        PlayerPrefs.Save();
+
         artifacts.Add(artifact);
+    }
+
+    public void LoadUnit(Unit unit)
+    {
+        unit.health = PlayerPrefs.GetInt(unit.title + ".health");
+        unit.attackDamage = unit.maxAttackDamage;
+        unit.magicDamage = unit.maxMagicDamage;
+        unit.armor = unit.maxArmor;
+        unit.resist = unit.maxResist;
+        unit.speed = unit.maxSpeed;
+
+        units.Add(unit);
     }
 
     public void LoadArtifacts(bool unload = false)

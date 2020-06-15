@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class RunHandler : MonoBehaviour
 {
@@ -10,17 +11,23 @@ public class RunHandler : MonoBehaviour
     public Button run;
     public Button highscore;
     public Button continueButton;
+    public Button settingsButton;
     [Space]
-    public Button left;
-    public Button right;
+    public GameObject fog;
+    public GameObject settings;
     [Space]
-    public Image heroSprite;
+    public GameObject UnitSelectionScreen;
     [Space]
     public List<Unit> heroes;
-    [Space]
     public Team team;
+
+    [Header("Unit")]
     public Unit curHero;
-    int count = 0;
+    public Image heroSprite;
+    public TextMeshProUGUI unitName;
+    public Button origin;
+    public Button _class;
+    public Button ability;
 
     GameManager gm;
 
@@ -31,21 +38,45 @@ public class RunHandler : MonoBehaviour
         run.onClick.AddListener(NormalRun);
         highscore.onClick.AddListener(Highscore);
         continueButton.onClick.AddListener(ContinueRun);
+        settingsButton.onClick.AddListener(ShowSettings);
 
-        left.onClick.AddListener(LeftHero);
-        right.onClick.AddListener(RightHero);
+        UnitSelectionScreen.SetActive(false);
+        fog.SetActive(false);
+        settings.SetActive(false);
 
-        curHero = heroes[count];
+        if (PlayerPrefs.GetInt("active") != 1)
+            continueButton.gameObject.SetActive(false);
+
+        GetUnitsUnlocked();
+
+        curHero = heroes[0];
+        heroSprite.sprite = curHero.profile;
+        unitName.text = curHero.title;
+        origin.GetComponent<Image>().sprite = gm.GetOriginImage(curHero.GetComponent<Traits>()._origin);
+        _class.GetComponent<Image>().sprite = gm.GetClassImage(curHero.GetComponent<Traits>()._class);
+        //ability.GetComponent<Image>().sprite = curHero.activeAbility.sprite;
     }
 
+    #region Main Buttons
     void NormalRun()
     {
-        team.leader = curHero;
-        team.leader.health = team.leader.maxHealth + 20;
-
         gm.NewPrefSet();
 
-        //PlayerPrefs.DeleteAll();
+        team.leader = curHero;
+        team.leader.health = team.leader.maxHealth + 20;
+        team.leader.attackDamage = team.leader.maxAttackDamage;
+        team.leader.magicDamage = team.leader.maxMagicDamage;
+        team.leader.armor = team.leader.maxArmor;
+        team.leader.resist = team.leader.maxResist;
+        team.leader.speed = team.leader.maxSpeed;
+
+        int plays = PlayerPrefs.GetInt(team.leader.title + ".runs") + 1;
+        PlayerPrefs.SetInt(team.leader.title + ".runs", plays);
+        PlayerPrefs.SetInt(team.leader.title + ".health", team.leader.health);
+        PlayerPrefs.SetInt(team.leader.title + ".leader", 1);
+        PlayerPrefs.SetInt("active", 1);
+        PlayerPrefs.Save();
+
         SceneManager.LoadScene("Map");
     }
 
@@ -56,36 +87,33 @@ public class RunHandler : MonoBehaviour
 
     void ContinueRun()
     {
-        /*
-         * save team in playerprefs
-         */
-        if(PlayerPrefs.GetInt("continued") == 1)
+        gm.LoadSavedTeam();
+
+        if(PlayerPrefs.GetInt("active") == 1)
         {
             SceneManager.LoadScene("Map");
         }
     }
 
-    void LeftHero()
+    void ShowSettings()
     {
-        count--;
-        if(count < 0)
-        {
-            count = heroes.Count-1;
-        }
-
-        curHero = heroes[count];
-        heroSprite.sprite = heroes[count].profile;
+        fog.SetActive(true);
+        settings.SetActive(true);
     }
 
-    void RightHero()
-    {
-        count++;
-        if (count >= heroes.Count)
-        {
-            count = 0;
-        }
+    #endregion
 
-        curHero = heroes[count];
-        heroSprite.sprite = heroes[count].profile;
+
+    public void GetUnitsUnlocked()
+    {
+        // heroes.Clear();
+
+        for (int i = 0; i < gm.friendlyList.Count; i++)
+        {
+            if(PlayerPrefs.GetInt(gm.friendlyList[i].title + ".unlocked") == 1)
+            {
+                heroes.Add(gm.friendlyList[i]);
+            }
+        }
     }
 }

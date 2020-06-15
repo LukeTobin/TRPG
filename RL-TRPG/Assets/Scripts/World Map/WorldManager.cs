@@ -23,9 +23,9 @@ public class WorldManager : MonoBehaviour
     {
         gm = FindObjectOfType<GameManager>();
         campfire = FindObjectOfType<Campfire>();
-        
+
         if (PlayerPrefs.GetInt("continued") == 1)
-        {
+        {                 
             LoadWorld();
         }
 

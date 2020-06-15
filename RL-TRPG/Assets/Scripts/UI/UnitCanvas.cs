@@ -6,8 +6,8 @@ using TMPro;
 
 public class UnitCanvas : MonoBehaviour
 {
-    [SerializeField] TextMeshProUGUI heart;
-    [SerializeField] TextMeshProUGUI mana;
+    [SerializeField] TextMeshProUGUI heart = null;
+    [SerializeField] TextMeshProUGUI mana = null;
 
     #region LEGACY VARS
     /*

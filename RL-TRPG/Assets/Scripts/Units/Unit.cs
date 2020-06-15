@@ -224,6 +224,9 @@ public class Unit : MonoBehaviour
 
         enemyDamage = DamageCalc(enemy);
 
+        if(gc.logAttacks)
+            Debug.Log($"{title} attatcked {enemy.title} for {enemyDamage} {damageType.ToString()} damage");
+
         // if the enemy damage actually does something
         if (enemyDamage >= 1)
         {
@@ -533,19 +536,18 @@ public class Unit : MonoBehaviour
     #region Save Data
     public void SaveData()
     {
-        PlayerPrefs.SetInt(title, health);
+        PlayerPrefs.SetInt(title + ".health", health);
         PlayerPrefs.Save();
     }
 
     public void LoadData()
     {
-        health = PlayerPrefs.GetInt(title, health);
-        //sl.UpdateStatBox();
+        health = PlayerPrefs.GetInt(title + ".health", health);
     }
 
     public void ClearData()
     {
-        PlayerPrefs.DeleteKey(title);
+        PlayerPrefs.DeleteKey(title + ".health");
     }
     #endregion
 

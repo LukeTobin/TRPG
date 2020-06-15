@@ -52,10 +52,8 @@ public class Node : MonoBehaviour
         {
             if (nodeType == Type.Battle)
             {
-                world.currentStage++;
-                gm.currentStage++;
-                Visited();
-
+                //Visited();
+                gm.currentNode = this;
                 if (stage == 1)
                 {
                     world.BlockPaths(row);
@@ -73,6 +71,7 @@ public class Node : MonoBehaviour
             {
                 world.currentStage++;
                 gm.currentStage++;
+
                 Debug.Log("Going to campfire node");
                 Visited();
                 if (stage == 1)
@@ -84,11 +83,7 @@ public class Node : MonoBehaviour
 
                 // open campfire screen
                 world.campfire.SetCampfireActive();
-
-
-                // prototype version: just restore health of all by X%
-                // get team list
-                // loop each and restore X% health
+                
 
             }
 
@@ -149,7 +144,8 @@ public class Node : MonoBehaviour
     public void Visited()
     {
         visited = true;
-        sr.color = new Color(.5f, .5f, .5f, 1f);
+        if(sr != null)
+            sr.color = new Color(.5f, .5f, .5f, 1f);
         PlayerPrefs.SetInt(stage + "-" + row + ".visited", 1);
         PlayerPrefs.Save();
     }
