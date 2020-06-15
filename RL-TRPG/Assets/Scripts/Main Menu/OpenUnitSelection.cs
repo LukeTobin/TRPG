@@ -10,4 +10,9 @@ public class OpenUnitSelection : MonoBehaviour
         reference.SetActive(true);
         reference.GetComponent<UnitSelection>().CreateMenu();
     }
+
+    public void ConfirmSelection()
+    {
+        reference.GetComponent<UnitSelection>().Confirm();
+    }
 }

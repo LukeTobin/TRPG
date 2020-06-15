@@ -46,8 +46,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   title: Test Ability 1
   description: This ability is a test case to make sure this methodology works
-  sprite: {fileID: 0}
+  sprite: {fileID: -5063555655813669412, guid: 1d22c2e2679593c448cb08acfbabbbe8, type: 3}
   cost: 1
+  usesTurn: 0
 --- !u!114 &8374865031426945642
 MonoBehaviour:
   m_ObjectHideFlags: 0

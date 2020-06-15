@@ -17,6 +17,7 @@ public class Artifact : MonoBehaviour
     public string artifactDescription;
     public Rarity artifactRarity;
     public Sprite artifactVisual;
+    public int artifactCost;
 
     // access classes
     [HideInInspector] public Team team;

@@ -26,6 +26,11 @@ public class GameManager : MonoBehaviour
     [Space]
     public Sprite unknown;
 
+    [Header("Damage Type Images")]
+    public Sprite magic;
+    public Sprite physical;
+    public Sprite mixed;
+
     [Header("Friendly Pool")]
     public List<Unit> friendlyList = new List<Unit>();
 
@@ -34,6 +39,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Artifact Pool")]
     public List<Artifact> artifactList = new List<Artifact>();
+    public List<Artifact> artifactsOwned = new List<Artifact>();
 
     [Header("Admin Tools")]
     public bool ResetPrefs;
@@ -80,7 +86,9 @@ public class GameManager : MonoBehaviour
     {
         Team team = FindObjectOfType<Team>();
         int wins = PlayerPrefs.GetInt(team.leader.title + ".wins") + 1;
+        int winsO = PlayerPrefs.GetInt("wins") + 1;
         PlayerPrefs.SetInt(team.leader.title + ".wins", wins);
+        PlayerPrefs.SetInt("wins", winsO);
         PlayerPrefs.Save();
         
         for (int i = 0; i < 6; i++)
@@ -134,6 +142,8 @@ public class GameManager : MonoBehaviour
             PlayerPrefs.Save();
         }
 
+        UpdatesArtifactsOwned();
+
         currentStage = 1;
         PlayerPrefs.SetInt("active", 0);
         PlayerPrefs.SetInt("continued", 0);
@@ -168,6 +178,17 @@ public class GameManager : MonoBehaviour
         }
 
         currentStage = PlayerPrefs.GetInt("stage");
+    }
+
+    public void UpdatesArtifactsOwned()
+    {
+        for (int i = 0; i < artifactList.Count; i++)
+        {
+            if(PlayerPrefs.GetInt(artifactList[i].artifactName + ".unlocked") == 1)
+            {
+                artifactsOwned.Add(artifactList[i]);
+            }
+        }
     }
 
     public List<Unit> CreateRecruitList()
@@ -285,5 +306,39 @@ public class GameManager : MonoBehaviour
             default:
                 return unknown;
         }
+    }
+
+    public Sprite GetDamageTypeSprite(Unit.PreferredDamage d)
+    {
+        switch (d)
+        {
+            case Unit.PreferredDamage.magic:
+                return magic;
+            case Unit.PreferredDamage.physical:
+                return physical;
+            case Unit.PreferredDamage.mixed:
+                return mixed;
+            default:
+                return unknown;
+        }
+    }
+
+    public void AddArtifactToTeam(Artifact art)
+    {
+        Team team = FindObjectOfType<Team>();
+        team.AddNewArtifact(art);
+    }
+
+    public Artifact ReturnRandomArtifact()
+    {
+        Team team = FindObjectOfType<Team>();
+        Artifact temp = new Artifact();
+
+        while (!team.artifacts.Contains(temp))
+        {
+            temp = artifactsOwned[Random.Range(0, artifactsOwned.Count)];
+        }
+
+        return temp;
     }
 }

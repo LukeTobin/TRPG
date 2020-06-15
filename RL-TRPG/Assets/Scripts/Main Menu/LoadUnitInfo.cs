@@ -7,6 +7,7 @@ public class LoadUnitInfo : MonoBehaviour
 {
 
     UnitSelection unitSelection;
+    RunHandler handler;
 
     // store info
     public Image coverSprite = null;
@@ -15,6 +16,12 @@ public class LoadUnitInfo : MonoBehaviour
     private void Start()
     {
         unitSelection = FindObjectOfType<UnitSelection>();
+        handler = FindObjectOfType<RunHandler>();
+
+        if(unit == handler.curHero)
+        {
+            unitSelection.CreateDisplay(unit, this.GetComponent<Button>());
+        }
     }
 
     public void ShowInfo()

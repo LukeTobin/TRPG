@@ -103,6 +103,7 @@ public class Unit : MonoBehaviour
     [HideInInspector] public int mrPen;
     [HideInInspector] public int manaGrowth;
     [HideInInspector] public int moral;
+    [HideInInspector] public int lifesteal;
 
     [Header("Player Stats")]
     public int playerNumber = 1;
@@ -117,7 +118,7 @@ public class Unit : MonoBehaviour
     #endregion
 
     #region Start / Load
-    void Start()
+    void Awake()
     {
         gc = FindObjectOfType<GameController>();
         sr = GetComponent<SpriteRenderer>();
@@ -126,8 +127,6 @@ public class Unit : MonoBehaviour
         hb = GetComponentInChildren<Healthbar>();
         uCanvas = GetComponentInChildren<UnitCanvas>();
         path = GetComponent<Pathfinding>();
-
-        //hb.gameObject.SetActive(false);
 
         // range & tiles they can move is multiplyed by the size of a cell so they can move properly
         range *= gc.cellSize;
@@ -146,6 +145,16 @@ public class Unit : MonoBehaviour
         tempAR = 0;
         tempMR = 0;
         tempSP = 0;
+
+        critChance = 0;
+        blockChance = 0;
+        bleedChance = 0;
+        reducedDamage = 0;
+        armorPen = 0;
+        mrPen = 0;
+        manaGrowth = 0;
+        moral = 0;
+        lifesteal = 0;
 
         LoadData();
 
@@ -243,6 +252,11 @@ public class Unit : MonoBehaviour
             GetWalkableTiles();
         }
 
+        if(lifesteal > 0)
+        {
+            health += ((enemyDamage / 100) * lifesteal);
+        }
+
         // check if this unit died
         if (health <= 0)
         {
@@ -328,6 +342,15 @@ public class Unit : MonoBehaviour
                 enemyDamage = 0;
                 Debug.LogError("Could not find damage type");
                 break;
+        }
+
+        if(critChance > 0)
+        {
+            int y = Random.Range(1, 101);
+            if (critChance <= y)
+            {
+                enemyDamage += (enemyDamage / 2);
+            }
         }
 
         return enemyDamage;

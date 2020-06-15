@@ -46,7 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   title: Flux
   description: Unit Gains +10 Magic For 1 Turn
-  sprite: {fileID: 0}
+  sprite: {fileID: -3301332275463831685, guid: 1d22c2e2679593c448cb08acfbabbbe8, type: 3}
   cost: 3
   usesTurn: 0
 --- !u!114 &3189738678532700740

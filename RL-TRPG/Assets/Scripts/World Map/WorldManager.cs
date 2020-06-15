@@ -11,6 +11,7 @@ public class WorldManager : MonoBehaviour
     public List<Node> nodeList = new List<Node>();
     [Space]
     public Campfire campfire;
+    public Merchant shop;
     [Space]
     public TextMeshProUGUI goldText;
 

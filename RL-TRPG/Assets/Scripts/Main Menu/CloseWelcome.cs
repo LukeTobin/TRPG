@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CloseWelcome : MonoBehaviour
 {
+    [SerializeField] FirstBoot boot;
+
     [SerializeField] GameObject parentObj = null;
     [SerializeField] GameObject nextMessage = null;
 
@@ -21,6 +23,7 @@ public class CloseWelcome : MonoBehaviour
     public void CloseAfiliate()
     {
         parentObj.SetActive(false);
+        boot.ActiveAll();
     }
 
     public void GoToDiscord()

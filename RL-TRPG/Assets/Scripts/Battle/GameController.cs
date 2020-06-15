@@ -27,6 +27,8 @@ public class GameController : MonoBehaviour
     public Grid map;
     public bool selected;
     public bool unitMoving;
+    public int bonusGold;
+
     GenerateTiles gt;
     UIManager uim;
 
@@ -184,7 +186,19 @@ public class GameController : MonoBehaviour
         int val = (15 * gm.currentStage) - round;
         if (val < 1)
             val = 1;
-        uim.RewardScreen(val, 1, true);
+
+        val += bonusGold;
+
+        int i = Random.Range(0, 3);
+        if(i == 0)
+        {
+            uim.RewardScreen(val, 1, true);
+        }
+        else
+        {
+            uim.RewardScreen(val, 1, false);
+        }
+        
     }
 
     /// <summary>

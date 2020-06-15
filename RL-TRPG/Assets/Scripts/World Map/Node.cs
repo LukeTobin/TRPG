@@ -117,6 +117,8 @@ public class Node : MonoBehaviour
                 }
 
                 world.SaveWorldState();
+
+                world.shop.CreateShop();
             }
         }
         else if (world.currentStage > 5)

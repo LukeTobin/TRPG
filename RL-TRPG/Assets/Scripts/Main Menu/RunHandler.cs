@@ -17,6 +17,8 @@ public class RunHandler : MonoBehaviour
     public GameObject settings;
     [Space]
     public GameObject UnitSelectionScreen;
+    public GameObject AbilitySelection;
+    public GameObject highscoreScreen;
     [Space]
     public List<Unit> heroes;
     public Team team;
@@ -41,6 +43,8 @@ public class RunHandler : MonoBehaviour
         settingsButton.onClick.AddListener(ShowSettings);
 
         UnitSelectionScreen.SetActive(false);
+        AbilitySelection.SetActive(false);
+        highscoreScreen.SetActive(false);
         fog.SetActive(false);
         settings.SetActive(false);
 
@@ -50,11 +54,7 @@ public class RunHandler : MonoBehaviour
         GetUnitsUnlocked();
 
         curHero = heroes[0];
-        heroSprite.sprite = curHero.profile;
-        unitName.text = curHero.title;
-        origin.GetComponent<Image>().sprite = gm.GetOriginImage(curHero.GetComponent<Traits>()._origin);
-        _class.GetComponent<Image>().sprite = gm.GetClassImage(curHero.GetComponent<Traits>()._class);
-        //ability.GetComponent<Image>().sprite = curHero.activeAbility.sprite;
+        DisplayNewUnit(curHero);
     }
 
     #region Main Buttons
@@ -82,7 +82,7 @@ public class RunHandler : MonoBehaviour
 
     void Highscore()
     {
-        // filled when we have a scoring system. Use PlayerPreff
+        highscoreScreen.GetComponent<Highscores>().ShowHighscores();
     }
 
     void ContinueRun()
@@ -106,7 +106,7 @@ public class RunHandler : MonoBehaviour
 
     public void GetUnitsUnlocked()
     {
-        // heroes.Clear();
+        heroes.Clear();
 
         for (int i = 0; i < gm.friendlyList.Count; i++)
         {
@@ -115,5 +115,15 @@ public class RunHandler : MonoBehaviour
                 heroes.Add(gm.friendlyList[i]);
             }
         }
+    }
+
+    public void DisplayNewUnit(Unit unit)
+    {
+        curHero = unit;
+        heroSprite.sprite = curHero.profile;
+        unitName.text = curHero.title;
+        origin.GetComponent<Image>().sprite = gm.GetOriginImage(curHero.GetComponent<Traits>()._origin);
+        _class.GetComponent<Image>().sprite = gm.GetClassImage(curHero.GetComponent<Traits>()._class);
+        ability.GetComponent<Image>().sprite = curHero.activeAbility.sprite;
     }
 }

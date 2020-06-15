@@ -46,7 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   title: Steady Stance
   description: Unit Gains +5 Armor & Magic Resistance
-  sprite: {fileID: 0}
+  sprite: {fileID: 7003715593917701308, guid: 1d22c2e2679593c448cb08acfbabbbe8, type: 3}
   cost: 3
   usesTurn: 0
 --- !u!114 &8995112459933451858

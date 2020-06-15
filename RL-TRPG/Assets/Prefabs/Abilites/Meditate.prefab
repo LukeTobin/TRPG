@@ -46,7 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   title: Meditate
   description: Unit Recovers 10% Of Its Max Health
-  sprite: {fileID: 0}
+  sprite: {fileID: -526226018273890160, guid: 1d22c2e2679593c448cb08acfbabbbe8, type: 3}
   cost: 2
   usesTurn: 1
 --- !u!114 &6879543765030696490

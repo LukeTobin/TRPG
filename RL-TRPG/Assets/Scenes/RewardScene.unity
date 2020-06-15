@@ -766,6 +766,16 @@ PrefabInstance:
       propertyPath: controller
       value: 
       objectReference: {fileID: 410956115}
+    - target: {fileID: 2277640097649675063, guid: 24998a777b498384ab02190970e106b0,
+        type: 3}
+      propertyPath: win.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2277640097649675063, guid: 24998a777b498384ab02190970e106b0,
+        type: 3}
+      propertyPath: lose.a
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2364081629362661133, guid: 24998a777b498384ab02190970e106b0,
         type: 3}
       propertyPath: m_textInfo.characterCount
